@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HFA × AI Aunties — Solopreneur Market Map</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--teal:#2C5F6F;--gold:#D4A574;--coral:#D97757;--cream:#F5F3EE;--border:#DDD9D0;--text:#1E2D32;--muted:#6B7C83}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.header{background:var(--teal);padding:14px 20px;border-bottom:3px solid var(--gold);flex-shrink:0}
+.header-eye{font-size:9px;color:#A8D4DF;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px}
+.header-title{font-size:19px;color:#fff;margin-bottom:2px;font-weight:500}
+.header-sub{font-size:11px;color:#D4EBF0}
+.filterbar{background:#fff;border-bottom:1px solid var(--border);padding:8px 16px;overflow-x:auto;white-space:nowrap;flex-shrink:0}
+.filterbar::-webkit-scrollbar{height:3px}.filterbar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.fbtn{display:inline-block;padding:4px 13px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-weight:500;cursor:pointer;background:transparent;color:var(--muted);margin-right:6px;font-family:'DM Sans',sans-serif}
+.fbtn.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+.main{display:flex;flex:1;overflow:hidden;min-height:0}
+.sidebar{width:215px;background:#fff;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0}
+.sidebar::-webkit-scrollbar{width:3px}.sidebar::-webkit-scrollbar-thumb{background:var(--border)}
+.sitem{padding:10px 14px;cursor:pointer;border-bottom:1px solid #F5F2EE;border-left:3px solid transparent}
+.sitem.active{background:rgba(44,95,111,.06)}
+.sitem-emoji{font-size:15px}
+.sitem-name{font-size:11px;font-weight:500;color:var(--text);line-height:1.3;margin-top:2px}
+.sitem-cat{font-size:10px;color:var(--muted)}
+.detail{flex:1;overflow-y:auto;padding:16px}
+.detail::-webkit-scrollbar{width:4px}.detail::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-bar{height:4px}
+.card-body{padding:18px}
+.card-title{font-size:20px;font-weight:500;color:var(--text);margin-bottom:6px}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tag{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px}
+.section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px}
+.ecosystem{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.eco-chip{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:500;color:#444}
+.pain-box{background:#FAECE7;border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.pain-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#712B13;margin:0 0 8px}
+.pain-item{display:flex;gap:8px;margin-bottom:5px;font-size:11px;color:#5A2010;line-height:1.5}
+.autos{margin-bottom:14px}
+.auto-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:10px 14px;margin-bottom:7px;display:flex;gap:10px;align-items:flex-start}
+.auto-icon{font-size:18px;flex-shrink:0}
+.auto-num{font-size:11px;font-weight:500;color:var(--text);margin-bottom:2px}
+.auto-text{font-size:11px;color:#444;line-height:1.6}
+.pricing{display:flex;gap:10px;flex-wrap:wrap}
+.price-box{flex:1 1 210px;border-radius:9px;padding:12px 14px}
+.price-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin:0 0 4px}
+.price-val{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.price-sub{font-size:10px;color:var(--muted)}
+.footer{background:#fff;border-top:1px solid var(--border);padding:8px 16px;flex-shrink:0}
+.footer-text{font-size:10px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-eye">HFA × AI Aunties · Market Map</div>
+  <div class="header-title">Solopreneur Automation Opportunities</div>
+  <div class="header-sub">24 solopreneur types · Every one running a full ecosystem alone · Simple automations that pay for themselves in week 1</div>
+</div>
+<div class="filterbar" id="filterbar"></div>
+<div class="main">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="detail" id="detail"></div>
+</div>
+<div class="footer"><p class="footer-text">Every solopreneur here is running 6–10 business functions alone — automation gives them their time back so they can do what only they can do</p></div>
+<script>
+const S=[
+{id:"yt",cat:"Digital Creators",emoji:"🎬",name:"YouTuber",color:"#D97757",complexity:"High",monthly:"$3K–$50K+",
+ecosystem:["Long-form videos","Shorts/Reels","Email list","Merch store","Sponsorships","Community tab","Patreon"],
+pain:["Re-editing the same video for 6 platforms every week","Writing video descriptions + timestamps from scratch every time","Responding to the same 10 comments and DMs daily"],
+automations:[{i:"✂️",t:"Video transcript → auto-generates description, timestamps, chapters, and 5 social captions"},{i:"📧",t:"New subscriber → automated welcome sequence that converts to Patreon"},{i:"🔔",t:"New video published → automatically posts to all platforms with platform-native copy"}],
+entry:"$40/mo workflow subscription",upsell:"Custom content auntie that writes in their voice"},
+
+{id:"tiktok",cat:"Digital Creators",emoji:"📱",name:"Short-Form Creator",color:"#C4577A",complexity:"Medium",monthly:"$1K–$30K+",
+ecosystem:["TikTok","Instagram Reels","YouTube Shorts","Brand deals","Link-in-bio products","Coaching offers"],
+pain:["Repurposing one video idea into 3 platform formats manually every day","Tracking which brand deal deliverables are due and when","Following up on collaboration inquiries buried in DMs"],
+automations:[{i:"🔄",t:"One video concept → 3 platform-native scripts (TikTok hook, Reels caption, Shorts overlay)"},{i:"📋",t:"Brand deal email received → auto-creates ClickUp task with deadline + deliverable checklist"},{i:"📊",t:"Weekly performance report auto-generated from analytics and emailed to self every Monday"}],
+entry:"$40/mo workflow subscription",upsell:"Brand deal management + content calendar automation"},
+
+{id:"substack",cat:"Digital Creators",emoji:"✍️",name:"Newsletter / Substack Writer",color:"#7F77DD",complexity:"Medium",monthly:"$500–$20K+",
+ecosystem:["Weekly newsletter","Free + paid tiers","Twitter/X presence","Referral program","Podcast (sometimes)","Courses"],
+pain:["Research for each issue takes 3–4 hours of reading and note-taking","Promoting the same newsletter on 3 platforms in 3 different tones","Onboarding new paid subscribers manually"],
+automations:[{i:"🔍",t:"Topic → agent reads 15 sources and delivers a pre-synthesized research brief in 10 minutes"},{i:"📣",t:"Newsletter published → auto-generates Twitter thread, LinkedIn post, and Instagram caption"},{i:"💌",t:"New paid subscriber → automated welcome sequence + best-of archive drip"}],
+entry:"$40/mo workflow subscription",upsell:"Research auntie that reads the internet so they don't have to"},
+
+{id:"ugc",cat:"Digital Creators",emoji:"📸",name:"UGC Creator",color:"#D4860A",complexity:"Low-Medium",monthly:"$2K–$15K",
+ecosystem:["Brand outreach","Content shoots","Deliverable tracking","Invoicing","Portfolio updates","Rate cards"],
+pain:["Writing 20 pitch emails a week to brands manually","Tracking which deliverables are due for which brand and when","Following up on unpaid invoices"],
+automations:[{i:"📧",t:"Brand research → personalized pitch email written in their voice in 60 seconds"},{i:"📋",t:"New contract → auto-creates project in ClickUp with all deliverables + deadlines"},{i:"💳",t:"Invoice overdue by 7 days → auto-sends polite follow-up email"}],
+entry:"$40/mo workflow subscription",upsell:"Full brand pipeline — outreach to delivery to invoice"},
+
+{id:"coach",cat:"Coaches & Consultants",emoji:"🧠",name:"Business / Life Coach",color:"#2C5F6F",complexity:"Medium-High",monthly:"$3K–$40K",
+ecosystem:["1:1 clients","Group program","Email list","Social content","Discovery calls","Course platform","Community"],
+pain:["Writing session recap emails to 10+ clients every week","Creating social content while running client sessions all day","Discovery call no-shows and forgetting to follow up with warm leads"],
+automations:[{i:"📝",t:"Session notes → auto-generates client recap email with action items in their coaching voice"},{i:"📱",t:"One insight → repurposed into LinkedIn post, Instagram caption, and email newsletter section"},{i:"📅",t:"Discovery call booked → automated reminder sequence + pre-call questionnaire + no-show follow-up"}],
+entry:"$595/yr or $997 setup",upsell:"Coaching auntie that knows their methodology and handles client touchpoints"},
+
+{id:"therapist",cat:"Coaches & Consultants",emoji:"💙",name:"Solo Therapist / Counselor",color:"#4455AA",complexity:"Medium",monthly:"$5K–$15K",
+ecosystem:["Private clients","Insurance billing","Session notes","Referral outreach","Website/SEO","Waitlist management"],
+pain:["Writing SOAP notes after every session takes 20–30 minutes","Managing the waitlist and notifying people when a slot opens","Following up with referral sources manually"],
+automations:[{i:"📋",t:"Session voice memo → structured SOAP note draft in 2 minutes (therapist reviews + approves)"},{i:"🔔",t:"Cancellation received → waitlist notified automatically in priority order"},{i:"🤝",t:"New referral received → auto thank-you to referrer + intake questionnaire to new client"}],
+entry:"$597 setup + $97/mo",upsell:"Full practice management — intake to notes to billing prep"},
+
+{id:"consultant",cat:"Coaches & Consultants",emoji:"📊",name:"Freelance Consultant",color:"#1E3A5F",complexity:"High",monthly:"$8K–$40K+",
+ecosystem:["Client projects","Proposals","Invoicing","Deliverables","Case studies","LinkedIn presence","Referral network"],
+pain:["Writing a new proposal from scratch for every prospect","Forgetting to follow up with warm leads at the right time","Turning completed project work into portfolio case studies"],
+automations:[{i:"📄",t:"Discovery call notes → first-draft proposal generated in 30 minutes"},{i:"🔔",t:"Lead goes cold after 5 days → automated check-in email drafted and queued for approval"},{i:"📖",t:"Project complete → case study first draft auto-generated from project notes + outcomes"}],
+entry:"$997 setup + $147/mo",upsell:"Full business development pipeline — lead to proposal to case study"},
+
+{id:"nutritionist",cat:"Coaches & Consultants",emoji:"🥗",name:"Online Nutritionist / Dietitian",color:"#8AB661",complexity:"Medium",monthly:"$3K–$20K",
+ecosystem:["1:1 clients","Meal plans","Group program","Recipe content","Email list","Social media","Digital products"],
+pain:["Building personalized meal plans from scratch for every client","Answering the same 15 nutrition questions from different clients every week","Creating recipe content for social while managing client load"],
+automations:[{i:"🥘",t:"Client intake form → custom 7-day meal plan draft based on goals, restrictions, and preferences"},{i:"💬",t:"Common client question → FAQ auntie answers in practitioner's voice so they just review + send"},{i:"📱",t:"Recipe created → auto-generates social post + email newsletter section + Pinterest pin copy"}],
+entry:"$597 setup + $97/mo",upsell:"Client onboarding + meal plan + check-in automation system"},
+
+{id:"photog",cat:"Creative Professionals",emoji:"📷",name:"Brand / Wedding Photographer",color:"#5A6E7A",complexity:"Medium-High",monthly:"$3K–$20K",
+ecosystem:["Client shoots","Editing","Gallery delivery","Booking","Contracts","Social portfolio","Referral network","Blog"],
+pain:["Writing personalized gallery delivery emails for every client","Posting consistently to Instagram while in shoot season","Following up with past clients for referrals and reviews"],
+automations:[{i:"📸",t:"Gallery ready → personalized delivery email with client name, shoot details, and download link"},{i:"📱",t:"Gallery delivered → 3 social posts auto-generated from selected images with storytelling captions"},{i:"⭐",t:"30 days after delivery → automated review request + referral ask email sent"}],
+entry:"$40/mo workflow subscription",upsell:"Full client journey — inquiry to delivery to referral"},
+
+{id:"designer",cat:"Creative Professionals",emoji:"🎨",name:"Brand / Graphic Designer",color:"#7F77DD",complexity:"Medium",monthly:"$4K–$20K",
+ecosystem:["Client projects","Proposals","Revisions","Invoicing","Portfolio","Social content","Passive templates"],
+pain:["Writing project proposals and contracts from scratch each time","Explaining the same design process to every new client","Marketing themselves on social while deep in client work"],
+automations:[{i:"📄",t:"Client inquiry → auto-generates scoped proposal draft based on project type selected"},{i:"📧",t:"New client signed → automated onboarding sequence walking them through the design process"},{i:"🖼️",t:"Project completed → portfolio case study draft + 3 social posts auto-generated"}],
+entry:"$40/mo workflow subscription",upsell:"Client management system + portfolio automation"},
+
+{id:"voiceover",cat:"Creative Professionals",emoji:"🎙️",name:"Voiceover Artist",color:"#D4860A",complexity:"Medium",monthly:"$2K–$20K",
+ecosystem:["Auditions","Booked jobs","Invoice tracking","Demo reel updates","P2P platform profiles","Agent relationships","Self-marketing"],
+pain:["Submitting 20+ auditions a week with custom cover notes","Tracking which jobs are booked, in progress, delivered, and invoiced","Following up on unpaid invoices and overdue approvals"],
+automations:[{i:"🎤",t:"New audition brief → cover note written in their voice with project-specific personalization"},{i:"📋",t:"Job booked → ClickUp project created with all milestones, deadlines, and client info"},{i:"💳",t:"Invoice sent → follow-up sequence auto-triggered if unpaid after 14 days"}],
+entry:"$40/mo workflow subscription",upsell:"Full job pipeline — audition to delivery to payment"},
+
+{id:"musician",cat:"Creative Professionals",emoji:"🎵",name:"Independent Musician / Artist",color:"#C4577A",complexity:"High",monthly:"$500–$15K",
+ecosystem:["Streaming releases","Social content","Merch","Live shows","Sync licensing","Email list","YouTube","Patreon"],
+pain:["Releasing a song requires updating 8 platforms manually","Pitching to sync libraries and playlist curators is repetitive","Promoting shows to different audiences in different cities"],
+automations:[{i:"🎶",t:"New release → announcement content auto-generated for all platforms in their artist voice"},{i:"📧",t:"New music out → email to sync library contacts with personalized pitch for each genre"},{i:"🎟️",t:"Show announced → geo-targeted social posts + email to local fans generated automatically"}],
+entry:"$40/mo workflow subscription",upsell:"Release machine — one brief feeds every channel for 4 weeks"},
+
+{id:"etsy",cat:"Product Sellers",emoji:"🛍️",name:"Etsy / Handmade Seller",color:"#D97757",complexity:"Medium",monthly:"$1K–$15K",
+ecosystem:["Product creation","Listing optimization","Order fulfillment","Customer service","Social marketing","Seasonal planning","Reviews"],
+pain:["Writing SEO-optimized listings from scratch for every new product","Responding to customer messages and custom order inquiries every day","Planning and creating seasonal content for each holiday in advance"],
+automations:[{i:"🏷️",t:"Product photo + description → SEO-optimized Etsy listing with tags, title, and full description"},{i:"💬",t:"Customer inquiry type detected → draft reply generated in shop voice for owner to approve"},{i:"📅",t:"Holiday is 6 weeks out → seasonal content calendar auto-generated with posts + email promotions"}],
+entry:"$40/mo workflow subscription",upsell:"Full shop automation — listing to customer service to marketing"},
+
+{id:"digital",cat:"Product Sellers",emoji:"💾",name:"Digital Product Seller",color:"#8AB661",complexity:"Medium",monthly:"$1K–$30K+",
+ecosystem:["Templates / presets / fonts","Gumroad / Payhip","Email list","Pinterest","TikTok demos","Affiliate program","New product launches"],
+pain:["Writing launch emails and social content for every new product","Answering the same 5 customer support questions about downloads","Keeping Pinterest boards updated consistently"],
+automations:[{i:"🚀",t:"New product uploaded → launch email sequence + 5 social posts auto-generated"},{i:"💬",t:"Support email received → FAQ auntie drafts reply for common questions (downloads, refunds, usage)"},{i:"📌",t:"New product live → 10 Pinterest pin variations auto-generated with SEO descriptions"}],
+entry:"$40/mo workflow subscription",upsell:"Launch machine — from product ready to money in 24 hours"},
+
+{id:"reseller",cat:"Product Sellers",emoji:"👗",name:"Vintage / Thrift Reseller",color:"#6B3FA0",complexity:"Medium",monthly:"$500–$10K",
+ecosystem:["Sourcing","Listing (Depop/Poshmark/eBay)","Shipping","Customer messages","Social content","Pricing research"],
+pain:["Writing individual listings for 20–50 new items every week","Researching the right price for every item manually","Keeping social content consistent while also running the shop"],
+automations:[{i:"🏷️",t:"Photo uploaded → listing description, measurements prompt, hashtags, and price range generated"},{i:"🔍",t:"Item name → comp search summary with suggested price range based on recent sold comps"},{i:"📱",t:"New listings added → weekly 'new arrivals' social post auto-generated"}],
+entry:"$40/mo workflow subscription",upsell:"Full resale pipeline — sourcing to listing to shipping to social"},
+
+{id:"course",cat:"Product Sellers",emoji:"🎓",name:"Course Creator / Educator",color:"#2C5F6F",complexity:"High",monthly:"$2K–$100K+",
+ecosystem:["Course platform","Email list","Webinars","Community","Social content","Affiliates","Launch cycles","Student support"],
+pain:["Creating all launch content (emails, social, webinar deck) from scratch","Answering the same student questions in the community every week","Repurposing course lessons into marketing content consistently"],
+automations:[{i:"🚀",t:"Launch brief → complete email sequence + social calendar + webinar outline generated"},{i:"💬",t:"Student question in community → FAQ auntie provides first answer draft for instructor to approve"},{i:"📱",t:"Course lesson → social content series extracted from lesson content automatically"}],
+entry:"$997 setup + $147/mo",upsell:"Full launch system + student support automation"},
+
+{id:"pt",cat:"Local Service Providers",emoji:"💪",name:"Online Personal Trainer",color:"#8AB661",complexity:"Medium",monthly:"$2K–$20K",
+ecosystem:["1:1 clients","Group programs","App-based training","Check-in system","Social content","Nutrition guidance","Email list"],
+pain:["Writing personalized weekly check-in responses to every client","Creating new workout programs from scratch for each client","Posting motivational and educational content consistently"],
+automations:[{i:"📊",t:"Client check-in form submitted → personalized response drafted with specific feedback to their data"},{i:"💪",t:"Client goal + equipment → custom 4-week program draft generated in 5 minutes"},{i:"📱",t:"Weekly tip topic → educational Instagram carousel + caption auto-generated in their coaching voice"}],
+entry:"$40/mo workflow subscription",upsell:"Full client management — check-ins to programs to content"},
+
+{id:"va",cat:"Local Service Providers",emoji:"💻",name:"Virtual Assistant (Solo)",color:"#5A6E7A",complexity:"Medium",monthly:"$2K–$8K",
+ecosystem:["Multiple client accounts","Task management","Time tracking","Invoicing","Client reporting","Skill marketing","Referral network"],
+pain:["Writing end-of-week reports for multiple clients every Friday","Onboarding new clients with SOPs and credentials every time","Marketing themselves while fully booked with client work"],
+automations:[{i:"📊",t:"Time tracking data → weekly client report auto-generated with tasks completed + time breakdown"},{i:"📋",t:"New client signed → onboarding checklist + welcome email + access request list auto-generated"},{i:"💼",t:"Completed client win → LinkedIn testimonial request + case study draft auto-triggered"}],
+entry:"$40/mo workflow subscription",upsell:"Multi-client management dashboard + reporting automation"},
+
+{id:"bookkeeper",cat:"Local Service Providers",emoji:"📒",name:"Freelance Bookkeeper",color:"#2D6A4F",complexity:"Medium",monthly:"$3K–$15K",
+ecosystem:["Monthly client books","Tax prep","Invoicing clients","Financial reports","Client communications","Referral network"],
+pain:["Writing monthly financial summary emails to every client","Chasing clients for missing documents and receipts every month","Explaining financial concepts to non-financial clients repeatedly"],
+automations:[{i:"📧",t:"Books reconciled → personalized monthly summary email auto-generated in plain language per client"},{i:"🔔",t:"Month-end approaching → automated document request sent to each client 10 days before close"},{i:"💬",t:"Client question about a financial term → plain-language explanation generated for their level"}],
+entry:"$40/mo workflow subscription",upsell:"Full client communication system — document chase to report delivery"},
+
+{id:"notary",cat:"Local Service Providers",emoji:"📜",name:"Mobile Notary / Loan Signing Agent",color:"#8B3A2A",complexity:"Low-Medium",monthly:"$2K–$10K",
+ecosystem:["Appointment bookings","Travel routing","Confirmation emails","Invoice per job","Scheduling","Reviews","Referral sources"],
+pain:["Sending confirmation and prep instructions to every signing manually","Tracking mileage, fees, and invoices for dozens of jobs a month","Following up on reviews and referrals after every completed job"],
+automations:[{i:"📅",t:"Signing booked → confirmation email + prep instructions + address + what to bring auto-sent"},{i:"💳",t:"Job complete → invoice auto-generated with correct fee + mileage and sent to client"},{i:"⭐",t:"48 hours after signing → review request email auto-sent to client and title company contact"}],
+entry:"$40/mo workflow subscription",upsell:"Full job management — booking to invoice to review"},
+
+{id:"airbnb",cat:"Local Service Providers",emoji:"🏠",name:"Airbnb / Short-Term Rental Host",color:"#D4860A",complexity:"Medium",monthly:"$1K–$20K",
+ecosystem:["Guest communications","Cleaning coordination","Maintenance","Pricing management","Reviews","Listing optimization","Multiple platforms"],
+pain:["Responding to the same guest questions before and during every stay","Coordinating cleaners between every checkout and check-in","Writing personalized review responses for every guest"],
+automations:[{i:"💬",t:"Guest message type detected → personalized reply drafted (check-in, WiFi, parking, etc.)"},{i:"🧹",t:"Checkout confirmed → cleaner notified automatically with next check-in time + special requests"},{i:"⭐",t:"Guest leaves review → personalized response drafted for host to approve in 30 seconds"}],
+entry:"$40/mo workflow subscription",upsell:"Full guest journey — inquiry to post-stay review management"},
+
+{id:"speaker",cat:"Speakers & Personal Brands",emoji:"🎤",name:"Professional Speaker",color:"#4A8A9A",complexity:"High",monthly:"$5K–$50K+",
+ecosystem:["Speaker inquiries","Booking process","Travel logistics","Talk customization","Post-event follow-up","Content marketing","Book (often)","Podcast appearances"],
+pain:["Customizing the same talk for every new client's audience and industry","Following up on speaking inquiries that go cold","Repurposing keynote content into articles, social posts, and email content"],
+automations:[{i:"🎯",t:"Event brief received → customized talk outline adapted to their audience + industry in 20 minutes"},{i:"📧",t:"Inquiry goes 5 days without response → polite follow-up drafted and queued"},{i:"📱",t:"Talk delivered → 5 social posts + 1 article + email newsletter section from talk transcript"}],
+entry:"$997 setup + $147/mo",upsell:"Full speaking business management — inquiry to post-event content"},
+
+{id:"author",cat:"Speakers & Personal Brands",emoji:"📚",name:"Self-Published Author",color:"#1E3A5F",complexity:"High",monthly:"$500–$20K",
+ecosystem:["Writing","Publishing","Amazon listings","Email list","ARC readers","Book marketing","Speaking","Blog/newsletter","Social"],
+pain:["Marketing a book across 6 platforms while trying to write the next one","Managing ARC reader outreach and follow-ups for reviews","Repurposing book content into social and email marketing consistently"],
+automations:[{i:"📣",t:"Launch week → complete social + email campaign auto-generated from book themes and key quotes"},{i:"📧",t:"ARC reader signed up → automated delivery + reminder sequence + review request at right time"},{i:"📱",t:"Book chapter concept → 10 social posts + 2 email topics auto-generated from the core ideas"}],
+entry:"$40/mo workflow subscription",upsell:"Full launch machine + ongoing reader community automation"}
+];
+
+let activeCat="All",sel=S[0];
+const allCats=["All",...[...new Set(S.map(s=>s.cat))].sort()];
+
+function complexityStyle(level){
+  if(level.includes("High"))return{bg:"#FAECE7",color:"#712B13"};
+  if(level.includes("Medium"))return{bg:"#FAEEDA",color:"#633806"};
+  return{bg:"#EAF3DE",color:"#27500A"};
+}
+
+function renderFilters(){
+  document.getElementById("filterbar").innerHTML=allCats.map(c=>{
+    const count=c==="All"?S.length:S.filter(s=>s.cat===c).length;
+    return `<button class="fbtn${c===activeCat?" active":""}" onclick="setcat('${c}')">${c} (${count})</button>`;
+  }).join("");
+}
+
+function renderSidebar(){
+  const items=activeCat==="All"?S:S.filter(s=>s.cat===activeCat);
+  document.getElementById("sidebar").innerHTML=items.map(s=>`
+    <div class="sitem${s.id===sel.id?" active":""}" style="border-left-color:${s.id===sel.id?s.color:"transparent"}" onclick="pick('${s.id}')">
+      <div class="sitem-emoji">${s.emoji}</div>
+      <div class="sitem-name">${s.name}</div>
+      <div class="sitem-cat">${s.cat}</div>
+    </div>`).join("");
+}
+
+function renderDetail(){
+  const s=sel;
+  const cs=complexityStyle(s.complexity);
+  document.getElementById("detail").innerHTML=`
+    <div class="card">
+      <div class="card-bar" style="background:${s.color}"></div>
+      <div class="card-body">
+        <div style="font-size:28px;margin-bottom:6px">${s.emoji}</div>
+        <div class="card-title">${s.name}</div>
+        <div class="card-tags">
+          <span class="tag" style="background:${cs.bg};color:${cs.color}">${s.complexity} complexity</span>
+          <span class="tag" style="background:#E1F5EE;color:#085041">💰 ${s.monthly}/mo</span>
+          <span class="tag" style="background:${s.color}22;color:${s.color}">${s.cat}</span>
+        </div>
+
+        <div class="section-label">The ecosystem they manage alone</div>
+        <div class="ecosystem">${s.ecosystem.map(e=>`<div class="eco-chip">${e}</div>`).join("")}</div>
+
+        <div class="pain-box">
+          <div class="pain-label">🔥 What's burning their time every week</div>
+          ${s.pain.map(p=>`<div class="pain-item"><span style="color:#D97757;flex-shrink:0">→</span><span>${p}</span></div>`).join("")}
+        </div>
+
+        <div class="section-label">⚡ The 3 simplest automations that solve 80% of the problem</div>
+        <div class="autos">${s.automations.map((a,i)=>`
+          <div class="auto-card" style="border-left:3px solid ${s.color}">
+            <div class="auto-icon">${a.i}</div>
+            <div><div class="auto-num">Automation ${i+1}</div><div class="auto-text">${a.t}</div></div>
+          </div>`).join("")}
+        </div>
+
+        <div class="pricing">
+          <div class="price-box" style="background:${s.color}11;border:1px solid ${s.color}33">
+            <div class="price-label" style="color:${s.color}">Entry point</div>
+            <div class="price-val">${s.entry}</div>
+            <div class="price-sub">First offer to make them a customer</div>
+          </div>
+          <div class="price-box" style="background:#E1F5EE;border:1px solid #5DCAA555">
+            <div class="price-label" style="color:#085041">Upsell path</div>
+            <div class="price-val" style="font-size:12px;line-height:1.4">${s.upsell}</div>
+            <div class="price-sub">What they buy once they see results</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function setcat(c){activeCat=c;renderFilters();renderSidebar();}
+function pick(id){sel=S.find(s=>s.id===id);renderSidebar();renderDetail();document.getElementById("detail").scrollTop=0;}
+renderFilters();renderSidebar();renderDetail();
+</script>
+</body>
+</html>
