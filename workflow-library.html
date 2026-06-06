@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HFA × AI Aunties — Workflow Library</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#2C5F6F;--teal-light:#4A8A9A;--gold:#D4A574;--gold-light:#F5E6D3;
+  --coral:#D97757;--green:#8AB661;--purple:#7F77DD;--navy:#1E3A5F;
+  --rose:#C4577A;--amber:#D4860A;--slate:#5A6E7A;--cream:#F5F3EE;
+  --forest:#2D6A4F;--brick:#8B3A2A;--plum:#6B3FA0;--indigo:#4455AA;
+  --text:#1E2D32;--text-muted:#6B7C83;--border:#DDD9D0;--white:#FFFFFF;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* HEADER */
+.header{background:var(--teal);padding:14px 20px;border-bottom:3px solid var(--gold);flex-shrink:0}
+.header-eyebrow{font-size:9px;color:#A8D4DF;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px}
+.header-title{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;margin-bottom:2px;line-height:1.2}
+.header-sub{font-size:11px;color:#D4EBF0;display:flex;gap:14px;flex-wrap:wrap}
+.header-pill{background:rgba(255,255,255,.12);border-radius:20px;padding:2px 10px;font-size:10px;color:#D4EBF0}
+
+/* FILTER BAR */
+.filterbar{background:#fff;border-bottom:1px solid var(--border);padding:8px 16px;overflow-x:auto;white-space:nowrap;flex-shrink:0;-webkit-overflow-scrolling:touch}
+.filterbar::-webkit-scrollbar{height:3px}
+.filterbar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.filter-btn{display:inline-block;padding:4px 13px;border-radius:20px;border:1px solid var(--border);font-size:11px;font-weight:500;cursor:pointer;background:transparent;color:var(--text-muted);margin-right:6px;transition:all .15s;font-family:'DM Sans',sans-serif}
+.filter-btn:hover{border-color:var(--teal);color:var(--teal)}
+.filter-btn.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+/* MAIN LAYOUT */
+.main{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:#fff;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border)}
+.sidebar-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid #F5F3EE;border-left:3px solid transparent;transition:all .1s}
+.sidebar-item:hover{background:#FAFAF8}
+.sidebar-item.active{border-left-color:var(--accent-color, var(--teal));background:color-mix(in srgb, var(--accent-color, var(--teal)) 6%, transparent)}
+.item-num{font-size:9px;font-weight:700;letter-spacing:.05em}
+.item-name{font-size:11px;font-weight:500;color:var(--text);line-height:1.3;margin-top:2px}
+.item-cat{font-size:10px;color:var(--text-muted);margin-top:1px}
+
+/* DETAIL PANEL */
+.detail{flex:1;overflow-y:auto;padding:20px}
+.detail::-webkit-scrollbar{width:4px}
+.detail::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.detail-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.detail-top-bar{height:4px}
+.detail-body{padding:20px}
+
+/* DETAIL HEADER */
+.detail-num{font-size:10px;font-weight:700;letter-spacing:.06em;margin-bottom:4px}
+.detail-title{font-family:'DM Serif Display',serif;font-size:22px;line-height:1.2;margin-bottom:6px}
+.detail-tagline{font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:12px;line-height:1.5}
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px;margin-right:5px;margin-bottom:5px}
+
+/* STATS ROW */
+.stats-row{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap}
+.stat-box{background:var(--cream);border-radius:8px;padding:8px 14px;text-align:center;min-width:100px}
+.stat-label{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:3px}
+.stat-val{font-size:13px;font-weight:600}
+
+/* TEAM SECTION */
+.section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin:0 0 10px}
+.team-grid{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.team-row{display:flex;align-items:flex-start;gap:9px}
+.team-avatar{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700;flex-shrink:0;margin-top:1px}
+.team-role{font-size:11px;font-weight:600;color:var(--text)}
+.team-action{font-size:11px;color:var(--text-muted)}
+
+/* FLOW SECTION */
+.flow-area{background:var(--cream);border-radius:10px;padding:14px;margin-bottom:14px}
+.flow-inputs{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.flow-input-chip{background:#fff;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--text-muted)}
+.flow-arrow{font-size:14px;color:var(--text-muted);flex-shrink:0}
+.flow-agent{border-radius:9px;padding:6px 13px;font-size:11px;font-weight:600;color:#fff;background:var(--teal);border:2px solid var(--gold);flex-shrink:0}
+.flow-n8n{background:rgba(74,138,154,.15);border:1px solid rgba(74,138,154,.4);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:500;color:var(--teal-light);flex-shrink:0}
+.routes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px}
+.route-card{background:#fff;border-radius:9px;padding:9px 11px;border-left:2px solid}
+.route-icon{font-size:14px;margin-bottom:3px}
+.route-label{font-size:11px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:3px}
+.route-tool{font-size:10px;font-weight:600}
+
+/* DESCRIPTION ROW */
+.desc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+@media(max-width:700px){.desc-row{grid-template-columns:1fr}}
+.desc-box{border-radius:9px;padding:13px}
+.desc-box-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.desc-text{font-size:11px;line-height:1.65;color:#444}
+
+/* EMPTY STATE */
+.empty{padding:40px;text-align:center;color:var(--text-muted);font-size:13px}
+
+/* SCROLLBAR GLOBAL */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* FOOTER */
+.footer{background:#fff;border-top:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap}
+.footer-text{font-size:10px;color:var(--text-muted)}
+.footer-chip{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px;border:1px solid}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">AI Aunties × Human First Automation</div>
+  <div class="header-title">Cognitive Agent Workflow Library</div>
+  <div class="header-sub">
+    <span class="header-pill">51 workflows</span>
+    <span class="header-pill">30+ industries</span>
+    <span class="header-pill">Up to 10 team members</span>
+    <span class="header-pill">GPT-4o · n8n · DALL-E 3 · ElevenLabs · Creatom</span>
+  </div>
+</div>
+
+<div class="filterbar" id="filterbar"></div>
+
+<div class="main">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="detail" id="detail"></div>
+</div>
+
+<div class="footer">
+  <span class="footer-text">Master cognitive agent routes by judgment, not rules — every output derives from taste profile + cognitive model before touching any tool</span>
+  <span class="footer-chip" style="color:var(--teal);border-color:rgba(44,95,111,.3)">GPT-4o</span>
+  <span class="footer-chip" style="color:var(--purple);border-color:rgba(127,119,221,.3)">DALL-E 3</span>
+  <span class="footer-chip" style="color:var(--gold);border-color:rgba(212,166,116,.4)">ElevenLabs</span>
+  <span class="footer-chip" style="color:var(--coral);border-color:rgba(217,119,87,.3)">Creatom</span>
+  <span class="footer-chip" style="color:var(--green);border-color:rgba(138,182,97,.3)">Supabase</span>
+</div>
+
+<script>
+const TEAM_COLORS=["#2C5F6F","#7F77DD","#D97757","#8AB661","#D4A574","#C4577A","#D4860A","#4A8A9A","#1E3A5F","#5A6E7A"];
+const C={teal:"#2C5F6F",tealL:"#4A8A9A",gold:"#D4A574",coral:"#D97757",green:"#8AB661",
+purple:"#7F77DD",navy:"#1E3A5F",rose:"#C4577A",amber:"#D4860A",slate:"#5A6E7A",
+forest:"#2D6A4F",brick:"#8B3A2A",plum:"#6B3FA0",indigo:"#4455AA"};
+
+const W=[
+// ── VOLUME 1 ────────────────────────────────────────────────────────────────
+{id:"w01",num:"01",cat:"Content",name:"Cognitive Broadcast Engine",color:C.purple,
+tagline:"One raw thought → simultaneous multi-format, multi-channel output",
+desc:"The master agent identifies the core argument, applies the taste profile, and simultaneously routes to every format. The LinkedIn post is written natively for LinkedIn — not condensed from the blog. The image brief is derived from the cognitive theme, not the literal text.",
+unique:"The agent translates the argument into the native language of each format before routing. A grief-adjacent post gets a different image brief than a growth post — even if the topic is identical.",
+team:[{r:"Content creator",a:"Submits raw thought, voice note, or article link"},{r:"Master agent",a:"Applies taste profile + identifies core argument + assigns format logic"},{r:"Writer",a:"Receives long-form blog draft brief"},{r:"Social manager",a:"Receives 3 LinkedIn variants"},{r:"Designer",a:"Receives DALL-E image brief"},{r:"Audio producer",a:"Receives ElevenLabs 90-sec voiced summary"},{r:"Video team",a:"Receives Creatom video script"},{r:"Content manager",a:"Receives Notion calendar entry with all assets linked"}],
+inputs:["🎙️ Voice note / article link / raw thought"],
+routes:[{i:"✍️",l:"Long-form blog draft",t:"GPT-4o"},{i:"💼",l:"3 LinkedIn variants (native format)",t:"GPT-4o"},{i:"🖼️",l:"DALL-E image brief → render",t:"DALL-E 3"},{i:"🔊",l:"90-sec voiced summary",t:"ElevenLabs"},{i:"🎬",l:"Video script → render",t:"Creatom"},{i:"📅",l:"Content calendar entry + all assets",t:"Notion + Supabase"}]},
+
+{id:"w02",num:"02",cat:"Content",name:"Audience Mirror Engine",color:C.coral,
+tagline:"One master piece → multiple audience-native rewrites with multimedia",
+desc:"The master agent reads a piece and identifies who could benefit — not by topic, but by worldview. It rewrites the core argument from inside each audience's frame of reference. Same insight, completely different language.",
+unique:"Audience versions are not tonal rewrites — they reframe the core argument from inside the audience's worldview. C-suite leads with risk reduction. Creative professionals lead with autonomy preservation.",
+team:[{r:"Strategist",a:"Submits master long-form piece + audience profiles"},{r:"Master agent",a:"Identifies segments + rewrites argument per worldview"},{r:"C-suite writer",a:"Receives ROI-framed executive version"},{r:"Nonprofit writer",a:"Receives mission-framed version"},{r:"Creative writer",a:"Receives autonomy-framed version"},{r:"Designer",a:"Receives audience-matched DALL-E visual brief"},{r:"Content manager",a:"Files all versions with relationship map to master"}],
+inputs:["📝 Master long-form piece","🎯 Audience profiles"],
+routes:[{i:"👔",l:"C-suite version (ROI frame)",t:"GPT-4o"},{i:"🏛️",l:"Nonprofit version (mission frame)",t:"GPT-4o"},{i:"🎨",l:"Creative professional version",t:"GPT-4o"},{i:"🖼️",l:"Audience-matched visuals",t:"DALL-E 3"},{i:"🗂️",l:"Filed with relationship map",t:"Notion + Supabase"}]},
+
+{id:"w03",num:"03",cat:"Content",name:"Daily Intelligence Synthesis",color:C.gold,
+tagline:"Nightly ingestion → morning briefing across text, audio, and client alerts",
+desc:"Runs at 5AM. Reads everything that came in overnight through the taste profile lens. Not by keyword — by judgment. It knows your domain, your clients, and your current focus.",
+unique:"If you've consistently ignored fintech content, the agent stops surfacing it. If a topic aligns with a specific client's concerns, it routes a separate alert directly to that client file.",
+team:[{r:"Executive / founder",a:"Receives morning briefing doc + audio version"},{r:"Master agent",a:"Filters overnight intake through taste profile"},{r:"Content team",a:"Receives 'react to this' content opportunity flags"},{r:"Account managers",a:"Receive client-specific alerts when relevant content detected"},{r:"Analyst",a:"Receives competitive intelligence report"}],
+inputs:["📰 RSS feeds (scheduled)","💼 LinkedIn feed","📧 Newsletter digest","📊 Industry news APIs"],
+routes:[{i:"📋",l:"Morning briefing doc",t:"Notion"},{i:"🔊",l:"Audio version for commute",t:"ElevenLabs"},{i:"💡",l:"Content opportunity flags",t:"ClickUp task"},{i:"📬",l:"Client-specific alerts",t:"n8n → email"},{i:"🕵️",l:"Competitive intelligence report",t:"Supabase log"}]},
+
+{id:"w04",num:"04",cat:"Real Estate",name:"Deal Intelligence Suite",color:C.green,
+tagline:"Client + property → complete intelligence package including drive-time audio brief",
+desc:"Takes a client name and property address, pulls every relevant data source, synthesizes meeting history, and produces a complete intelligence package in one run — including a 3-minute audio brief for the car ride to the meeting.",
+unique:"The audio brief is the differentiator. The agent writes a voiced summary the agent can listen to on the way to the client meeting. No reading required. The analysis is already in their head before they walk in.",
+team:[{r:"Listing/sales agent",a:"Triggers workflow with client name + property"},{r:"Master agent (Renee)",a:"Applies CRE cognitive model + synthesizes history"},{r:"Agent (output)",a:"Receives written analysis report"},{r:"Agent (drive-time)",a:"Receives ElevenLabs audio brief"},{r:"Client relations",a:"Receives drafted client email"},{r:"CRM manager",a:"Receives deal status update"},{r:"Data team",a:"Receives risk matrix + market comps"}],
+inputs:["👤 Client name + property","📋 Meeting notes (voice or text)","🏢 Property data API"],
+routes:[{i:"📊",l:"Written analysis report",t:"GPT-4o"},{i:"🎤",l:"Talk track document",t:"GPT-4o"},{i:"🔊",l:"3-min audio brief for drive-time",t:"ElevenLabs"},{i:"📧",l:"Draft client email",t:"n8n → Gmail"},{i:"📁",l:"Client folder auto-filed",t:"Notion + Supabase"},{i:"📈",l:"CRM deal status updated",t:"ClickUp"}]},
+
+{id:"w05",num:"05",cat:"Events",name:"Event Story Machine",color:C.tealL,
+tagline:"Event brief → 4-month content calendar with multimedia assets",
+desc:"Generates the cultural narrative arc first — the emotional story of why this event matters. Every content piece across 4 months derives from that arc, not generated independently. The campaign feels coherent because everything shares the same narrative DNA.",
+unique:"Month 1 announcement content and Month 3 countdown content share the same narrative DNA so the campaign feels like one coherent story rather than a series of unrelated posts.",
+team:[{r:"Event producer",a:"Submits event brief + artist roster + venue info"},{r:"Master agent",a:"Generates cultural narrative arc"},{r:"Content team",a:"Receives month-by-month content calendar"},{r:"Design team",a:"Receives DALL-E image briefs per month"},{r:"Video team",a:"Receives Creatom scripts"},{r:"Email manager",a:"Receives 4-month email sequence"},{r:"Project manager",a:"Receives auto-structured Notion project folder"}],
+inputs:["🎪 Event brief","🎵 Artist roster","🏛️ Venue + audience profile"],
+routes:[{i:"📅",l:"Month 1–4 content calendar",t:"GPT-4o → Notion"},{i:"🖼️",l:"DALL-E image briefs per phase",t:"DALL-E 3"},{i:"🎬",l:"Video scripts per phase",t:"Creatom"},{i:"📧",l:"4-month email sequence",t:"n8n → email"},{i:"📁",l:"Project folder auto-structured",t:"Notion"}]},
+
+{id:"w06",num:"06",cat:"Quality Control",name:"Cognitive QA Loop",color:C.teal,
+tagline:"Maxine produces · Lux critiques against taste profile · n8n routes revisions · human only sees resolved output",
+desc:"The most structurally novel workflow. Auntie Maxine writes. Auntie Lux reviews against the taste profile with structured critique — specific lines, specific violations, specific correction directions. Runs up to 3 iterations autonomously.",
+unique:"This is an editorial relationship, not a retry button. Lux's critique is structured — she flags specific lines, explains why they violate the taste profile, and suggests the correction direction. Maxine reads that and revises with full context.",
+team:[{r:"Requestor",a:"Submits content brief or topic"},{r:"Maxine agent",a:"Drafts output using cognitive model"},{r:"Lux agent",a:"Critiques against taste profile with specific feedback"},{r:"n8n orchestrator",a:"Routes failures back to Maxine (max 3x)"},{r:"Human reviewer",a:"Receives output only when agents agree OR at iteration limit"},{r:"Registry logger",a:"Receives all iterations logged for model registry"}],
+inputs:["📝 Content brief / topic","📚 Taste profile + exemplar file"],
+routes:[{i:"✍️",l:"Maxine: drafts output",t:"GPT-4o"},{i:"🔍",l:"Lux: structured critique vs taste profile",t:"GPT-4o"},{i:"🔄",l:"n8n: routes failure → Maxine revises (max 3x)",t:"n8n loop"},{i:"✅",l:"Pass: human receives approved output",t:"Notion + email"},{i:"🚨",l:"Fail: human receives output + full critique",t:"ClickUp escalation"},{i:"📊",l:"All iterations logged",t:"Supabase model registry"}]},
+
+{id:"w07",num:"07",cat:"Portfolio",name:"Proof Factory",color:C.gold,
+tagline:"Engagement checkpoint → case study + testimonial capture + portfolio assets — triggered before implementation",
+desc:"Triggered at maximum client enthusiasm — before implementation begins. The agent pulls full project context, generates a before/after narrative, and produces a complete social proof capture sequence.",
+unique:"Testimonial request is written from inside the project context — references the specific problem and outcome. 3x response rate vs a generic review request email.",
+team:[{r:"Account manager",a:"Triggers workflow at engagement checkpoint"},{r:"Master agent",a:"Pulls project context + frames before/after narrative"},{r:"Client",a:"Receives personalized testimonial request email"},{r:"Writer",a:"Receives case study draft outline"},{r:"Social team",a:"Receives 3 LinkedIn posts from results"},{r:"Video team",a:"Receives client testimonial recording script"},{r:"Finance",a:"Receives ROI calculation document"}],
+inputs:["📋 Project file + results data","🤝 Engagement checkpoint trigger"],
+routes:[{i:"📧",l:"Personalized testimonial request",t:"n8n → Gmail"},{i:"📖",l:"Case study draft outline",t:"GPT-4o → Notion"},{i:"💼",l:"3 LinkedIn posts from results",t:"GPT-4o"},{i:"🎬",l:"Video testimonial script",t:"GPT-4o + Creatom"},{i:"📊",l:"ROI calculation document",t:"GPT-4o + n8n"},{i:"📁",l:"All filed to portfolio folder",t:"Notion"}]},
+
+{id:"w08",num:"08",cat:"Knowledge Mgmt",name:"Living Knowledge Base",color:C.slate,
+tagline:"Every new input reshapes the existing knowledge graph — nothing filed in isolation",
+desc:"Every new piece of information is evaluated against what the system already knows. The agent decides: does this confirm a prior belief, contradict it, or open a new thread? The knowledge base becomes smarter with every input.",
+unique:"Solves the model registry gap directly. Every auntie test, deployment lesson, and runtime failure gets logged with context. Six months later you can ask 'what went wrong in February' and get a specific answer.",
+team:[{r:"Researcher/user",a:"Inputs new research, notes, or conversation"},{r:"Master agent",a:"Evaluates input against existing knowledge graph"},{r:"Notion manager",a:"Receives update, contradiction flag, or new entry"},{r:"Registry",a:"Receives model update log entry in Supabase"},{r:"Team",a:"Receives weekly ElevenLabs synthesis audio briefing"}],
+inputs:["📄 Research, notes, or conversation","🧪 Test result or deployment lesson"],
+routes:[{i:"🔄",l:"Updates existing knowledge entry",t:"Notion"},{i:"⚡",l:"Flags contradictions with prior beliefs",t:"ClickUp alert"},{i:"🆕",l:"Creates new entry if novel",t:"Notion + Supabase"},{i:"🔗",l:"Cross-reference links to related entries",t:"Notion graph"},{i:"🔊",l:"Weekly synthesis audio briefing",t:"ElevenLabs"}]},
+
+// ── IMAGE WORKFLOWS ──────────────────────────────────────────────────────────
+{id:"i01",num:"I-01",cat:"Image Workflows",name:"Visual Intelligence Triage",color:C.coral,
+tagline:"Any image in → agent classifies intent → routes to the correct transformation pipeline",
+desc:"A single intake point for all image assets. The master agent classifies intent — not file type — and routes accordingly. A JPEG of a hand-drawn blueprint routes differently from a JPEG of a finished product.",
+unique:"Classification is semantic, not file-type based. Intent, not format, drives the route. A sketch of a floor plan and a photo of a floor plan are the same file type but completely different transformation needs.",
+team:[{r:"Intake coordinator",a:"Uploads raw image to trigger folder"},{r:"Master agent",a:"Classifies image type + intent"},{r:"Image editor",a:"Receives enhancement brief"},{r:"Designer",a:"Receives brand-template sizing brief"},{r:"Content manager",a:"Receives filed + tagged asset with metadata"},{r:"Video team",a:"Receives Creatom assembly brief"}],
+inputs:["📸 Any image upload","🗂️ Folder watch trigger"],
+routes:[{i:"✏️",l:"Sketch → DALL-E architectural render",t:"DALL-E 3"},{i:"📦",l:"Product photo → bg removal + brand template",t:"Remove.bg + Canva API"},{i:"🎉",l:"Event photo → caption + press kit",t:"GPT-4o Vision + Notion"},{i:"📊",l:"Screenshot → extract data → chart",t:"GPT-4o → n8n"},{i:"🎬",l:"All assets → Creatom video assembly",t:"Creatom"},{i:"🗂️",l:"Tagged + filed to Supabase library",t:"Supabase"}]},
+
+{id:"i02",num:"I-02",cat:"Image Workflows",name:"Brand Visual Compliance Engine",color:C.purple,
+tagline:"New asset submitted → brand check → approve, correct, or escalate with DALL-E corrected reference",
+desc:"Every visual asset runs a compliance loop before touching any channel. The agent compares against the brand guide and either clears for distribution or routes back with a specific correction brief AND a DALL-E reference showing what compliant looks like.",
+unique:"The 'fail' route includes a DALL-E-generated corrected reference — not just a violations list. The designer sees what it should look like, not just what went wrong.",
+team:[{r:"Designer",a:"Submits new asset to review queue"},{r:"Master agent",a:"Checks against brand guidelines in Notion"},{r:"Brand director",a:"Receives escalation for judgment calls"},{r:"Content scheduler",a:"Receives cleared assets for distribution queue"},{r:"Designer (revision)",a:"Receives specific violation list + DALL-E corrected reference"},{r:"Archive manager",a:"Files all versioned assets to Supabase"}],
+inputs:["🖼️ New image asset","📋 Brand guide (Notion)"],
+routes:[{i:"✅",l:"Pass → auto-distributed + filed",t:"n8n → scheduler"},{i:"🖼️",l:"DALL-E corrected reference generated",t:"DALL-E 3"},{i:"❌",l:"Fail → violation list + reference to designer",t:"GPT-4o → email"},{i:"🚨",l:"Gray area → escalated to brand director",t:"ClickUp task"},{i:"📊",l:"Compliance score logged per submission",t:"Supabase"}]},
+
+{id:"i03",num:"I-03",cat:"Image Workflows",name:"Property Visual Suite",color:C.green,
+tagline:"Raw listing photos → virtual staging + seasonal variations + MLS + social package",
+desc:"Listing photos enter. The agent assesses each room — empty, furnished, dark — and routes each to the appropriate transformation. Empty rooms get virtually staged. The exterior gets seasonal variations so the listing stays fresh without a reshoot.",
+unique:"Seasonal exterior variants (spring, fall, winter) are generated from a single summer photo using DALL-E — allowing the listing to stay visually current across months without scheduling additional photography.",
+team:[{r:"Listing agent",a:"Uploads raw property photos"},{r:"Master agent",a:"Assesses each room + assigns transformation"},{r:"Virtual staging team",a:"Reviews + approves DALL-E staged versions"},{r:"Marketing coordinator",a:"Assembles final package for MLS + social"},{r:"Client (seller)",a:"Receives before/after comparison deck"},{r:"Social manager",a:"Schedules platform-sized assets"}],
+inputs:["📸 Raw property photos","🏠 Listing brief"],
+routes:[{i:"🛋️",l:"Empty rooms → DALL-E virtual staging",t:"DALL-E 3"},{i:"🌤️",l:"Exterior → 4 seasonal variations",t:"DALL-E 3"},{i:"📱",l:"Social-sized versions",t:"Canva API"},{i:"🏡",l:"MLS-formatted listing package",t:"n8n → MLS API"},{i:"🎬",l:"Slideshow video with ElevenLabs narration",t:"Creatom + ElevenLabs"},{i:"📊",l:"Before/after deck for client",t:"GPT-4o → PDF"}]},
+
+{id:"i04",num:"I-04",cat:"Image Workflows",name:"Product Launch Visual Factory",color:C.gold,
+tagline:"Product spec → complete visual asset library across every channel simultaneously",
+desc:"A new product spec triggers a full visual production run. The master agent generates creative direction, then routes to DALL-E for lifestyle and flat-lay concepts, Creatom for animated reveals, and a resizing pipeline for every platform.",
+unique:"Lifestyle image directions are derived from the product's positioning. A premium product gets aspirational lifestyle contexts. A utility product gets problem-solution scenarios. Creative direction is cognitive, not template-driven.",
+team:[{r:"Product manager",a:"Submits product spec sheet"},{r:"Creative director",a:"Reviews + approves DALL-E concepts"},{r:"E-commerce team",a:"Receives white-background product images"},{r:"Social media team",a:"Receives platform-specific lifestyle images"},{r:"Video team",a:"Receives Creatom animated reveal"},{r:"Email team",a:"Receives header image"},{r:"Asset librarian",a:"Files complete package to Supabase by SKU"}],
+inputs:["📄 Product spec sheet","🎯 Launch positioning brief"],
+routes:[{i:"🌟",l:"DALL-E lifestyle images (product in use)",t:"DALL-E 3"},{i:"📦",l:"Flat-lay variations for e-commerce",t:"DALL-E 3"},{i:"🎬",l:"Animated product reveal video",t:"Creatom"},{i:"🛍️",l:"White background / e-commerce ready",t:"Remove.bg + n8n"},{i:"📱",l:"Platform-specific sizes (all channels)",t:"Canva API"},{i:"🗂️",l:"Filed to product image library by SKU",t:"Supabase"}]},
+
+{id:"i05",num:"I-05",cat:"Image Workflows",name:"Event Photo Intelligence System",color:C.rose,
+tagline:"Raw event photo dump → captioned + sorted + press kit + social + archive within hours",
+desc:"Hundreds of raw event photos enter. The master agent classifies by subject, generates captions, identifies the 20 best shots, and routes simultaneously to press kit, social team, client gallery, and archive.",
+unique:"Hero shot selection uses aesthetic AND narrative criteria — composition, emotional expression, and alignment with the event's stated theme — before flagging the top image. Not just the sharpest photo.",
+team:[{r:"Photographer",a:"Dumps raw photos to cloud folder"},{r:"Master agent",a:"Classifies, captions, and selects best shots"},{r:"PR coordinator",a:"Receives press kit with hero shots + captions"},{r:"Social manager",a:"Receives curated social package"},{r:"Client",a:"Receives full gallery with AI-generated captions"},{r:"Archivist",a:"Receives tagged + sorted full archive"},{r:"Video editor",a:"Receives Creatom highlight reel brief"}],
+inputs:["📸 Raw event photo dump","📋 Event brief + theme"],
+routes:[{i:"🏆",l:"Top 20 shots + hero identified",t:"GPT-4o Vision"},{i:"📝",l:"Captions generated for all selected",t:"GPT-4o"},{i:"📰",l:"Press kit assembled",t:"n8n → Drive"},{i:"📱",l:"Social package (story + grid + reel)",t:"Canva API"},{i:"🎬",l:"Highlight reel brief → Creatom",t:"Creatom"},{i:"🗂️",l:"Full archive sorted + tagged",t:"Supabase"}]},
+
+{id:"i06",num:"I-06",cat:"Image Workflows",name:"Fashion E-Commerce Photo Pipeline",color:C.rose,
+tagline:"Photo shoot dump → AI hero selection + retouching briefs + all channels sized + archive",
+desc:"The master agent reviews every image using brand visual scoring criteria — composition, brand alignment, emotional register, product clarity — selects heroes, writes retouching briefs, and routes every team member's deliverable simultaneously.",
+unique:"Hero selection is scored against your brand's established visual identity in Supabase, not generic composition rules. A product that 'should feel approachable' gets a different hero than one that 'should feel aspirational.'",
+team:[{r:"Photographer",a:"Uploads raw shoot dump to trigger folder"},{r:"Master agent",a:"Scores all images + selects heroes per product"},{r:"Retoucher",a:"Receives per-image retouching brief"},{r:"Creative director",a:"Receives hero selection with scoring rationale for approval"},{r:"E-commerce team",a:"Receives white-bg + detail crops"},{r:"Social manager",a:"Receives platform-sized lifestyle versions"},{r:"Asset librarian",a:"Receives full archive tagged by product + colorway"}],
+inputs:["📸 Raw shoot dump","📋 Product brief + brand scoring guide"],
+routes:[{i:"🏆",l:"Hero selection + rationale per product",t:"GPT-4o Vision → Notion"},{i:"✏️",l:"Retouching brief per selected image",t:"GPT-4o → retoucher"},{i:"🛍️",l:"E-commerce crops (white bg + detail)",t:"Remove.bg + n8n"},{i:"📱",l:"Platform-sized lifestyle versions",t:"Canva API → scheduler"},{i:"🎬",l:"Product reel template brief",t:"Creatom"},{i:"🗂️",l:"Full archive tagged + filed by SKU",t:"Supabase"}]},
+
+{id:"i07",num:"I-07",cat:"Image Workflows",name:"Development Marketing Visual Suite",color:C.slate,
+tagline:"CAD drawings → DALL-E renders at 4 times of day + lifestyle overlays + investor deck + sales assets",
+desc:"Developer provides CAD drawings. The master agent generates DALL-E architectural visualizations at four times of day and two seasons, with lifestyle population overlays derived from the target buyer profile.",
+unique:"The lifestyle population in renders is demographically tailored to the target buyer. A luxury condo targeting empty nesters gets rendered with different human activity than a family townhome — the agent writes the population prompt from the buyer document.",
+team:[{r:"Development director",a:"Submits drawings + target buyer brief"},{r:"Rendering coordinator",a:"Reviews DALL-E concepts + commissions final CGI"},{r:"Sales director",a:"Receives buyer-facing hero images + sales deck"},{r:"Marketing manager",a:"Receives social content series from renders"},{r:"PR coordinator",a:"Receives press render package + captions"},{r:"Investor relations",a:"Receives investor deck with renders + ROI narrative"},{r:"Digital team",a:"Receives web-optimized renders + alt text"}],
+inputs:["📐 CAD drawings","📋 Target buyer brief + project positioning"],
+routes:[{i:"🌅",l:"DALL-E renders — 4 times of day, 2 seasons",t:"DALL-E 3"},{i:"👥",l:"Lifestyle population overlays per buyer",t:"DALL-E 3"},{i:"💼",l:"Investor deck + ROI framing",t:"GPT-4o → PDF"},{i:"🏠",l:"Sales deck — buyer-facing heroes",t:"GPT-4o → PDF"},{i:"📱",l:"Social content series from renders",t:"Creatom + GPT-4o"},{i:"🖥️",l:"Web-optimized renders + alt text",t:"n8n → CMS"}]},
+
+{id:"i08",num:"I-08",cat:"Image Workflows",name:"Social Content Review Queue",color:C.purple,
+tagline:"Team-submitted images → AI brand + platform compliance → approve, revise, or escalate",
+desc:"Any team member submits a social post. The master agent checks brand compliance, platform optimization (crop ratios, caption length, CTA placement), and caption quality — then routes to the right outcome.",
+unique:"Platform feedback is channel-specific. The same image gets different crop guidance for Instagram grid vs. Story vs. LinkedIn vs. TikTok cover. Feedback is immediately actionable, not generic.",
+team:[{r:"Content creator",a:"Submits image + caption to review queue"},{r:"Master agent",a:"Checks brand, platform, and caption compliance"},{r:"Brand director",a:"Receives escalation for gray-area judgment calls"},{r:"Content scheduler",a:"Receives approved posts with optimal posting times"},{r:"Designer",a:"Receives crop/resize brief for platform adjustments"},{r:"Copywriter",a:"Receives caption revision brief with specific failure notes"},{r:"Analytics manager",a:"Receives performance prediction brief"}],
+inputs:["🖼️ Image + caption submission","📋 Brand guidelines + platform specs"],
+routes:[{i:"✅",l:"Pass → scheduler with optimal time",t:"n8n → scheduler"},{i:"✂️",l:"Crop/resize brief per platform",t:"GPT-4o → designer"},{i:"✍️",l:"Caption revision brief with specific issues",t:"GPT-4o → Slack"},{i:"🚨",l:"Escalation to brand director",t:"ClickUp task"},{i:"📊",l:"Performance prediction brief",t:"GPT-4o → Notion"},{i:"🗂️",l:"All submissions logged with outcome",t:"Supabase"}]},
+
+{id:"i09",num:"I-09",cat:"Image Workflows",name:"Museum Artifact Archive Engine",color:C.amber,
+tagline:"New artifact photographed → metadata + conservation + education + DALL-E contextual visualization",
+desc:"A newly photographed artifact enters the system. The master agent simultaneously generates archival metadata, conservator's condition brief, educational content at three reading levels, and a DALL-E visualization showing the artifact in its original historical context.",
+unique:"The DALL-E contextual visualization reconstructs the artifact in its original use context — not a museum display. A Roman amphora gets rendered at a Mediterranean market. A Victorian brooch gets rendered on the garment it was meant to be worn with.",
+team:[{r:"Registrar / archivist",a:"Receives structured metadata for collection database"},{r:"Conservator",a:"Receives condition assessment brief with visual flags"},{r:"Curator",a:"Receives provenance + exhibition context notes"},{r:"Education director",a:"Receives lesson materials at K-12, public, and scholar levels"},{r:"Marketing team",a:"Receives social content brief with context image"},{r:"Digital experience team",a:"Receives interactive exhibit brief + audio guide script"},{r:"Visitor services",a:"Receives docent talking points"}],
+inputs:["📸 Artifact photography (multiple angles)","📋 Provenance documentation"],
+routes:[{i:"🗂️",l:"Metadata for collection database",t:"GPT-4o → database"},{i:"🔬",l:"Conservation condition brief",t:"GPT-4o Vision"},{i:"🏛️",l:"DALL-E original-context visualization",t:"DALL-E 3"},{i:"📚",l:"Education materials — 3 reading levels",t:"GPT-4o → Notion"},{i:"🎙️",l:"Audio guide script + narration",t:"GPT-4o + ElevenLabs"},{i:"📱",l:"Social content with context image",t:"Creatom + GPT-4o"}]},
+
+{id:"i10",num:"I-10",cat:"Image Workflows",name:"Medical Visual Report System",color:C.tealL,
+tagline:"Clinical images → radiologist brief + physician summary + patient plain-language + anatomy diagram + billing",
+desc:"Medical imaging enters. The master agent produces a clinical findings brief for the radiologist, a summary for the referring physician, and a plain-language patient explanation with a DALL-E anatomy diagram — all calibrated to their audience.",
+unique:"The patient explanation includes a DALL-E anatomical illustration showing exactly where in the body the finding is located — labeled in plain language. Patients who understand their diagnosis visually have significantly better treatment follow-through.",
+team:[{r:"Radiologist",a:"Receives structured findings brief with clinical flag"},{r:"Referring physician",a:"Receives clinical summary + recommended next steps"},{r:"Patient",a:"Receives plain-language explanation + anatomy diagram"},{r:"Nurse coordinator",a:"Receives follow-up action checklist"},{r:"Billing team",a:"Receives procedure + diagnosis codes"},{r:"Medical records",a:"Receives formatted report for EHR filing"},{r:"Patient portal team",a:"Receives content for secure portal post"}],
+inputs:["🩺 Medical images (scan)","📋 Patient history + referring notes"],
+routes:[{i:"🔬",l:"Radiologist: structured findings brief",t:"GPT-4o Vision → EHR"},{i:"👨‍⚕️",l:"Physician: clinical summary + next steps",t:"GPT-4o → portal"},{i:"🖼️",l:"DALL-E plain-language anatomy diagram",t:"DALL-E 3"},{i:"📱",l:"Patient: plain-language explanation + diagram",t:"GPT-4o + patient portal"},{i:"💳",l:"Billing: procedure + diagnosis codes",t:"GPT-4o → billing"},{i:"📁",l:"Medical records: EHR filing",t:"n8n → EHR"}]},
+
+// ── VOLUME 2 — INDUSTRY ──────────────────────────────────────────────────────
+{id:"v27",num:"27",cat:"University",name:"Admissions Intelligence Router",color:C.indigo,
+tagline:"Prospective student inquiry → 8 departments briefed with personalized context simultaneously",
+desc:"A prospective student submits an inquiry. The master agent reads their academic interests, background, and goals — then routes personalized briefs to every relevant department simultaneously.",
+unique:"Faculty routing is based on the student's stated research vocabulary, not just their declared major. A student who mentions 'urban food systems' routes to the faculty member whose research matches that phrase.",
+team:[{r:"Admissions counselor",a:"Receives prospect profile + conversation starter"},{r:"Financial aid advisor",a:"Receives scholarship eligibility brief"},{r:"Academic advisor",a:"Receives degree path alignment brief"},{r:"Relevant faculty",a:"Receives research interest match brief"},{r:"Housing coordinator",a:"Receives housing preference + timeline brief"},{r:"International office",a:"Receives visa brief (if applicable)"},{r:"Marketing team",a:"Receives lead nurture sequence trigger"},{r:"Student (prospect)",a:"Receives personalized info packet + visit invite"}],
+inputs:["📋 Inquiry form submission","🎓 Academic record (if provided)"],
+routes:[{i:"🎓",l:"Admissions: prospect profile + opener",t:"GPT-4o → CRM"},{i:"💰",l:"Financial aid: scholarship eligibility",t:"GPT-4o → aid system"},{i:"🔬",l:"Faculty: research interest match",t:"GPT-4o → email"},{i:"🏠",l:"Housing: preference + timeline",t:"n8n → housing system"},{i:"✉️",l:"Student: personalized info packet",t:"GPT-4o + ElevenLabs"},{i:"📅",l:"Nurture sequence triggered",t:"n8n → email scheduler"}]},
+
+{id:"v28",num:"28",cat:"Government",name:"Legislative Brief Factory",color:C.navy,
+tagline:"New bill → 8 government functions briefed in their domain language simultaneously",
+desc:"A new bill enters the system. The master agent routes to every function that needs to act — policy analysts, legal, communications, constituent relations, budget — each receiving a brief calibrated to their decision-making context.",
+unique:"Constituent communication is automatically written at a 6th-grade reading level — not because constituents are unsophisticated, but because plain language dramatically improves civic comprehension and reduces caseworker calls.",
+team:[{r:"Policy analyst",a:"Receives deep policy analysis + precedent comparison"},{r:"Legislative counsel",a:"Receives legal interpretation + compliance notes"},{r:"Communications director",a:"Receives public statement + talking points"},{r:"Constituent relations",a:"Receives plain-language constituent FAQ"},{r:"Budget office",a:"Receives fiscal impact assessment"},{r:"Department heads",a:"Receive operational impact brief"},{r:"Chief of staff",a:"Receives executive summary + recommended position"},{r:"Social media team",a:"Receives public engagement content brief"}],
+inputs:["📄 Legislative text","📋 Agency context + current policy landscape"],
+routes:[{i:"📊",l:"Policy analyst: deep analysis",t:"GPT-4o → Notion"},{i:"⚖️",l:"Legal: interpretation + compliance",t:"GPT-4o → legal system"},{i:"📣",l:"Comms: statement + talking points",t:"GPT-4o → email"},{i:"👥",l:"Constituent: plain-language FAQ (6th grade)",t:"GPT-4o → portal"},{i:"💰",l:"Budget: fiscal impact brief",t:"GPT-4o → budget system"},{i:"📋",l:"Chief of staff: exec summary + position rec",t:"GPT-4o → brief"}]},
+
+{id:"v29",num:"29",cat:"Pharma",name:"Clinical Trial Site Intelligence",color:C.forest,
+tagline:"New study protocol → every trial site role briefed — IRB, recruiting, pharmacy, data, coordinator",
+desc:"A new clinical trial protocol enters. The master agent breaks the complex scientific document into role-specific briefs for every team member — from the PI's strategic overview to the patient recruitment team's eligibility screening brief.",
+unique:"The patient recruitment brief is written in the demographic language of the target patient population — not clinical language. If the trial targets elderly patients with type 2 diabetes, recruitment language reflects how that population actually talks about their condition.",
+team:[{r:"Principal investigator",a:"Receives protocol summary + strategic enrollment brief"},{r:"IRB coordinator",a:"Receives submission checklist + timeline"},{r:"Regulatory affairs",a:"Receives compliance notes + submission brief"},{r:"Patient recruitment",a:"Receives eligibility criteria in plain-language screening brief"},{r:"Clinical pharmacist",a:"Receives drug preparation + handling protocol"},{r:"Data manager",a:"Receives database setup requirements"},{r:"Site coordinator",a:"Receives visit schedule + patient management workflow"},{r:"Finance team",a:"Receives budget allocation + billing grid"}],
+inputs:["📄 Study protocol","💊 Investigator brochure"],
+routes:[{i:"🧬",l:"PI: protocol summary + enrollment brief",t:"GPT-4o → Notion"},{i:"📋",l:"IRB: submission checklist + timeline",t:"GPT-4o → ClickUp"},{i:"👥",l:"Recruitment: plain-language screening brief",t:"GPT-4o → recruiter portal"},{i:"💊",l:"Pharmacy: preparation + handling protocol",t:"GPT-4o → pharmacy system"},{i:"📊",l:"Data: database setup requirements",t:"GPT-4o → data system"},{i:"💳",l:"Finance: budget + billing grid",t:"n8n → finance tool"}]},
+
+{id:"v30",num:"30",cat:"Insurance",name:"Claims Intelligence Router",color:C.brick,
+tagline:"New claim → severity triage + silent fraud assessment + specialist routing + customer communication — all parallel",
+desc:"A new claim is submitted. The master agent triages severity, runs a silent fraud risk assessment, identifies specialist review needs, routes to the appropriate adjuster, and drafts the initial customer communication — all before a human adjuster opens the file.",
+unique:"The fraud assessment is a silent parallel route. It never slows the standard workflow. If indicators are below threshold, the adjuster never sees it — preserving the customer relationship regardless of outcome.",
+team:[{r:"Intake specialist",a:"Receives triage summary + priority level"},{r:"Claims adjuster",a:"Receives claim file + initial coverage analysis"},{r:"SIU investigator",a:"Receives fraud flag (only if threshold met)"},{r:"Medical reviewer",a:"Receives medical necessity brief (bodily injury)"},{r:"Legal team",a:"Receives litigation risk flag if indicators present"},{r:"Customer service",a:"Receives personalized acknowledgment draft"},{r:"Subrogation team",a:"Receives third-party liability brief if applicable"},{r:"Finance",a:"Receives reserve recommendation brief"}],
+inputs:["📋 Claim submission form","🚗 Incident details + supporting docs"],
+routes:[{i:"⚡",l:"Adjuster: triage + coverage analysis",t:"GPT-4o → claims system"},{i:"🕵️",l:"SIU: silent fraud flag (threshold-triggered)",t:"GPT-4o → SIU queue"},{i:"📧",l:"Customer: personalized acknowledgment",t:"GPT-4o → email"},{i:"⚖️",l:"Legal: litigation risk flag",t:"GPT-4o → legal queue"},{i:"💰",l:"Finance: reserve recommendation",t:"GPT-4o → finance system"},{i:"🔄",l:"Subrogation: third-party liability brief",t:"GPT-4o → subrogation"}]},
+
+{id:"v31",num:"31",cat:"Automotive",name:"Vehicle Delivery Story Engine",color:C.amber,
+tagline:"Customer config → personalized delivery script + F&I brief + social moment — 48hr before pickup",
+desc:"A customer finalizes their vehicle configuration. The master agent generates a complete delivery experience package — a personalized delivery script, an F&I brief, a service introduction, and a social capture moment brief.",
+unique:"The delivery script is personalized to config time-on-feature — treated as revealed preference. A customer who spent 4 minutes on safety features gets a delivery built around safety technology. The config data IS the psychology brief.",
+team:[{r:"Sales associate",a:"Receives personalized delivery script"},{r:"F&I manager",a:"Receives brief on most relevant protection products"},{r:"Service advisor",a:"Receives intro brief + first service recommendation"},{r:"Delivery specialist",a:"Receives vehicle prep + feature demo sequence"},{r:"Social media team",a:"Receives delivery moment brief + Creatom template"},{r:"Loyalty team",a:"Receives post-delivery nurture sequence trigger"},{r:"Customer",a:"Receives pre-delivery welcome email with video"}],
+inputs:["🚗 Final vehicle configuration","👤 Customer interaction history"],
+routes:[{i:"🗣️",l:"Sales: personalized delivery script",t:"GPT-4o → CRM"},{i:"💳",l:"F&I: relevant protection product brief",t:"GPT-4o → F&I system"},{i:"🔧",l:"Service: intro + first service brief",t:"GPT-4o → service system"},{i:"🎬",l:"Social: delivery moment + Creatom template",t:"Creatom + GPT-4o"},{i:"📧",l:"Customer: pre-delivery welcome video",t:"ElevenLabs + Creatom"},{i:"🔔",l:"Loyalty: post-delivery nurture trigger",t:"n8n → CRM sequence"}]},
+
+{id:"v32",num:"32",cat:"E-Commerce",name:"Product Drop Intelligence",color:C.coral,
+tagline:"New product live → every channel activated with audience-segmented messaging — not a broadcast",
+desc:"A product drops. The master agent activates every channel simultaneously — but messaging is not identical. Each channel and customer segment receives content calibrated to their relationship with the brand and purchase history.",
+unique:"Email is segmented by purchase behavior, not demographics. A cart abandoner gets a re-engagement message. A repeat buyer gets a loyalty frame. A first-time buyer gets discovery framing. The agent writes all three simultaneously.",
+team:[{r:"E-commerce manager",a:"Receives product page copy + SEO brief"},{r:"Email marketing lead",a:"Receives 3 segmented versions by purchase history"},{r:"SMS manager",a:"Receives ultra-short drop announcement by segment"},{r:"Social media team",a:"Receives platform-native launch content"},{r:"Influencer relations",a:"Receives personalized influencer brief"},{r:"Customer service",a:"Receives FAQ prep before customer inquiries arrive"},{r:"Warehouse / ops",a:"Receives demand forecast + fulfillment priority"},{r:"Paid media team",a:"Receives ad copy variants + targeting brief"}],
+inputs:["📦 Product spec + positioning","🗃️ Customer segment database (Supabase)"],
+routes:[{i:"📧",l:"Email: 3 segmented versions",t:"GPT-4o → email platform"},{i:"📱",l:"SMS: drop announcement per segment",t:"n8n → SMS platform"},{i:"🌐",l:"E-commerce: product page + SEO",t:"GPT-4o → CMS"},{i:"📲",l:"Social: platform-native content",t:"GPT-4o + Creatom"},{i:"💬",l:"CS: FAQ prep before queries arrive",t:"GPT-4o → support tool"},{i:"🤝",l:"Influencer: personalized brief",t:"GPT-4o → email"}]},
+
+{id:"v33",num:"33",cat:"Veterinary",name:"Pet Care Intelligence Suite",color:C.green,
+tagline:"New patient intake → vet + tech + nutritionist + owner — communication calibrated to experience level",
+desc:"A new pet patient completes their intake. The master agent generates care team briefs and an owner communication calibrated to the owner's self-reported level of pet care experience.",
+unique:"A first-time owner receives preventive care education. Someone who listed '4 dogs, 15 years each' receives only what's specific to this pet — not a repeat of basics they already know.",
+team:[{r:"Veterinarian",a:"Receives clinical summary + health flag brief"},{r:"Vet technician",a:"Receives exam prep checklist + vitals targets"},{r:"Nutrition specialist",a:"Receives dietary assessment brief if flags present"},{r:"Front desk",a:"Receives appointment confirmation + owner context"},{r:"Pet owner",a:"Receives welcome communication calibrated to experience level"},{r:"Grooming team",a:"Receives breed-specific grooming notes"},{r:"Follow-up coordinator",a:"Receives reminder schedule for vaccines + preventive care"}],
+inputs:["📋 Pet intake form","🐾 Breed + medical history"],
+routes:[{i:"🩺",l:"Vet: clinical summary + health flags",t:"GPT-4o → EHR"},{i:"📋",l:"Tech: exam prep + vitals checklist",t:"GPT-4o → task system"},{i:"🥗",l:"Nutrition: dietary assessment brief",t:"GPT-4o → email"},{i:"📧",l:"Owner: experience-calibrated welcome",t:"GPT-4o + ElevenLabs"},{i:"✂️",l:"Grooming: breed-specific notes",t:"GPT-4o"},{i:"🔔",l:"Follow-up: reminder schedule",t:"n8n → calendar"}]},
+
+{id:"v34",num:"34",cat:"Luxury",name:"Bespoke Commission Intelligence",color:C.plum,
+tagline:"Custom luxury commission inquiry → DALL-E concepts from client's own words + full team briefed",
+desc:"A custom commission inquiry enters. The master agent extracts the client's aesthetic vocabulary, occasion, and emotional intent — then routes simultaneous briefs to every team member with DALL-E concepts derived entirely from the client's own language.",
+unique:"DALL-E concepts are generated from the client's words, not design templates. A client who said 'I want it to feel like the first morning light in Santorini' gets a render derived from that phrase — not from a jewelry catalog style.",
+team:[{r:"Design director",a:"Receives aesthetic brief + 5 DALL-E concept directions"},{r:"Master craftsperson",a:"Receives technical feasibility brief"},{r:"Gemologist",a:"Receives stone specification based on stated preferences"},{r:"Client relations manager",a:"Receives conversation guide + client background"},{r:"Pricing specialist",a:"Receives scope + material estimate framework"},{r:"Legal / contracts",a:"Receives commission agreement brief"},{r:"Photography team",a:"Receives concept shoot brief"}],
+inputs:["📋 Commission inquiry form","🖼️ Client reference images"],
+routes:[{i:"🎨",l:"Design: aesthetic brief + 5 DALL-E concepts",t:"DALL-E 3"},{i:"💎",l:"Gemologist: stone specification brief",t:"GPT-4o → email"},{i:"🤝",l:"Client relations: conversation guide",t:"GPT-4o → CRM"},{i:"💰",l:"Pricing: scope + material estimate",t:"GPT-4o → pricing tool"},{i:"📸",l:"Photography: concept shoot brief",t:"GPT-4o → brief"},{i:"📄",l:"Legal: commission agreement brief",t:"GPT-4o → DocuSign"}]},
+
+{id:"v35",num:"35",cat:"Gaming",name:"Game Launch Intelligence Package",color:C.purple,
+tagline:"Launch day → community, press, CS, social, QA all activated with audience-native messaging simultaneously",
+desc:"Launch day arrives. The master agent activates every function simultaneously — but messaging for each audience is native to their relationship with the game. Community gets in-world lore language. Press gets market positioning language.",
+unique:"The community brief and press brief describe the same features in completely different registers. A crafting system is 'forging relics of the Old World' to community and 'a progression system extending playtime by 40 hours' to press.",
+team:[{r:"Community manager",a:"Receives in-world lore language launch content"},{r:"PR manager",a:"Receives press kit + market positioning brief"},{r:"Customer support lead",a:"Receives pre-launch FAQ + known issue brief"},{r:"Social media team",a:"Receives platform-native launch series"},{r:"QA lead",a:"Receives post-launch bug priority triage brief"},{r:"Analytics team",a:"Receives KPI dashboard setup + Day 1 tracking"},{r:"Influencer team",a:"Receives talking points per creator audience"},{r:"Live ops team",a:"Receives post-launch content calendar"}],
+inputs:["📋 Feature list + launch notes","🎮 Game lore bible"],
+routes:[{i:"🗡️",l:"Community: in-world lore launch content",t:"GPT-4o → Discord"},{i:"📰",l:"PR: press kit + positioning brief",t:"GPT-4o → press"},{i:"💬",l:"CS: FAQ + known issues brief",t:"GPT-4o → support"},{i:"📱",l:"Social: platform-native launch series",t:"GPT-4o + Creatom"},{i:"🐛",l:"QA: post-launch bug priority brief",t:"GPT-4o → bug tracker"},{i:"📊",l:"Analytics: Day 1 KPI tracking setup",t:"n8n → dashboard"}]},
+
+{id:"v36",num:"36",cat:"Podcasting",name:"Episode Intelligence Machine",color:C.gold,
+tagline:"Recorded episode → edit notes + 5 scored clips + show notes + newsletter + SEO — every role unblocked at once",
+desc:"A recorded episode enters. The master agent transcribes it, scores moments for shareability, writes edit notes with precise timestamps, produces show notes, newsletter excerpt, and routes every deliverable simultaneously.",
+unique:"Clips are scored by shareability — quotability + surprise factor + topic resonance — not by the host's favorites or chronological order. The 5 clips selected will consistently outperform manually selected ones.",
+team:[{r:"Audio editor",a:"Receives edit notes with timestamp-precise cut suggestions"},{r:"Show notes writer",a:"Receives structured show notes + chapter markers"},{r:"Social media manager",a:"Receives 5 scored clips with caption per clip"},{r:"Newsletter editor",a:"Receives excerpt brief + key quote selection"},{r:"SEO manager",a:"Receives keyword-optimized episode description"},{r:"Transcript editor",a:"Receives corrected transcript with speaker IDs"},{r:"Guest relations",a:"Receives guest thank-you + asset sharing brief"},{r:"Video team",a:"Receives Creatom audiogram brief per clip"}],
+inputs:["🎙️ Raw episode recording","📋 Episode notes + guest bio"],
+routes:[{i:"✂️",l:"Editor: timestamp-precise edit notes",t:"GPT-4o → brief"},{i:"📋",l:"Show notes: structured + chapters",t:"GPT-4o → Notion"},{i:"📱",l:"Social: 5 scored clips + captions",t:"GPT-4o + Creatom"},{i:"📧",l:"Newsletter: excerpt + key quote",t:"GPT-4o → email platform"},{i:"🔍",l:"SEO: optimized episode description",t:"GPT-4o → CMS"},{i:"🎬",l:"Video: audiogram brief per clip",t:"Creatom + ElevenLabs"}]},
+
+{id:"v37",num:"37",cat:"Events / Wedding",name:"Event Vision Intelligence Package",color:C.rose,
+tagline:"Booking confirmed → DALL-E mood board from client's own words + every vendor briefed simultaneously",
+desc:"A new event booking is confirmed. The master agent extracts every sensory and emotional word the client used during discovery and routes simultaneous briefs to every vendor with a DALL-E mood board generated entirely from the client's own vocabulary.",
+unique:"Vendor briefs are written in each vendor's craft language. The photographer brief talks about light, emotion, and moments. The florist brief talks about texture, scent, color temperature. Same client vision — six craft-specific translations.",
+team:[{r:"Lead planner",a:"Receives master event brief + client personality notes"},{r:"Photography team",a:"Receives DALL-E mood board + light/moment brief"},{r:"Florist",a:"Receives palette brief in floral language (texture, scent, color temp)"},{r:"Caterer",a:"Receives flavor profile brief + dietary flag summary"},{r:"Entertainment",a:"Receives guest energy arc brief + setlist direction"},{r:"Venue coordinator",a:"Receives setup + layout brief"},{r:"Client",a:"Receives DALL-E mood board presentation"},{r:"Day-of coordinator",a:"Receives run-of-show framework"}],
+inputs:["📋 Discovery call notes","🖼️ Client Pinterest + reference images"],
+routes:[{i:"🎨",l:"Photography: DALL-E mood board + brief",t:"DALL-E 3"},{i:"🌸",l:"Florist: palette in floral craft language",t:"GPT-4o → email"},{i:"🍽️",l:"Caterer: flavor profile + dietary brief",t:"GPT-4o → email"},{i:"🎵",l:"Entertainment: guest energy arc brief",t:"GPT-4o → email"},{i:"📐",l:"Venue: layout + setup brief",t:"GPT-4o → venue system"},{i:"📅",l:"Day-of: run-of-show framework",t:"GPT-4o → ClickUp"}]},
+
+{id:"v38",num:"38",cat:"Environmental",name:"Impact Reporting Engine",color:C.forest,
+tagline:"Sustainability data → human story + funder report + press + social campaign — emotional and technical simultaneously",
+desc:"Sustainability data enters. The master agent identifies the most emotionally resonant data point — the number that tells the best human story — and builds the public narrative around it, while producing the technical depth required for funders.",
+unique:"The agent distinguishes between the data point most impressive to scientists and most resonant to the public. '47 metric tons CO2 sequestered' becomes 'equivalent to taking 10,000 cars off the road for a year' — the agent makes that translation.",
+team:[{r:"Data analyst",a:"Receives data validation + visualization brief"},{r:"Communications director",a:"Receives public narrative built around most resonant data point"},{r:"Development officer",a:"Receives funder impact report (technical depth)"},{r:"PR coordinator",a:"Receives press release with human-scale data translations"},{r:"Social media team",a:"Receives campaign brief with DALL-E visual concepts"},{r:"Operations team",a:"Receives internal performance + optimization flags"},{r:"Executive director",a:"Receives board report executive summary"}],
+inputs:["📊 Sustainability metrics data","🎯 Initiative goals + targets"],
+routes:[{i:"📊",l:"Data: validation + visualization brief",t:"GPT-4o → data tool"},{i:"📣",l:"Comms: public narrative + human-scale data",t:"GPT-4o → Notion"},{i:"📰",l:"PR: press release with data translations",t:"GPT-4o → email"},{i:"🖼️",l:"Social: DALL-E visual concepts + campaign",t:"DALL-E 3 + Creatom"},{i:"📋",l:"Funder: technical impact report",t:"GPT-4o → PDF"},{i:"🏢",l:"Executive: board summary",t:"GPT-4o → brief"}]},
+
+{id:"v39",num:"39",cat:"Cybersecurity",name:"Incident Response Intelligence",color:C.brick,
+tagline:"Security incident detected → technical IR brief + executive plain-language + legal + comms — all parallel, not sequential",
+desc:"A security incident is detected. The master agent simultaneously produces a full technical brief for IR, a non-technical executive summary, a legal exposure assessment, and a regulatory notification draft. Response time collapses from hours to minutes.",
+unique:"The executive brief answers exactly three questions: what happened, what is at risk, what decision is needed from leadership. It never uses technical jargon. The IR brief is the opposite — fully technical, no simplification.",
+team:[{r:"IR lead",a:"Receives full technical incident brief + immediate action checklist"},{r:"CISO",a:"Receives severity-classified executive summary"},{r:"Legal counsel",a:"Receives exposure assessment + regulatory checklist"},{r:"Communications director",a:"Receives customer notification draft (staged for approval)"},{r:"Affected department heads",a:"Receive operational impact brief + containment steps"},{r:"Compliance officer",a:"Receives regulatory requirement brief + deadline flags"},{r:"IT operations",a:"Receives technical remediation checklist"},{r:"Executive team",a:"Receives 1-page decision brief"}],
+inputs:["🚨 Incident detection alert","📊 System logs + impacted asset inventory"],
+routes:[{i:"🔧",l:"IR team: full technical brief",t:"GPT-4o → IR platform"},{i:"👔",l:"Executive: plain-language decision brief",t:"GPT-4o → email"},{i:"⚖️",l:"Legal: exposure + regulatory checklist",t:"GPT-4o → legal system"},{i:"📣",l:"Comms: customer notification (staged)",t:"GPT-4o → approval queue"},{i:"📋",l:"Compliance: regulatory brief + deadlines",t:"GPT-4o → compliance"},{i:"🛡️",l:"IT ops: remediation checklist",t:"n8n → ticketing"}]},
+
+{id:"v40",num:"40",cat:"Logistics",name:"Supply Chain Disruption Router",color:C.slate,
+tagline:"Disruption detected → every function briefed in their context simultaneously — no sequential delays",
+desc:"A supply chain disruption is detected. The master agent assesses downstream impact by customer, product line, and timeline, then routes simultaneous briefings to every function — each receiving only the context relevant to their role.",
+unique:"Customer notifications are segmented by actual impact level queried from the order database. Confirmed-impact customers get a proactive message before they call. Zero-impact customers receive nothing.",
+team:[{r:"Procurement director",a:"Receives alternate supplier brief + sourcing options"},{r:"Logistics ops manager",a:"Receives rerouting options + carrier alternatives"},{r:"Customer service lead",a:"Receives FAQ brief before customer calls arrive"},{r:"Sales team",a:"Receives affected account list + talking points"},{r:"Finance team",a:"Receives cost impact brief + insurance claim flag"},{r:"Account managers",a:"Receive personalized outreach brief per affected account"},{r:"Executive team",a:"Receives impact summary + decision brief"},{r:"Affected customers",a:"Receive proactive notification segmented by impact level"}],
+inputs:["🚨 Disruption alert","📦 Order database (Supabase)"],
+routes:[{i:"🔄",l:"Procurement: alternate supplier brief",t:"GPT-4o → sourcing"},{i:"🚛",l:"Ops: rerouting + carrier alternatives",t:"GPT-4o → logistics"},{i:"💬",l:"CS: FAQ brief before inquiries arrive",t:"GPT-4o → support"},{i:"📧",l:"Customers: segmented notification by impact",t:"n8n → email (3 segments)"},{i:"💰",l:"Finance: cost impact + insurance flag",t:"GPT-4o → finance"},{i:"📊",l:"Executive: impact summary + decisions needed",t:"GPT-4o → brief"}]},
+
+{id:"v41",num:"41",cat:"Beauty",name:"Product Education Engine",color:C.rose,
+tagline:"New formulation → pro artist guide + beginner tutorial + DALL-E technique images at each skill level",
+desc:"A new beauty product enters. The master agent generates education content at three skill levels simultaneously — professional artist, intermediate, and beginner — with DALL-E application technique images calibrated to each.",
+unique:"DALL-E technique images show hands at the appropriate skill level. A professional tutorial features precision tools. A beginner tutorial features fingers and the most forgiving application method for that specific formula.",
+team:[{r:"Education director",a:"Receives pro artist education guide"},{r:"Retail training team",a:"Receives retail-staff selling guide + benefits"},{r:"Social media team",a:"Receives beginner tutorial brief + DALL-E technique images"},{r:"E-commerce team",a:"Receives product page copy for target consumer"},{r:"PR team",a:"Receives media kit with claims + DALL-E glamour concept"},{r:"Customer service",a:"Receives FAQ prep by skin type + use case"},{r:"Influencer team",a:"Receives technique talking points per creator tier"}],
+inputs:["💄 Product formulation sheet","🎨 Shade range + texture description"],
+routes:[{i:"🎨",l:"Pro: advanced guide + technique images",t:"DALL-E 3 + GPT-4o"},{i:"📱",l:"Social: beginner tutorial + technique images",t:"DALL-E 3 + Creatom"},{i:"🛍️",l:"Retail: selling guide + key benefits",t:"GPT-4o → training portal"},{i:"🖥️",l:"E-commerce: product page copy",t:"GPT-4o → CMS"},{i:"💬",l:"CS: FAQ by skin type + use case",t:"GPT-4o → support"},{i:"📰",l:"PR: media kit + claims summary",t:"GPT-4o → PDF"}]},
+
+{id:"v42",num:"42",cat:"Agriculture",name:"Harvest Intelligence System",color:C.forest,
+tagline:"Harvest data → buyer comms + logistics + restaurant clients + marketing — each in their relationship language",
+desc:"Harvest data enters. The master agent routes to every stakeholder but communications are calibrated to each relationship type. Restaurant clients get availability framed as seasonal culinary story.",
+unique:"Restaurant client communications frame availability as a culinary narrative — 'this week's Honeycrisp comes in at 12 Brix, highest sugar content in three years' — not an inventory update. The agent knows the difference.",
+team:[{r:"Farm operations manager",a:"Receives quality assessment + pack-out brief"},{r:"Sales team",a:"Receives buyer notification segmented by relationship type"},{r:"Restaurant account managers",a:"Receive culinary narrative brief per restaurant client"},{r:"Logistics coordinator",a:"Receives fulfillment schedule + cold chain brief"},{r:"Marketing team",a:"Receives seasonal story brief + DALL-E farm imagery"},{r:"Financial analyst",a:"Receives yield-to-forecast variance brief"},{r:"CSA / direct consumer",a:"Receives member newsletter with harvest story"}],
+inputs:["📊 Harvest yield + quality data","📋 Buyer relationship database (Supabase)"],
+routes:[{i:"📊",l:"Operations: quality + pack-out brief",t:"GPT-4o → ops system"},{i:"📧",l:"Sales: buyer notification by relationship type",t:"GPT-4o → CRM"},{i:"🍽️",l:"Restaurants: culinary narrative per chef",t:"GPT-4o → email"},{i:"🖼️",l:"Marketing: DALL-E farm imagery + social",t:"DALL-E 3 + Creatom"},{i:"💰",l:"Finance: yield-to-forecast variance",t:"GPT-4o → finance"},{i:"📰",l:"CSA: harvest story newsletter",t:"GPT-4o → email platform"}]},
+
+{id:"v43",num:"43",cat:"Political",name:"Rapid Response Intelligence",color:C.navy,
+tagline:"Breaking news → comms + field + donor + speechwriter + social — all activated in their own language within minutes",
+desc:"A breaking news event triggers rapid response. The master agent routes to every campaign function — but field organizer talking points work in a 90-second door conversation while the press release is written in formal political communication style.",
+unique:"Field organizer talking points are written conversationally, without political jargon, designed for a door interaction where the listener may know nothing about the issue. The press release version is formal. The agent produces both simultaneously.",
+team:[{r:"Communications director",a:"Receives press release + rapid response statement"},{r:"Speechwriter",a:"Receives message brief + candidate voice notes"},{r:"Field director",a:"Receives canvasser talking points in conversational language"},{r:"Social media team",a:"Receives platform-native rapid response content"},{r:"Opposition research",a:"Receives context + fact-check brief"},{r:"Finance / fundraising",a:"Receives email fundraising brief if applicable"},{r:"Surrogates team",a:"Receives surrogate talking points brief"},{r:"Legal team",a:"Receives compliance check brief"}],
+inputs:["📰 Breaking news or opponent statement","📋 Campaign message architecture"],
+routes:[{i:"📰",l:"Comms: press release + statement",t:"GPT-4o → press system"},{i:"🚪",l:"Field: door/phone talking points (conversational)",t:"GPT-4o → field tool"},{i:"📱",l:"Social: rapid response content",t:"GPT-4o + Creatom"},{i:"🔍",l:"OpResearch: context + fact-check",t:"GPT-4o + Perplexity"},{i:"💰",l:"Finance: fundraising email brief",t:"GPT-4o → email"},{i:"🗣️",l:"Surrogates: talking points brief",t:"GPT-4o → email"}]},
+
+{id:"v44",num:"44",cat:"EdTech",name:"Student Progress Intelligence",color:C.indigo,
+tagline:"Assessment results → teacher + parent + specialist + counselor — each receiving what they need, in their register",
+desc:"A student's assessment enters. The master agent routes to every stakeholder simultaneously — the parent communication acknowledges what they already know from prior contacts, and the specialist brief flags only what falls within their domain.",
+unique:"Parent communication is written with memory of prior contact. If a parent was told 2 months ago their child was excelling in reading, the current brief starts from shared knowledge and updates forward — it doesn't repeat what was already said.",
+team:[{r:"Classroom teacher",a:"Receives performance summary + intervention flags"},{r:"Parent / guardian",a:"Receives update that acknowledges prior communication context"},{r:"Special education coordinator",a:"Receives IEP-relevant flags only (if applicable)"},{r:"School counselor",a:"Receives whole-student brief including social-emotional context"},{r:"Curriculum specialist",a:"Receives class-wide pattern brief for curriculum adjustment"},{r:"Principal",a:"Receives class-level summary + leadership attention flags"},{r:"Support tutor",a:"Receives individualized intervention brief"}],
+inputs:["📊 Assessment results","📋 Student + parent communication history (Supabase)"],
+routes:[{i:"📚",l:"Teacher: performance summary + flags",t:"GPT-4o → LMS"},{i:"👨‍👩‍👧",l:"Parent: update with prior context acknowledged",t:"GPT-4o → parent portal"},{i:"🎓",l:"Special ed: IEP-relevant flags only",t:"GPT-4o → SPED system"},{i:"💙",l:"Counselor: whole-student brief",t:"GPT-4o → counseling system"},{i:"📊",l:"Curriculum: class-wide pattern brief",t:"GPT-4o → curriculum tool"},{i:"📘",l:"Tutor: individualized intervention brief",t:"GPT-4o → tutor portal"}]},
+
+{id:"v45",num:"45",cat:"Aviation",name:"Flight Operations Intelligence",color:C.tealL,
+tagline:"Pre-departure briefing → flight crew + cabin + ground + gate agents + passengers — all in their technical depth",
+desc:"A pre-departure briefing is generated. The master agent layers the same underlying information into different technical depths — the captain receives full meteorological data, the gate agent receives plain-language delay language, the passenger receives a 2-sentence explanation.",
+unique:"The passenger notification answers only the one question the passenger is asking: 'Does this affect my plans, and what should I do?' Every other operational detail is filtered out.",
+team:[{r:"Captain / flight crew",a:"Receives full meteorological + technical operations brief"},{r:"First officer",a:"Receives fuel + route adjustment brief"},{r:"Cabin crew lead",a:"Receives passenger-relevant impact + service adjustments"},{r:"Ground operations",a:"Receives gate + equipment readiness brief"},{r:"Gate agent",a:"Receives plain-language delay/change language"},{r:"Dispatch",a:"Receives route + alternate airport brief"},{r:"Maintenance",a:"Receives pre-departure technical check brief if flagged"},{r:"Passengers",a:"Receive 2-sentence action-oriented notification"}],
+inputs:["🌦️ Weather data + NOTAM","✈️ Flight plan + passenger manifest"],
+routes:[{i:"✈️",l:"Captain: full met + technical brief",t:"GPT-4o → flight ops"},{i:"🛫",l:"Cabin crew: passenger impact + service notes",t:"GPT-4o → crew app"},{i:"🏗️",l:"Ground ops: gate + equipment brief",t:"n8n → ground system"},{i:"🔧",l:"Maintenance: pre-departure check brief",t:"GPT-4o → MRO system"},{i:"📱",l:"Passengers: 2-sentence action notification",t:"n8n → SMS/app push"},{i:"🗺️",l:"Dispatch: route + alternate airport brief",t:"GPT-4o → dispatch"}]}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let activeCat="All", sel=W[0];
+
+const allCats=["All",...[...new Set(W.map(w=>w.cat))].sort()];
+
+// ── RENDER ─────────────────────────────────────────────────────────────────
+function renderFilterBar(){
+  document.getElementById("filterbar").innerHTML=allCats.map(c=>
+    `<button class="filter-btn${c===activeCat?' active':''}" onclick="setcat('${c}')">${c}</button>`
+  ).join("");
+}
+
+function renderSidebar(){
+  const items=activeCat==="All"?W:W.filter(w=>w.cat===activeCat);
+  document.getElementById("sidebar").innerHTML=items.length===0
+    ?`<div class="empty">No workflows in this category</div>`
+    :items.map(w=>`
+      <div class="sidebar-item${w.id===sel.id?' active':''}" style="--accent-color:${w.color}" onclick="select('${w.id}')">
+        <div class="item-num" style="color:${w.color}">${w.num}</div>
+        <div class="item-name">${w.name}</div>
+        <div class="item-cat">${w.cat}</div>
+      </div>`).join("");
+}
+
+function renderDetail(){
+  const w=sel;
+  const avatarColors=TEAM_COLORS;
+  document.getElementById("detail").innerHTML=`
+    <div class="detail-card">
+      <div class="detail-top-bar" style="background:${w.color}"></div>
+      <div class="detail-body">
+        <div class="detail-num" style="color:${w.color}">${w.num} · ${w.cat}</div>
+        <div class="detail-title" style="color:${w.color}">${w.name}</div>
+        <div class="detail-tagline">${w.tagline}</div>
+        <div>${[w.cat].map(t=>`<span class="tag" style="background:${w.color}22;color:${w.color};border:1px solid ${w.color}44">${t}</span>`).join("")}
+             <span class="tag" style="background:#E1F5EE;color:#085041;border:1px solid #5DCAA544">${w.team.length} team members</span></div>
+
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-label">Inputs</div><div class="stat-val" style="color:${w.color}">${w.inputs.length}</div></div>
+          <div class="stat-box"><div class="stat-label">Output Routes</div><div class="stat-val" style="color:${w.color}">${w.routes.length}</div></div>
+          <div class="stat-box"><div class="stat-label">Team Members</div><div class="stat-val" style="color:${w.color}">${w.team.length}</div></div>
+        </div>
+
+        <div class="section-label">Team routing</div>
+        <div class="team-grid">
+          ${w.team.map((m,i)=>`
+            <div class="team-row">
+              <div class="team-avatar" style="background:${avatarColors[i%10]}">${i+1}</div>
+              <div><span class="team-role">${m.r}</span><span class="team-action"> — ${m.a}</span></div>
+            </div>`).join("")}
+        </div>
+
+        <div class="section-label">Workflow architecture</div>
+        <div class="flow-area">
+          <div class="flow-inputs">
+            ${w.inputs.map(inp=>`<div class="flow-input-chip">${inp}</div>`).join("")}
+            <span class="flow-arrow">→</span>
+            <div class="flow-agent">🧠 Master Agent (GPT-4o)</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-n8n">n8n routes</div>
+          </div>
+          <div class="routes-grid">
+            ${w.routes.map(r=>`
+              <div class="route-card" style="border-left-color:${w.color}">
+                <div class="route-icon">${r.i}</div>
+                <div class="route-label">${r.l}</div>
+                <div class="route-tool" style="color:${w.color}">${r.t}</div>
+              </div>`).join("")}
+          </div>
+        </div>
+
+        <div class="desc-row">
+          <div class="desc-box" style="background:#F8F7F4">
+            <div class="desc-box-label" style="color:#888">How it works</div>
+            <div class="desc-text">${w.desc}</div>
+          </div>
+          <div class="desc-box" style="background:${w.color}0D;border:1px solid ${w.color}33">
+            <div class="desc-box-label" style="color:${w.color}">What makes it unique</div>
+            <div class="desc-text">${w.unique}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function setcat(c){activeCat=c;renderFilterBar();renderSidebar();}
+function select(id){sel=W.find(w=>w.id===id);renderSidebar();renderDetail();document.getElementById("detail").scrollTop=0;}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+renderFilterBar();renderSidebar();renderDetail();
+</script>
+</body>
+</html>
