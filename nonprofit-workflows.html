@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HFA × AI Aunties — Nonprofit Workflow Library</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#2C5F6F;--teal-l:#4A8A9A;--gold:#D4A574;--coral:#D97757;
+  --green:#8AB661;--purple:#7F77DD;--navy:#1E3A5F;--rose:#C4577A;
+  --amber:#D4860A;--forest:#2D6A4F;--cream:#F5F3EE;--white:#fff;
+  --border:#DDD9D0;--text:#1E2D32;--muted:#6B7C83;
+  --t1:#2D6A4F;--t2:#D4860A;--t3:#C4577A;--t4:#7F77DD;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+
+/* HEADER */
+.hdr{background:var(--teal);padding:14px 20px;border-bottom:3px solid var(--gold);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.hdr-left{}
+.hdr-eye{font-size:9px;color:#A8D4DF;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.hdr-title{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;margin-bottom:2px}
+.hdr-sub{font-size:11px;color:#D4EBF0}
+.hdr-pills{display:flex;gap:6px;flex-wrap:wrap}
+.hdr-pill{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:500}
+
+/* TIER LEGEND */
+.tierbar{background:#fff;border-bottom:1px solid var(--border);padding:8px 16px;display:flex;gap:16px;flex-shrink:0;flex-wrap:wrap;align-items:center;overflow-x:auto}
+.tier-item{display:flex;align-items:center;gap:6px;cursor:pointer;padding:3px 10px;border-radius:20px;border:1px solid transparent;white-space:nowrap}
+.tier-item.active{border-color:currentColor}
+.tier-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tier-label{font-size:11px;font-weight:500}
+.tier-count{font-size:10px;opacity:.7}
+
+/* MAIN */
+.main{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* SIDEBAR */
+.sidebar{width:225px;background:#fff;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0}
+.sidebar::-webkit-scrollbar{width:3px}.sidebar::-webkit-scrollbar-thumb{background:var(--border)}
+.s-tier-header{padding:8px 14px 4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:#FAFAF8;border-bottom:1px solid #F0EDE8;position:sticky;top:0;z-index:1;display:flex;align-items:center;gap:6px}
+.s-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sitem{padding:9px 14px;cursor:pointer;border-bottom:1px solid #F5F2EE;border-left:3px solid transparent;transition:all .1s}
+.sitem:hover{background:#FAFAF8}
+.sitem.active{border-left-color:var(--accent,var(--teal));background:rgba(44,95,111,.05)}
+.sitem-num{font-size:9px;font-weight:700;letter-spacing:.04em;margin-bottom:2px}
+.sitem-name{font-size:11px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:1px}
+.sitem-tag{font-size:10px;color:var(--muted)}
+
+/* DETAIL */
+.detail{flex:1;overflow-y:auto;padding:16px}
+.detail::-webkit-scrollbar{width:4px}.detail::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.dcard{background:#fff;border:1px solid var(--border);border-radius:13px;overflow:hidden}
+.dcard-topbar{height:5px}
+.dcard-body{padding:20px}
+
+/* DETAIL HEADER */
+.d-eyebrow{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin:0 0 3px}
+.d-title{font-size:22px;font-weight:500;color:var(--text);margin:0 0 6px;line-height:1.2}
+.d-tagline{font-size:12px;color:var(--muted);font-style:italic;margin:0 0 12px;line-height:1.5}
+.d-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.dtag{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px}
+
+/* COMPLEXITY METER */
+.meter-wrap{background:var(--cream);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.meter-item{display:flex;align-items:center;gap:8px}
+.meter-label{font-size:10px;color:var(--muted);font-weight:500;white-space:nowrap}
+.meter-bar{display:flex;gap:3px}
+.meter-seg{width:18px;height:8px;border-radius:3px}
+.meter-val{font-size:11px;font-weight:600}
+
+/* TRIGGER */
+.trigger-box{border-radius:9px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
+.trigger-icon{font-size:18px;flex-shrink:0}
+.trigger-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.trigger-text{font-size:11px;line-height:1.5}
+
+/* AGENT BOX */
+.agent-box{background:linear-gradient(135deg,#2C5F6Fee,#4A8A9Acc);border-radius:10px;padding:14px 16px;margin-bottom:14px;border:2px solid var(--gold)}
+.agent-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.agent-icon{font-size:20px}
+.agent-name{font-size:13px;font-weight:600;color:#fff}
+.agent-type{font-size:10px;color:#A8D4DF;margin-left:auto}
+.agent-desc{font-size:11px;color:#D4EBF0;line-height:1.6}
+
+/* TEAM */
+.team-section{margin-bottom:14px}
+.section-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px}
+.team-grid{display:flex;flex-direction:column;gap:6px}
+.team-row{display:flex;align-items:flex-start;gap:8px}
+.team-avatar{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700;flex-shrink:0;margin-top:1px}
+.team-role{font-size:11px;font-weight:600;color:var(--text)}
+.team-action{font-size:11px;color:var(--muted)}
+
+/* FLOW */
+.flow-area{background:var(--cream);border-radius:10px;padding:14px;margin-bottom:14px}
+.flow-inputs{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.flow-chip{background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--muted)}
+.flow-arr{font-size:14px;color:var(--muted);flex-shrink:0}
+.flow-agent{background:var(--teal);border:2px solid var(--gold);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:#fff;flex-shrink:0}
+.flow-n8n{background:rgba(74,138,154,.15);border:1px solid rgba(74,138,154,.4);border-radius:8px;padding:4px 11px;font-size:11px;font-weight:500;color:var(--teal-l);flex-shrink:0}
+.routes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.route-card{background:#fff;border-radius:8px;padding:9px 11px;border-left:2px solid}
+.route-icon{font-size:14px;margin-bottom:3px}
+.route-label{font-size:11px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:2px}
+.route-tool{font-size:10px;font-weight:600}
+
+/* DESC */
+.desc-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:650px){.desc-row{grid-template-columns:1fr}}
+.desc-box{border-radius:9px;padding:12px}
+.desc-box-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.desc-text{font-size:11px;line-height:1.65;color:#444}
+
+/* PROGRESSION NOTE */
+.prog-note{background:#E8F2F5;border-radius:9px;padding:11px 14px;display:flex;gap:10px;align-items:flex-start}
+.prog-icon{font-size:16px;flex-shrink:0}
+.prog-text{font-size:11px;color:var(--teal);line-height:1.5}
+
+/* FOOTER */
+.footer{background:#fff;border-top:1px solid var(--border);padding:8px 16px;flex-shrink:0}
+.footer p{font-size:10px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-eye">HFA × AI Aunties · Industry Series</div>
+    <div class="hdr-title">Nonprofit Sector Workflow Library</div>
+    <div class="hdr-sub">22 workflows · Simplest automation to full organizational intelligence · GPT-4o + n8n + ElevenLabs + DALL-E 3</div>
+  </div>
+  <div class="hdr-pills">
+    <span class="hdr-pill" style="background:rgba(45,106,79,.3);color:#A8DFC0">🟢 5 Starter</span>
+    <span class="hdr-pill" style="background:rgba(212,134,10,.3);color:#FDDFA0">🟡 6 Standard</span>
+    <span class="hdr-pill" style="background:rgba(196,87,122,.3);color:#F5C0D4">🟠 6 Advanced</span>
+    <span class="hdr-pill" style="background:rgba(127,119,221,.3);color:#D4D0FF">🔴 5 Enterprise</span>
+  </div>
+</div>
+
+<div class="tierbar" id="tierbar"></div>
+
+<div class="main">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="detail" id="detail"></div>
+</div>
+
+<div class="footer"><p>Built for nonprofit teams of all sizes — start with one automation, scale to a full organizational intelligence system</p></div>
+
+<script>
+const TIERS=[
+  {id:"all",label:"All Workflows",color:"#2C5F6F"},
+  {id:"starter",label:"🟢 Starter",color:"#2D6A4F",desc:"Single trigger · 1–2 outputs · 1–3 team members"},
+  {id:"standard",label:"🟡 Standard",color:"#D4860A",desc:"Multi-output · Basic routing · 2–5 team members"},
+  {id:"advanced",label:"🟠 Advanced",color:"#C4577A",desc:"Complex routing · Cognitive judgment · 4–8 team members"},
+  {id:"enterprise",label:"🔴 Enterprise",color:"#7F77DD",desc:"Full auntie system · Org-wide intelligence · 6–10 members"},
+];
+
+const TC=["#2C5F6F","#4A8A9A","#D97757","#8AB661","#D4A574","#C4577A","#D4860A","#7F77DD","#2D6A4F","#1E3A5F"];
+
+const W=[
+// ═══════════════ STARTER ═══════════════
+{id:"w01",num:"01",tier:"starter",tierColor:"#2D6A4F",
+name:"Donation Thank You Personalizer",
+tagline:"Donation received → personalized thank-you in the executive director's voice within 5 minutes",
+emoji:"💌",color:"#2D6A4F",
+triggerIcon:"💳",trigger:"Donation processed through payment platform (any amount, any type)",
+agentName:"The Gratitude Agent",agentType:"Single-output · No routing",
+agentDesc:"Reads donor history from the CRM, identifies the donor's connection to the organization, the program they support, and their giving tier — then writes a personalized thank-you that sounds like it came from a person, not a mail merge.",
+complexity:1,teamSize:2,outputs:3,
+team:[
+  {r:"Donor",a:"Receives personalized thank-you email within 5 minutes of giving"},
+  {r:"Development coordinator",a:"Receives draft for review (optional approval gate)"},
+  {r:"CRM system",a:"Receives donor record update — last gift date, amount, cumulative total"},
+],
+inputs:["💳 Donation notification","👤 Donor record (CRM)"],
+routes:[
+  {i:"💌",l:"Personalized thank-you email in ED's voice",t:"GPT-4o → email"},
+  {i:"🧾",l:"Tax receipt attached automatically",t:"n8n → accounting system"},
+  {i:"📊",l:"Donor record updated (last gift, cumulative)",t:"n8n → CRM"},
+],
+desc:"The agent reads how long the donor has been giving, what program they support, whether this is their first gift or their tenth, and whether they attended any events — and writes a thank-you that references those specifics. A first-time donor of $25 gets a different letter than a five-year sustainer who increased their gift.",
+unique:"Most nonprofits send the same template to everyone. This agent treats a $25 first-time donor with the same personalized attention as a $5,000 major donor — because the relationship at $25 is where the $5,000 eventually comes from.",
+prog:"Every nonprofit needs this as their first automation. The ROI is immediate — donor retention improves when people feel seen, and this costs nothing to run after setup."},
+
+{id:"w02",num:"02",tier:"starter",tierColor:"#2D6A4F",
+name:"Volunteer Application Responder",
+tagline:"Application submitted → personalized acknowledgment + next steps + orientation invite — instantly",
+emoji:"🤝",color:"#2D6A4F",
+triggerIcon:"📋",trigger:"Volunteer application form submitted",
+agentName:"The Welcome Agent",agentType:"Single-output · No routing",
+agentDesc:"Reads the applicant's stated interests, skills, and availability — then sends a response that acknowledges specifically what they said, tells them exactly which programs they'd be a fit for, and outlines the next step clearly.",
+complexity:1,teamSize:2,outputs:3,
+team:[
+  {r:"Volunteer applicant",a:"Receives personalized acknowledgment + next steps"},
+  {r:"Volunteer coordinator",a:"Receives application summary + recommended program placement"},
+  {r:"Database",a:"Receives new volunteer record with interest tags"},
+],
+inputs:["📋 Volunteer application form"],
+routes:[
+  {i:"📧",l:"Personalized acknowledgment + program fit + next steps",t:"GPT-4o → email"},
+  {i:"📅",l:"Orientation session calendar invite",t:"n8n → calendar"},
+  {i:"👤",l:"New volunteer record with interest tags",t:"n8n → volunteer database"},
+],
+desc:"Volunteer drop-off between application and first shift is one of the biggest losses in nonprofit capacity. This agent eliminates the gap by responding instantly and specifically — telling the applicant not just 'we got your form' but 'based on your background in education, you'd be great for our after-school tutoring program on Tuesday afternoons.'",
+unique:"The program match recommendation is generated from the applicant's skills and availability cross-referenced against current program needs — making the coordinator's job a quick approval rather than a manual matching exercise.",
+prog:"Start here if volunteer management is a pain point. The setup takes 2 hours and immediately eliminates the most common volunteer complaint: 'I applied and never heard back.'"},
+
+{id:"w03",num:"03",tier:"starter",tierColor:"#2D6A4F",
+name:"Event RSVP + Reminder System",
+tagline:"Registration confirmed → automated confirmation + reminder sequence + day-of logistics — zero manual follow-up",
+emoji:"📅",color:"#2D6A4F",
+triggerIcon:"🎟️",trigger:"Event registration form submitted",
+agentName:"The Event Concierge Agent",agentType:"Single-output · Timed sequence",
+agentDesc:"Reads the event details and the registrant's history with the organization, then sends a confirmation that feels personal, followed by a timed reminder sequence that reduces no-shows without requiring a staff member to remember to send anything.",
+complexity:1,teamSize:2,outputs:4,
+team:[
+  {r:"Registrant",a:"Receives confirmation + 3-message reminder sequence"},
+  {r:"Event coordinator",a:"Receives running RSVP count + dietary/accessibility flags"},
+  {r:"Program staff",a:"Receives day-of attendee list with relevant notes"},
+],
+inputs:["🎟️ Registration form","📋 Event details"],
+routes:[
+  {i:"📧",l:"Instant confirmation with event details + calendar invite",t:"n8n → email + calendar"},
+  {i:"🔔",l:"48-hr reminder with logistics + parking/directions",t:"n8n scheduled"},
+  {i:"📱",l:"Day-of reminder with check-in instructions",t:"n8n → SMS or email"},
+  {i:"📊",l:"Running RSVP count + flag list to coordinator",t:"n8n → coordinator dashboard"},
+],
+desc:"The reminder sequence is not generic. The 48-hour reminder references the specific event, the speaker or activity the person registered for, and any logistics specific to the venue. Day-of no-shows drop significantly when the reminder answers the questions people are actually asking the day before.",
+unique:"The agent flags dietary restrictions and accessibility needs in a separate alert to the event coordinator — so they're not buried in a spreadsheet the day of the event.",
+prog:"A 30-minute setup that pays for itself the first time it eliminates a missed follow-up or a no-show that could have been prevented."},
+
+{id:"w04",num:"04",tier:"starter",tierColor:"#2D6A4F",
+name:"Impact Story Social Post Generator",
+tagline:"One program update or client story → platform-native posts for Facebook, Instagram, and LinkedIn simultaneously",
+emoji:"📱",color:"#2D6A4F",
+triggerIcon:"✍️",trigger:"Staff submits a program update, client story, or impact milestone (text or voice note)",
+agentName:"The Storytelling Agent",agentType:"Single-output · Multi-format",
+agentDesc:"Takes a raw story or program update — even a rough voice memo — and transforms it into three platform-appropriate posts. Each one is written in the organization's established voice and tuned to how that platform's audience actually engages with nonprofit content.",
+complexity:1,teamSize:2,outputs:4,
+team:[
+  {r:"Program staff",a:"Submits raw story or program update"},
+  {r:"Communications coordinator",a:"Receives three ready-to-post social drafts for approval"},
+  {r:"Social audience",a:"Receives platform-native content that drives engagement"},
+],
+inputs:["✍️ Raw story or program update (text or voice memo)"],
+routes:[
+  {i:"👍",l:"Facebook post (community-warm, longer form)",t:"GPT-4o"},
+  {i:"📸",l:"Instagram caption (visual-forward, hashtag-optimized)",t:"GPT-4o"},
+  {i:"💼",l:"LinkedIn post (mission-professional, donor-facing)",t:"GPT-4o"},
+  {i:"🖼️",l:"DALL-E image direction brief for coordinator",t:"DALL-E 3 brief"},
+],
+desc:"Program staff are the closest to the stories that move donors — but they're not writers or social media managers. This workflow closes that gap. They voice-memo what happened in Tuesday's program, and the agent turns it into three posts that are ready to go with one approval click.",
+unique:"The LinkedIn version is specifically written for donor and funder audiences — it leads with impact data and mission alignment. The Facebook version leads with human connection. Same story, two completely different emotional entry points.",
+prog:"Gets the communications team out of the bottleneck of waiting for stories from program staff. The volume of authentic content increases immediately."},
+
+{id:"w05",num:"05",tier:"starter",tierColor:"#2D6A4F",
+name:"Meeting Minutes Auto-Drafter",
+tagline:"Meeting recording or rough notes → structured minutes + action items routed to responsible parties",
+emoji:"📝",color:"#2D6A4F",
+triggerIcon:"🎙️",trigger:"Meeting recording or rough notes uploaded after any staff or board meeting",
+agentName:"The Minutes Agent",agentType:"Single-output + light routing",
+agentDesc:"Reads or transcribes the meeting content, identifies decisions made, action items assigned, and open questions, then produces a structured minutes document — and sends each action item directly to the person responsible for it.",
+complexity:1,teamSize:3,outputs:4,
+team:[
+  {r:"Meeting facilitator",a:"Uploads recording or rough notes"},
+  {r:"All attendees",a:"Receive clean formatted minutes document"},
+  {r:"Action item owners",a:"Each receives their specific action items by email"},
+  {r:"Executive director",a:"Receives summary of decisions made + open items"},
+],
+inputs:["🎙️ Meeting recording or rough notes"],
+routes:[
+  {i:"📋",l:"Formatted minutes document (decisions, actions, open items)",t:"GPT-4o → Notion/Google Doc"},
+  {i:"📧",l:"Action items routed to each responsible person",t:"n8n → email per person"},
+  {i:"✅",l:"Action items created in ClickUp with due dates",t:"n8n → ClickUp"},
+  {i:"📊",l:"Executive summary: decisions made + unresolved items",t:"GPT-4o → ED email"},
+],
+desc:"The most common nonprofit administrative failure: things decided in a meeting never get followed through because nobody wrote it down clearly and nobody sent reminders. This workflow eliminates both problems — the minutes are always clean and every action item lands directly in the responsible person's inbox and task manager.",
+unique:"The agent distinguishes between decisions (things resolved), action items (things assigned), and open questions (things still pending) — so the minutes are actually useful rather than a wall of text nobody reads.",
+prog:"The second-most impactful starter automation after the thank-you system. Every meeting becomes immediately more accountable."},
+
+// ═══════════════ STANDARD ═══════════════
+{id:"w06",num:"06",tier:"standard",tierColor:"#D4860A",
+name:"Grant Opportunity Screener",
+tagline:"New grant RFP found → eligibility assessment + deadline calendar + team assignment — routed before a human reads the whole document",
+emoji:"🔍",color:"#D4860A",
+triggerIcon:"📄",trigger:"New grant RFP received via email, foundation website, or grant database alert",
+agentName:"The Grant Scout Agent",agentType:"Multi-output · Role-based routing",
+agentDesc:"Reads the full RFP and the organization's program descriptions, past grant history, and budget capacity — then produces an eligibility and fit assessment, routes the decision to the right people, and creates deadline tracking before a human has finished reading the first page.",
+complexity:2,teamSize:4,outputs:5,
+team:[
+  {r:"Executive director",a:"Receives fit summary + go/no-go recommendation"},
+  {r:"Grants manager",a:"Receives full eligibility assessment + requirements checklist"},
+  {r:"Program director",a:"Receives program alignment brief — which programs qualify"},
+  {r:"Finance manager",a:"Receives budget eligibility notes + match requirement flag"},
+],
+inputs:["📄 Grant RFP (PDF or link)","📋 Org program descriptions + past grant history"],
+routes:[
+  {i:"✅",l:"Eligibility + fit assessment to grants manager",t:"GPT-4o → Notion"},
+  {i:"👔",l:"Go/no-go recommendation to executive director",t:"GPT-4o → email"},
+  {i:"💰",l:"Budget + match requirement flag to finance",t:"GPT-4o → email"},
+  {i:"📅",l:"Deadline + internal milestones added to grant calendar",t:"n8n → ClickUp"},
+  {i:"📂",l:"RFP filed to grant opportunity database",t:"n8n → Supabase"},
+],
+desc:"Most nonprofits spend hours reading RFPs for grants they aren't eligible for. This agent screens every opportunity in minutes — reading eligibility requirements, geographic restrictions, budget minimums, and program alignment — and routes a clear recommendation before anyone invests significant time.",
+unique:"The go/no-go recommendation to the ED includes a one-sentence rationale — 'Strong fit: aligns with education programs, $75K ask is within range, no match required' — so the decision takes 30 seconds instead of a staff meeting.",
+prog:"For organizations pursuing 10+ grants per year, this reclaims 3–5 hours per RFP that would otherwise be spent on initial assessment."},
+
+{id:"w07",num:"07",tier:"standard",tierColor:"#D4860A",
+name:"Lapsed Donor Re-engagement System",
+tagline:"Donor hasn't given in 12+ months → personalized re-engagement based on their giving history and program connection",
+emoji:"💔",color:"#D4860A",
+triggerIcon:"⏰",trigger:"Donor flag: 12+ months since last gift (pulled from CRM on a weekly schedule)",
+agentName:"The Re-engagement Agent",agentType:"Multi-output · Segmented by lapse reason",
+agentDesc:"Pulls each lapsed donor's full history — what they gave to, how they engaged, whether they attended events, what communications they opened — and writes a re-engagement message that acknowledges the relationship and reconnects them to the impact their past giving made.",
+complexity:2,teamSize:3,outputs:4,
+team:[
+  {r:"Development coordinator",a:"Reviews and approves segmented re-engagement drafts"},
+  {r:"Executive director",a:"Receives high-value lapsed donor list for personal outreach"},
+  {r:"Lapsed donors",a:"Receive personalized re-engagement in program officer's voice"},
+  {r:"CRM system",a:"Updated with re-engagement attempt + response tracking"},
+],
+inputs:["📊 Lapsed donor list from CRM","👤 Individual donor history per record"],
+routes:[
+  {i:"📧",l:"Personalized email — references their specific past giving",t:"GPT-4o → email"},
+  {i:"🔴",l:"High-value lapsers flagged for personal ED outreach",t:"n8n → ED alert"},
+  {i:"📋",l:"Lapsed donor list with re-engagement status tracked",t:"n8n → CRM update"},
+  {i:"📊",l:"Re-engagement campaign performance report",t:"n8n → weekly digest"},
+],
+desc:"A lapsed donor who gave for 3 years and then stopped is not the same as someone who gave once. This agent knows the difference and writes accordingly — 'We miss you. Here's what your 3 years of support for the literacy program made possible' — not a generic 'we'd love to have you back.'",
+unique:"The segmentation is behavioral, not just by lapse length. A donor who attended the gala and then stopped gets a different message than one who only gave online. The agent reads the full engagement history before writing a single word.",
+prog:"Lapsed donor re-engagement is one of the highest-ROI fundraising activities. A 10% re-engagement rate on a list of 200 lapsed donors at an average gift of $200 is $4,000 from one automated workflow."},
+
+{id:"w08",num:"08",tier:"standard",tierColor:"#D4860A",
+name:"Program Impact Report Generator",
+tagline:"Monthly program data → funder-facing report + internal dashboard brief + social impact content — three audiences from one data set",
+emoji:"📊",color:"#D4860A",
+triggerIcon:"📈",trigger:"Monthly program data submitted by program staff (numbers, stories, outputs)",
+agentName:"The Impact Narrative Agent",agentType:"Multi-output · Audience-native translation",
+agentDesc:"Takes the raw program data — numbers served, services delivered, outcomes measured — and translates it into three completely different documents for three completely different audiences. The funder report is formal and data-forward. The internal brief is operational. The social content leads with human story.",
+complexity:2,teamSize:4,outputs:5,
+team:[
+  {r:"Program staff",a:"Submit monthly data + 1–2 client stories"},
+  {r:"Grants manager",a:"Receives funder-facing impact report (ready to submit)"},
+  {r:"Executive director",a:"Receives internal dashboard brief with flags"},
+  {r:"Communications team",a:"Receives social content package from program data"},
+  {r:"Finance manager",a:"Receives cost-per-outcome summary for budget reporting"},
+],
+inputs:["📈 Monthly program data","💬 1–2 client stories from staff","🎯 Grant reporting requirements"],
+routes:[
+  {i:"📋",l:"Funder-facing impact report (grant report ready)",t:"GPT-4o → Word/PDF"},
+  {i:"📊",l:"Internal dashboard brief with performance flags",t:"GPT-4o → Notion"},
+  {i:"📱",l:"Social impact content (3 posts + 1 story)",t:"GPT-4o + Creatom"},
+  {i:"💰",l:"Cost-per-outcome summary for finance",t:"GPT-4o → finance report"},
+  {i:"🖼️",l:"Infographic data brief for designer",t:"GPT-4o → DALL-E brief"},
+],
+desc:"Program staff are already collecting the data. The problem is that it lives in a spreadsheet and never gets turned into the narrative that funders, boards, and donors need to see. This workflow takes the spreadsheet and produces every document that data should become — automatically.",
+unique:"The funder report is written in the specific language of the grant it's reporting on — using the outcome metrics and terminology from the original grant agreement, not generic program language. This dramatically reduces revision cycles.",
+prog:"For orgs with active grants, this saves 4–6 hours per reporting period and eliminates the scramble that happens every quarter when multiple reports are due simultaneously."},
+
+{id:"w09",num:"09",tier:"standard",tierColor:"#D4860A",
+name:"New Client / Participant Intake Router",
+tagline:"Client intake form submitted → case manager briefed + waitlist updated + community resources identified + client welcomed",
+emoji:"🏠",color:"#D4860A",
+triggerIcon:"📋",trigger:"New client or program participant intake form completed",
+agentName:"The Intake Intelligence Agent",agentType:"Multi-output · Urgency-based routing",
+agentDesc:"Reads the full intake form, assesses urgency and need complexity, identifies which program or case manager is the right fit, pulls relevant community resources based on stated needs, and routes simultaneously to every team member who needs to act — while sending the client a warm welcome.",
+complexity:2,teamSize:5,outputs:5,
+team:[
+  {r:"Intake coordinator",a:"Receives triage summary + urgency flag"},
+  {r:"Assigned case manager",a:"Receives client profile + needs assessment + recommended resources"},
+  {r:"Program director",a:"Receives capacity flag if program is near capacity"},
+  {r:"Client",a:"Receives warm welcome + confirmation + next steps"},
+  {r:"Database",a:"New client record created with intake data"},
+],
+inputs:["📋 Client intake form","🗂️ Program capacity data","📚 Community resource database"],
+routes:[
+  {i:"⚡",l:"Triage summary + urgency flag to intake coordinator",t:"GPT-4o → email"},
+  {i:"👤",l:"Client profile + resource list to assigned case manager",t:"GPT-4o → case system"},
+  {i:"🏘️",l:"Relevant community resources identified and attached",t:"Supabase query + GPT-4o"},
+  {i:"📧",l:"Warm welcome + next steps to client",t:"GPT-4o → email"},
+  {i:"📊",l:"New client record created",t:"n8n → client database"},
+],
+desc:"Intake coordinators often have to manually look up resources, determine which case manager has capacity, and write individual welcome emails for every new client. This workflow does all three in the time it takes to close the intake form.",
+unique:"Community resource matching pulls from a Supabase database of local resources filtered by the client's stated needs, location, and eligibility. The case manager receives a curated list — not a link to 211.",
+prog:"For direct service organizations, this is often the highest-impact workflow because it directly improves the quality of the first interaction with a vulnerable client."},
+
+{id:"w10",num:"10",tier:"standard",tierColor:"#D4860A",
+name:"Newsletter Content Builder",
+tagline:"Monthly content brief → complete newsletter with program updates, impact story, donor spotlight, and CTA — ready to send",
+emoji:"📰",color:"#D4860A",
+triggerIcon:"📝",trigger:"Staff submit monthly content inputs (program updates, stories, events)",
+agentName:"The Newsletter Agent",agentType:"Multi-output · Voice-matched content",
+agentDesc:"Takes raw inputs from multiple staff members — program updates, client stories, upcoming events, donor recognition — and assembles a cohesive, on-brand newsletter in the organization's established voice. Each section flows into the next as a narrative, not a list of announcements.",
+complexity:2,teamSize:4,outputs:4,
+team:[
+  {r:"Program staff",a:"Submit raw updates + client story"},
+  {r:"Communications coordinator",a:"Receives assembled newsletter draft for approval"},
+  {r:"Executive director",a:"Receives ED message section draft"},
+  {r:"Development team",a:"Receives donor spotlight section + CTA copy"},
+],
+inputs:["📝 Staff content inputs","📅 Upcoming events list","🎯 Monthly CTA or campaign focus"],
+routes:[
+  {i:"📰",l:"Full newsletter draft in org voice",t:"GPT-4o → email platform"},
+  {i:"📱",l:"3 social teasers extracted from newsletter content",t:"GPT-4o"},
+  {i:"🎯",l:"Subject line A/B test variants (3 options)",t:"GPT-4o"},
+  {i:"📊",l:"Previous newsletter performance brief included as context",t:"n8n → analytics pull"},
+],
+desc:"Nonprofit newsletters are often either never sent (because production takes too long) or sent as a wall of announcements that nobody reads. This agent assembles a narrative-driven newsletter where each section connects to the next — so the program update leads into the client story leads into the donor impact statement leads into the ask.",
+unique:"The subject line generator produces three variants with different psychological angles — curiosity, impact, and urgency — so the team can pick or A/B test rather than agonizing over one.",
+prog:"Gets the newsletter from 'we should do this monthly' to actually happening monthly, without requiring a full day of communications staff time."},
+
+{id:"w11",num:"11",tier:"standard",tierColor:"#D4860A",
+name:"Corporate Sponsorship Proposal Generator",
+tagline:"Company name + event brief → fully researched, personalized sponsorship proposal in their industry language",
+emoji:"🤝",color:"#D4860A",
+triggerIcon:"🏢",trigger:"Development staff identify a corporate prospect and submit basic company information",
+agentName:"The Corporate Partnership Agent",agentType:"Research + output generation",
+agentDesc:"Researches the company's philanthropy history, industry, stated CSR priorities, and local footprint — then builds a sponsorship proposal that speaks to what that company actually cares about, not a generic packet with the org's name swapped in.",
+complexity:2,teamSize:4,outputs:4,
+team:[
+  {r:"Development director",a:"Reviews + approves personalized proposal"},
+  {r:"Event coordinator",a:"Receives sponsorship tier structure + benefit list"},
+  {r:"Executive director",a:"Receives talking points brief for the ask meeting"},
+  {r:"Prospect company",a:"Receives polished, researched proposal"},
+],
+inputs:["🏢 Company name + basic info","📋 Event or program brief","💰 Sponsorship tier structure"],
+routes:[
+  {i:"📄",l:"Personalized sponsorship proposal PDF",t:"GPT-4o → PDF"},
+  {i:"🎤",l:"Talking points for the ask meeting",t:"GPT-4o → brief doc"},
+  {i:"📧",l:"Outreach email to accompany proposal",t:"GPT-4o → email draft"},
+  {i:"📊",l:"Company research summary filed to CRM",t:"n8n → CRM"},
+],
+desc:"Most nonprofit sponsorship proposals are identical packets with a corporate logo dropped in. This agent reads the company's public communications, their foundation's giving history, and their stated community priorities — and writes a proposal that opens with what their company cares about before making any ask.",
+unique:"The talking points brief for the ask meeting is calibrated to what the corporate contact's role likely cares about — a marketing director cares about brand visibility, a CSR director cares about community impact metrics, a CEO cares about employee engagement. The agent identifies which is most likely and leads with that.",
+prog:"Corporate sponsorship is often underpursued by nonprofits because the proposal process feels overwhelming. This makes it a 20-minute process instead of a 3-day one."},
+
+// ═══════════════ ADVANCED ═══════════════
+{id:"w12",num:"12",tier:"advanced",tierColor:"#C4577A",
+name:"Annual Appeal Campaign Engine",
+tagline:"Campaign brief → complete year-end appeal package: segmented email series + social + direct mail + board talking points",
+emoji:"📬",color:"#C4577A",
+triggerIcon:"🎄",trigger:"Development team submits annual appeal campaign brief (theme, ask amounts, deadline)",
+agentName:"The Campaign Architect Agent",agentType:"Complex multi-output · Donor segmentation",
+agentDesc:"Builds a complete year-end campaign from a single brief — producing different versions of every piece for different donor segments (new, lapsed, mid-level, major, sustainer) and every channel (email, social, direct mail). Every piece shares the same campaign theme but speaks to each segment's specific relationship with the organization.",
+complexity:3,teamSize:6,outputs:8,
+team:[
+  {r:"Development director",a:"Reviews complete campaign package before launch"},
+  {r:"Communications coordinator",a:"Receives social content calendar for the campaign period"},
+  {r:"Major gifts officer",a:"Receives major donor personal outreach scripts"},
+  {r:"Board members",a:"Receive talking points for personal asks to their networks"},
+  {r:"Finance",a:"Receives campaign goal tracking setup"},
+  {r:"All donor segments",a:"Receive segment-appropriate campaign communications"},
+],
+inputs:["📋 Campaign brief (theme, goal, ask amounts)","🗃️ Donor segment data from CRM","📅 Campaign timeline"],
+routes:[
+  {i:"📧",l:"5-email series × 4 donor segments (20 emails total)",t:"GPT-4o → email platform"},
+  {i:"📬",l:"Direct mail letter — 2 versions (acquisition + retention)",t:"GPT-4o → print-ready"},
+  {i:"📱",l:"Social content calendar (daily posts for campaign period)",t:"GPT-4o + Creatom"},
+  {i:"🎤",l:"Board member talking points for personal asks",t:"GPT-4o → brief"},
+  {i:"💼",l:"Major donor personal outreach scripts",t:"GPT-4o → briefing doc"},
+  {i:"🎯",l:"Subject line variants for A/B testing",t:"GPT-4o"},
+  {i:"📊",l:"Campaign tracking dashboard setup",t:"n8n → analytics"},
+  {i:"🖼️",l:"DALL-E campaign visual direction brief",t:"DALL-E 3 brief"},
+],
+desc:"Year-end appeals fail when they treat all donors the same. A sustainer who has given monthly for 3 years should receive a campaign that honors that loyalty. A lapsed donor who hasn't given in 18 months needs a different re-entry message. A new donor acquired in October needs a first-year experience. This agent writes all of them simultaneously from one campaign brief.",
+unique:"The segmented email series isn't just 'personalization fields' — the emotional arc of each series is different. The sustainer series leads with loyalty and community. The lapsed series leads with what they've missed and what's at stake. The new donor series leads with welcoming them into something meaningful.",
+prog:"Year-end is when most nonprofits raise 30–40% of their annual revenue. A well-segmented campaign vs. a blast email can mean a 20–30% lift. This is where automation directly affects organizational sustainability."},
+
+{id:"w13",num:"13",tier:"advanced",tierColor:"#C4577A",
+name:"Grant Application Intelligence System",
+tagline:"Grant deadline approaching → narrative draft + budget framework + logic model + compliance checklist — full team activated",
+emoji:"📝",color:"#C4577A",
+triggerIcon:"⏰",trigger:"Grant deadline is 4 weeks out (triggered from grant calendar)",
+agentName:"The Grant Writer Agent",agentType:"Complex multi-output · Document generation",
+agentDesc:"Reads the RFP requirements, the organization's past successful grants, the program data for the relevant program, and the funder's stated priorities — then produces a complete first-draft application package routed to every team member who needs to contribute, with specific instructions for each person's section.",
+complexity:3,teamSize:7,outputs:7,
+team:[
+  {r:"Grants manager",a:"Receives full draft narrative + revision instructions"},
+  {r:"Program director",a:"Receives program description section + outcomes to verify"},
+  {r:"Executive director",a:"Receives organizational capacity section + sign-off brief"},
+  {r:"Finance manager",a:"Receives budget framework + budget narrative draft"},
+  {r:"Board chair",a:"Receives letter of support draft to review and sign"},
+  {r:"Evaluation staff",a:"Receives evaluation plan draft based on proposed outcomes"},
+  {r:"Development director",a:"Receives compilation checklist + submission requirements"},
+],
+inputs:["📄 Grant RFP","📊 Program data + outcomes","📋 Org financials summary","🗃️ Past successful grant narratives"],
+routes:[
+  {i:"📝",l:"Full narrative first draft (all required sections)",t:"GPT-4o → Word"},
+  {i:"💰",l:"Budget framework + budget narrative",t:"GPT-4o → Excel + narrative"},
+  {i:"📐",l:"Logic model draft",t:"GPT-4o → visual framework"},
+  {i:"📋",l:"Compliance checklist — every requirement mapped",t:"GPT-4o → ClickUp"},
+  {i:"💌",l:"Letters of support drafts for partner orgs",t:"GPT-4o → email to partners"},
+  {i:"✅",l:"Each team member's section with specific revision instructions",t:"GPT-4o → routed emails"},
+  {i:"📅",l:"Internal deadline schedule — who needs to return what by when",t:"n8n → ClickUp tasks"},
+],
+desc:"Grant writing is the activity most nonprofits wish they could do more of and most often don't because it's resource-intensive. This workflow doesn't replace the writer — it gives them a strong first draft of every section so they spend their expertise on refinement, not starting from a blank page.",
+unique:"The revision instructions routed to each team member tell them specifically what the agent was uncertain about in their section — 'The program director should verify these outcome numbers and add any qualitative evidence from the last program cycle.' It's a smart draft, not just a draft.",
+prog:"For organizations with a grants manager, this 3x their application volume without 3x the time. For organizations without a dedicated grants manager, it makes serious grant writing possible at all."},
+
+{id:"w14",num:"14",tier:"advanced",tierColor:"#C4577A",
+name:"Major Donor Cultivation Intelligence",
+tagline:"Prospect identified → research brief + cultivation strategy + ask amount + meeting talking points + stewardship plan",
+emoji:"💎",color:"#C4577A",
+triggerIcon:"👤",trigger:"Major donor prospect added to portfolio OR existing donor flagged for upgrade conversation",
+agentName:"The Moves Management Agent",agentType:"Research + strategy generation · CRM-integrated",
+agentDesc:"Pulls everything knowable about a prospect — their wealth indicators, philanthropy history, connection to the organization, personal interests, and network — then builds a cultivation strategy with specific touchpoints, a recommended ask amount, meeting talking points, and a stewardship plan for after the gift.",
+complexity:3,teamSize:5,outputs:6,
+team:[
+  {r:"Major gifts officer",a:"Receives full research brief + cultivation strategy + ask framework"},
+  {r:"Executive director",a:"Receives relationship-building talking points for ED engagement"},
+  {r:"Board member (connector)",a:"Receives introduction briefing if they know the prospect"},
+  {r:"Development assistant",a:"Receives stewardship calendar to implement"},
+  {r:"CRM system",a:"Receives cultivation plan + all touchpoints as tasks"},
+],
+inputs:["👤 Prospect name + known connection","💼 CRM relationship history","🔍 Prospect research (wealth screening data)"],
+routes:[
+  {i:"🔍",l:"Prospect research brief (wealth, philanthropy, interests)",t:"GPT-4o + web research"},
+  {i:"🗓️",l:"12-month cultivation strategy with specific touchpoints",t:"GPT-4o → strategy doc"},
+  {i:"💰",l:"Ask amount framework with rationale",t:"GPT-4o → brief"},
+  {i:"🎤",l:"Meeting talking points calibrated to prospect's interests",t:"GPT-4o → brief"},
+  {i:"💌",l:"Stewardship plan post-gift",t:"GPT-4o → stewardship calendar"},
+  {i:"📊",l:"All touchpoints loaded as CRM tasks with reminders",t:"n8n → CRM"},
+],
+desc:"Major gift cultivation fails when it's inconsistent — when the relationship goes cold because the officer forgot to send the article they said they'd send, or when the ask is made too early or too late. This system creates a cultivation plan that runs on its own and alerts the officer when each touchpoint is due.",
+unique:"The ask amount isn't a guess — it's derived from the prospect's giving capacity, their relationship depth with the organization, their history of giving at other organizations, and the principle of making an ask that's meaningful but not insulting. The rationale is included so the officer can adapt it in the room.",
+prog:"Moving one major donor from $5,000 to $25,000 covers the cost of this entire workflow implementation. Most organizations have 5–10 prospects who should be in active cultivation but aren't because there's no system."},
+
+{id:"w15",num:"15",tier:"advanced",tierColor:"#C4577A",
+name:"Board Meeting Intelligence Package",
+tagline:"Board meeting 2 weeks out → complete board packet assembled from live data across all departments simultaneously",
+emoji:"🏛️",color:"#C4577A",
+triggerIcon:"📅",trigger:"Board meeting is 14 days out (triggered from board calendar)",
+agentName:"The Governance Intelligence Agent",agentType:"Complex assembly · Live data synthesis",
+agentDesc:"Pulls live data from finance, programs, development, and HR — synthesizes it into a complete board packet with an executive summary, committee reports, consent calendar items, and talking points for the ED — two weeks before the meeting, so there's time for review and revision.",
+complexity:3,teamSize:8,outputs:7,
+team:[
+  {r:"Executive director",a:"Receives ED talking points + key decisions to flag"},
+  {r:"Finance manager",a:"Receives financial report section for review"},
+  {r:"Program director",a:"Receives program update section for review"},
+  {r:"Development director",a:"Receives fundraising report section for review"},
+  {r:"Board chair",a:"Receives agenda + consent calendar + pre-read summary"},
+  {r:"Board members",a:"Receive complete board packet 10 days before meeting"},
+  {r:"Board secretary",a:"Receives draft agenda + prior meeting minutes for approval"},
+],
+inputs:["📊 Live financial data","📈 Program data","💰 Fundraising pipeline","📅 Board calendar + agenda items"],
+routes:[
+  {i:"📋",l:"Complete board packet (all sections assembled)",t:"GPT-4o → PDF"},
+  {i:"📊",l:"Financial dashboard with variance analysis",t:"GPT-4o → formatted report"},
+  {i:"🎤",l:"ED talking points for each agenda item",t:"GPT-4o → brief"},
+  {i:"✅",l:"Consent calendar items identified + formatted",t:"GPT-4o → agenda"},
+  {i:"📧",l:"Board packet distributed with read-by date",t:"n8n → board email list"},
+  {i:"📝",l:"Prior meeting minutes draft for approval",t:"GPT-4o → minutes doc"},
+  {i:"⚠️",l:"ED flagged on items requiring board decision",t:"GPT-4o → priority brief"},
+],
+desc:"Board packets assembled the day before the meeting are always incomplete and always stressful. This system pulls the data two weeks out, gives every department head time to review their section, and delivers a complete packet to board members with enough time to actually read it.",
+unique:"The ED talking points brief is the most valuable output. For each agenda item, the agent identifies: what decision is needed, what the ED should recommend, what questions board members are likely to ask, and what context they need to answer confidently.",
+prog:"Well-prepared board meetings lead to better governance decisions and board members who are engaged rather than disengaged. Board retention and giving are directly correlated with meeting quality."},
+
+{id:"w16",num:"16",tier:"advanced",tierColor:"#C4577A",
+name:"Volunteer Lifecycle Management System",
+tagline:"Volunteer at any stage → stage-appropriate communication, recognition, and pathway — fully automated",
+emoji:"🌱",color:"#C4577A",
+triggerIcon:"🔄",trigger:"Multiple triggers: application received, training completed, 90-day milestone, annual anniversary, 3-month inactivity, leadership readiness flag",
+agentName:"The Volunteer Journey Agent",agentType:"Multi-trigger · Stage-based routing",
+agentDesc:"Manages the entire volunteer relationship from first contact through leadership development. Each trigger produces a stage-appropriate communication and action — so volunteers feel recognized at every milestone and coordinators focus on relationship-building rather than administrative tracking.",
+complexity:3,teamSize:5,outputs:8,
+team:[
+  {r:"Volunteer coordinator",a:"Receives weekly digest of milestones + flags needing attention"},
+  {r:"Program staff",a:"Receive notification when volunteers complete training for their program"},
+  {r:"Executive director",a:"Receives leadership-ready volunteer flags for direct cultivation"},
+  {r:"Volunteers",a:"Receive stage-appropriate recognition and engagement communications"},
+  {r:"HR / Operations",a:"Receives volunteer hours reports for grant reporting"},
+],
+inputs:["📊 Volunteer database (hours, stage, program)","📅 Training completion records","⏰ Time-based triggers"],
+routes:[
+  {i:"📧",l:"Application: personalized welcome + orientation info",t:"GPT-4o → email"},
+  {i:"🎓",l:"Training complete: program assignment + first shift confirmation",t:"n8n → coordinator alert"},
+  {i:"🏅",l:"90-day: milestone recognition + impact reflection",t:"GPT-4o → email"},
+  {i:"🎂",l:"Anniversary: personalized celebration in ED's voice",t:"GPT-4o → email"},
+  {i:"🔔",l:"3-month inactive: gentle re-engagement check-in",t:"GPT-4o → email"},
+  {i:"🌟",l:"Leadership ready: flagged to ED + invitation to expanded role",t:"GPT-4o → ED brief"},
+  {i:"📊",l:"Monthly volunteer hours report for grant compliance",t:"n8n → report"},
+  {i:"💌",l:"End of year: volunteer impact summary + thank you",t:"GPT-4o → email"},
+],
+desc:"Volunteer retention is the most undermanaged asset in most nonprofits. People leave not because they don't care but because nobody remembered to say thank you, or acknowledge their anniversary, or invite them to do more. This system never forgets.",
+unique:"The leadership-ready flag is generated from behavioral signals — volunteers who show up reliably, take initiative, and engage with staff beyond their assigned role get flagged for leadership pathway conversations rather than waiting for a coordinator to notice.",
+prog:"Volunteer lifetime value calculation: if a volunteer gives 4 hours/week at $30/hour (national volunteer value rate), they contribute $6,240 per year. Losing them to inattention is a real financial loss. Retaining them costs a few automated emails."},
+
+// ═══════════════ ENTERPRISE ═══════════════
+{id:"w17",num:"17",tier:"enterprise",tierColor:"#7F77DD",
+name:"Annual Report Production System",
+tagline:"Fiscal year data → complete annual report: narrative + design briefs + infographics + donor honor roll + print + digital versions",
+emoji:"📚",color:"#7F77DD",
+triggerIcon:"📅",trigger:"Fiscal year closes + data collection period complete",
+agentName:"The Annual Report Architect",agentType:"Full document production · Multi-team assembly",
+agentDesc:"Synthesizes an entire year of program data, financial results, donor contributions, and organizational milestones into a complete annual report — routing every section to the appropriate team member with specific briefs, and producing design direction for the visual elements simultaneously.",
+complexity:4,teamSize:8,outputs:9,
+team:[
+  {r:"Executive director",a:"Receives ED letter draft + year narrative"},
+  {r:"Program directors",a:"Receive program section drafts to review"},
+  {r:"Finance manager",a:"Receives financial summary section for approval"},
+  {r:"Development director",a:"Receives donor impact narrative + honor roll draft"},
+  {r:"Communications lead",a:"Receives complete narrative package for design handoff"},
+  {r:"Designer",a:"Receives DALL-E visual direction + infographic data briefs"},
+  {r:"Board chair",a:"Receives board letter draft"},
+  {r:"Major donors",a:"Receive personalized thank-you version with their impact highlighted"},
+],
+inputs:["📊 Year-end program data","💰 Audited financials","🎯 Strategic plan milestones","👥 Donor list + giving totals"],
+routes:[
+  {i:"✍️",l:"Full narrative draft — all sections assembled",t:"GPT-4o → Word"},
+  {i:"🖼️",l:"DALL-E visual direction brief per section",t:"DALL-E 3 brief"},
+  {i:"📊",l:"Infographic data briefs (10–15 data visualizations)",t:"GPT-4o → design briefs"},
+  {i:"👥",l:"Donor honor roll formatted + proofed",t:"GPT-4o + n8n → CRM"},
+  {i:"💌",l:"Personalized major donor version (their impact highlighted)",t:"GPT-4o → mail merge"},
+  {i:"📱",l:"Digital version adapted for web + social",t:"GPT-4o → web content"},
+  {i:"📋",l:"Each team's section routed with revision notes",t:"GPT-4o → department emails"},
+  {i:"📐",l:"Print-ready design brief for external designer",t:"GPT-4o → design brief"},
+  {i:"🎬",l:"Highlight reel script for video version",t:"GPT-4o + ElevenLabs"},
+],
+desc:"Annual reports take 6–8 weeks of staff time at most organizations — and often get deprioritized until they're embarrassingly late. This system compresses the timeline dramatically by doing the structural writing and design direction in the first 48 hours, so the team is refining rather than starting.",
+unique:"The personalized major donor version is the most impactful output. Instead of sending all donors the same report, donors who gave $5,000+ receive a version where their specific contribution is highlighted with a note on exactly what it funded. This is standard practice at elite nonprofits and rare everywhere else.",
+prog:"An annual report that's produced on time, looks professional, and tells a compelling story is one of the most powerful fundraising tools an organization has. This makes it achievable without a dedicated communications staff."},
+
+{id:"w18",num:"18",tier:"enterprise",tierColor:"#7F77DD",
+name:"Organizational Intelligence Hub",
+tagline:"Every morning: ED receives a synthesized briefing covering fundraising, programs, operations, and external landscape — audio version included",
+emoji:"🧠",color:"#7F77DD",
+triggerIcon:"🌅",trigger:"Daily at 6:00 AM (scheduled) — pulls from all connected systems",
+agentName:"The Organizational Intelligence Auntie",agentType:"Master cognitive agent · Full org awareness",
+agentDesc:"The most sophisticated workflow in the library. A master cognitive agent with full organizational awareness — it knows the mission, the programs, the financials, the donor pipeline, the grant portfolio, and the external funding landscape. Every morning it synthesizes overnight developments across all systems and delivers a briefing calibrated to what the ED needs to know right now.",
+complexity:5,teamSize:10,outputs:8,
+team:[
+  {r:"Executive director",a:"Receives morning briefing — text + audio — before 7 AM"},
+  {r:"Development director",a:"Receives fundraising-specific intelligence digest"},
+  {r:"Program director",a:"Receives program operations alerts + client flags"},
+  {r:"Finance manager",a:"Receives financial variance alerts"},
+  {r:"Communications lead",a:"Receives media + sector news relevant to mission"},
+  {r:"Grants manager",a:"Receives grant deadline + compliance alerts"},
+  {r:"Board chair",a:"Receives weekly governance digest (Fridays only)"},
+  {r:"HR manager",a:"Receives staffing + HR flag alerts"},
+  {r:"Operations manager",a:"Receives facility + operational alerts"},
+  {r:"Volunteer coordinator",a:"Receives volunteer coverage gaps + milestone alerts"},
+],
+inputs:["📊 All financial systems","📈 Program database","💰 Fundraising CRM","📰 External news + sector media","📋 Grant calendar","📅 Org calendar + team schedules"],
+routes:[
+  {i:"🌅",l:"ED morning briefing: text + ElevenLabs audio version",t:"GPT-4o + ElevenLabs"},
+  {i:"💰",l:"Fundraising digest: pipeline + urgent actions",t:"GPT-4o → dev director"},
+  {i:"📈",l:"Program digest: capacity + client flags + outcomes",t:"GPT-4o → program dir"},
+  {i:"💳",l:"Financial digest: variance + cash flow alerts",t:"GPT-4o → finance"},
+  {i:"📰",l:"Sector news: relevant funding + policy developments",t:"GPT-4o + news APIs"},
+  {i:"⏰",l:"Grant compliance alerts: deadlines + action items",t:"GPT-4o → grants manager"},
+  {i:"🏛️",l:"Weekly board digest to board chair (Fridays)",t:"GPT-4o → board chair"},
+  {i:"⚠️",l:"Urgent flag escalation for time-sensitive issues",t:"n8n → SMS/call"},
+],
+desc:"The ED of a nonprofit carries more organizational awareness in their head than almost any other role. They have to know what's happening in fundraising, programs, operations, HR, and the external environment simultaneously. This system externalizes that awareness into a daily briefing so nothing falls through the gaps — and the audio version means the ED can absorb it during their commute.",
+unique:"The briefing is not a data dump — it's a cognitive synthesis. The agent identifies what has changed since yesterday, what requires a decision today, what can wait, and what is trending in a direction that needs attention before it becomes a crisis. It's organized by urgency, not by department.",
+prog:"This is the system that turns a reactive executive into a proactive one. Leaders who know what's happening before problems escalate operate differently than those who find out after the fact."},
+
+{id:"w19",num:"19",tier:"enterprise",tierColor:"#7F77DD",
+name:"Grant Portfolio & Compliance Monitor",
+tagline:"All active grants tracked continuously — reporting deadlines, compliance requirements, and budget variances flagged automatically",
+emoji:"📁",color:"#7F77DD",
+triggerIcon:"🔄",trigger:"Continuous monitoring — weekly review of all active grants against compliance requirements and deadlines",
+agentName:"The Portfolio Management Auntie",agentType:"Continuous monitoring · Compliance intelligence",
+agentDesc:"Maintains a living view of every active grant — its requirements, deadlines, reporting periods, budget allocations, and allowable expenses. When something is at risk, the right person is notified before it becomes a compliance violation. When a report is due, the agent begins drafting it 3 weeks out.",
+complexity:4,teamSize:6,outputs:7,
+team:[
+  {r:"Executive director",a:"Receives monthly portfolio health summary + risk flags"},
+  {r:"Grants manager",a:"Receives continuous deadline alerts + report drafts"},
+  {r:"Finance manager",a:"Receives budget variance alerts per grant"},
+  {r:"Program director",a:"Receives data collection requests when reports approaching"},
+  {r:"Development director",a:"Receives grant renewal opportunity flags"},
+  {r:"Accountant",a:"Receives allowable expense compliance flags"},
+],
+inputs:["📁 Active grant database (Supabase)","📊 Financial system","📋 Program data","📅 Grant calendar"],
+routes:[
+  {i:"⏰",l:"Deadline alert: report due in 21 days + draft initiated",t:"n8n → GPT-4o → Notion"},
+  {i:"💰",l:"Budget variance alert: spending deviation flagged",t:"n8n → finance + grants mgr"},
+  {i:"📊",l:"Data collection request: program staff notified 30 days out",t:"n8n → program dir"},
+  {i:"📝",l:"Report draft: auto-generated 3 weeks before due date",t:"GPT-4o → Word"},
+  {i:"🔄",l:"Renewal flag: grant ending in 6 months + renewal intelligence",t:"GPT-4o → dev dir"},
+  {i:"⚠️",l:"Compliance risk: flagged expenditure or requirement deviation",t:"n8n → urgent alert"},
+  {i:"📋",l:"Monthly portfolio health dashboard to ED",t:"GPT-4o → dashboard"},
+],
+desc:"Grant compliance failures — missing a reporting deadline, spending outside allowable categories, failing to document match requirements — can result in grant termination and damage to funder relationships. This system makes compliance automatic rather than dependent on a coordinator's memory.",
+unique:"The renewal flag is generated 6 months before grant end — not 30 days. It includes an assessment of the org's likely competitiveness for renewal based on outcome data, relationship history with the funder, and any changes in the funder's stated priorities since the original grant was made.",
+prog:"For organizations managing $500K+ in grant revenue, the cost of one compliance failure far exceeds the cost of this system. For organizations managing $1M+, this is essential infrastructure."},
+
+{id:"w20",num:"20",tier:"enterprise",tierColor:"#7F77DD",
+name:"Crisis Communication Response System",
+tagline:"Crisis identified → ED talking points + board notification + staff briefing + media response + donor communication + social monitoring — all in parallel, not sequence",
+emoji:"🚨",color:"#7F77DD",
+triggerIcon:"🚨",trigger:"Crisis trigger: media inquiry, social media incident, program failure, financial irregularity, or staff issue flagged",
+agentName:"The Crisis Intelligence Auntie",agentType:"Rapid response · Multi-stakeholder routing",
+agentDesc:"When a crisis hits a nonprofit — a news story, a social media incident, a program failure, a financial irregularity — the first 4 hours determine the outcome. This agent activates every communication channel simultaneously, ensuring the right message reaches the right stakeholder before the situation escalates.",
+complexity:5,teamSize:9,outputs:8,
+team:[
+  {r:"Executive director",a:"Receives situation assessment + immediate talking points"},
+  {r:"Board chair",a:"Receives board notification brief + recommended response"},
+  {r:"Communications director",a:"Receives media statement draft + social monitoring brief"},
+  {r:"Development director",a:"Receives major donor communication brief"},
+  {r:"Program director",a:"Receives operational response brief"},
+  {r:"Staff",a:"Receive internal communication keeping them informed"},
+  {r:"Legal counsel",a:"Receives situation brief for legal review"},
+  {r:"Social media team",a:"Receives approved holding statement for immediate posting"},
+],
+inputs:["🚨 Crisis trigger (media inquiry / social incident / internal flag)","📋 Org context + prior relevant history","📰 Any published coverage"],
+routes:[
+  {i:"🎤",l:"ED: situation assessment + immediate talking points",t:"GPT-4o → brief"},
+  {i:"🏛️",l:"Board chair: notification brief + recommended board response",t:"GPT-4o → email"},
+  {i:"📰",l:"Communications: media statement draft (3 tone variants)",t:"GPT-4o → statement"},
+  {i:"📱",l:"Social: holding statement for immediate posting",t:"GPT-4o → approved text"},
+  {i:"💼",l:"Major donors: personalized communication brief",t:"GPT-4o → dev director"},
+  {i:"👥",l:"Staff: internal communication keeping team informed",t:"GPT-4o → all-staff email"},
+  {i:"⚖️",l:"Legal: situation brief for counsel review",t:"GPT-4o → legal email"},
+  {i:"👀",l:"Social monitoring brief: what to watch + escalation triggers",t:"n8n → monitoring setup"},
+],
+desc:"Nonprofits are especially vulnerable in crises because their credibility is their product. A mishandled response — or worse, no response — can undo years of community trust in 48 hours. This system ensures that the first response is coordinated, calibrated, and consistent across every audience.",
+unique:"The media statement comes in three tone variants: transparent-and-accountable (for clear organizational failures), clarifying-and-factual (for misrepresentation or incomplete reporting), and empathetic-and-action-oriented (for program or client-related incidents). The communications director selects the register — the agent drafts all three so the team isn't staring at a blank page during a crisis.",
+prog:"Most nonprofits have no crisis communication protocol. This isn't just a workflow — it's an insurance policy."},
+
+{id:"w21",num:"21",tier:"enterprise",tierColor:"#7F77DD",
+name:"Community Advocacy Campaign Engine",
+tagline:"Policy brief → full advocacy campaign: legislator research + constituent talking points + coalition alerts + social pressure + testimony prep",
+emoji:"🗳️",color:"#7F77DD",
+triggerIcon:"📋",trigger:"Policy issue identified — new legislation, budget proposal, or community issue requiring organizational advocacy",
+agentName:"The Advocacy Intelligence Auntie",agentType:"Research + campaign generation · Multi-channel",
+agentDesc:"Takes a policy issue or piece of legislation and builds a complete advocacy campaign — researching the relevant legislators, drafting constituent talking points in plain language, alerting coalition partners, generating social media pressure content, and preparing testimony — all from a single policy brief.",
+complexity:5,teamSize:8,outputs:9,
+team:[
+  {r:"Executive director",a:"Receives advocacy strategy brief + legislative landscape"},
+  {r:"Policy director",a:"Receives full campaign architecture + research"},
+  {r:"Program staff",a:"Receive constituent story collection brief"},
+  {r:"Communications team",a:"Receives social media campaign content"},
+  {r:"Coalition partners",a:"Receive partner alert + action brief"},
+  {r:"Board members",a:"Receive advocacy talking points for personal legislator outreach"},
+  {r:"Community members",a:"Receive constituent action alerts in plain language"},
+  {r:"Lobbyist / policy counsel",a:"Receives technical legislative brief"},
+],
+inputs:["📋 Policy issue brief","🏛️ Legislative database","👥 Coalition partner list","📊 Community impact data"],
+routes:[
+  {i:"🔍",l:"Legislator research: positions, committee roles, contact info",t:"GPT-4o + web research"},
+  {i:"🗣️",l:"Constituent talking points (conversational, jargon-free)",t:"GPT-4o → action alert"},
+  {i:"🏛️",l:"Testimony draft for legislative hearing",t:"GPT-4o → testimony doc"},
+  {i:"📱",l:"Social media pressure campaign (daily posts + hashtag strategy)",t:"GPT-4o + Creatom"},
+  {i:"💌",l:"Coalition partner alert + action brief",t:"n8n → partner email list"},
+  {i:"📧",l:"Community action alert: easy-to-use legislator contact template",t:"GPT-4o → email blast"},
+  {i:"🎤",l:"Board member talking points for personal legislative outreach",t:"GPT-4o → board brief"},
+  {i:"📊",l:"Campaign tracking: signatures, contacts made, media coverage",t:"n8n → dashboard"},
+  {i:"📰",l:"Press release + media pitch for advocacy coverage",t:"GPT-4o → PR system"},
+],
+desc:"Policy advocacy requires simultaneously educating your community, pressuring legislators, mobilizing coalition partners, generating media coverage, and preparing testimony — all with a small staff and often on a tight timeline. This campaign engine launches all of it from one brief.",
+unique:"Constituent talking points are written in the language of the community being served — not policy language. A constituent calling their state representative about housing policy doesn't need legislative language; they need three simple sentences about why this matters to their family. The agent writes for a 6th-grade reading level while the testimony is written for a legislative audience. Same issue, two completely different documents.",
+prog:"Advocacy capacity is often the difference between nonprofits that change systems and those that manage symptoms. This makes campaign infrastructure accessible to organizations without a dedicated policy team."},
+
+{id:"w22",num:"22",tier:"enterprise",tierColor:"#7F77DD",
+name:"Full Development Department Intelligence",
+tagline:"The complete fundraising auntie system — prospect to donor to major gift to planned giving, running continuously across the full development cycle",
+emoji:"💰",color:"#7F77DD",
+triggerIcon:"🔄",trigger:"Continuous — triggered by CRM activity, calendar milestones, giving patterns, and external prospect signals",
+agentName:"The Development Auntie (Full System)",agentType:"Master cognitive agent · Full development cycle",
+agentDesc:"The most comprehensive workflow in this library. A master development intelligence agent that knows every donor, every prospect, every grant, every campaign, and every relationship in the organization's fundraising ecosystem. It monitors the full development cycle continuously and surfaces the right action for the right relationship at the right moment.",
+complexity:5,teamSize:9,outputs:10,
+team:[
+  {r:"Development director",a:"Receives daily development intelligence digest + priority actions"},
+  {r:"Major gifts officer",a:"Receives moves management alerts + cultivation touchpoint reminders"},
+  {r:"Annual fund manager",a:"Receives campaign performance + segment adjustment recommendations"},
+  {r:"Grants manager",a:"Receives grant portfolio alerts + application drafts"},
+  {r:"Executive director",a:"Receives relationship intelligence for ED cultivation touchpoints"},
+  {r:"Board development committee",a:"Receives monthly pipeline report + board member ask assignments"},
+  {r:"Communications team",a:"Receives donor stewardship content calendar"},
+  {r:"Finance",a:"Receives revenue forecast vs. budget weekly"},
+  {r:"Database manager",a:"Receives data hygiene flags + CRM update recommendations"},
+],
+inputs:["💰 Full CRM + donor database","📊 Financial system","📋 Grant calendar","📰 Prospect research signals","📅 Event calendar","📈 Campaign analytics"],
+routes:[
+  {i:"🌅",l:"Daily development digest: revenue pace, urgent actions, opportunity flags",t:"GPT-4o → dev director"},
+  {i:"💎",l:"Major gift moves management: who to contact, when, how",t:"GPT-4o → MGO"},
+  {i:"📊",l:"Annual fund performance: pace vs. goal + segment recommendations",t:"GPT-4o → annual fund"},
+  {i:"📋",l:"Grant activity: deadlines, reports, renewals, new opportunities",t:"GPT-4o → grants mgr"},
+  {i:"🎤",l:"ED cultivation: who the ED should reach out to this week + talking points",t:"GPT-4o → ED brief"},
+  {i:"🏛️",l:"Board report: pipeline health + board member cultivation assignments",t:"GPT-4o → dev committee"},
+  {i:"💌",l:"Donor stewardship calendar: who gets what touchpoint this month",t:"GPT-4o → comms team"},
+  {i:"💰",l:"Weekly revenue forecast vs. budget to finance",t:"n8n → finance dashboard"},
+  {i:"🔍",l:"New prospect signals: wealth events, philanthropic activity detected",t:"n8n → prospect research"},
+  {i:"🌟",l:"Planned giving signals: age, estate planning indicators flagged",t:"GPT-4o → MGO alert"},
+],
+desc:"Most development departments operate reactively — responding to deadlines and managing the relationships that are already active. This system creates a proactive development operation that knows what every relationship needs before the officer has to remember to check. It monitors the entire portfolio continuously and surfaces actions based on where each relationship is in the cultivation cycle.",
+unique:"The planned giving signal detection is the most forward-looking output. The agent monitors for behavioral signals that a donor may be planned-giving-ready — longevity of giving, age indicators, estate-planning references in correspondence, or peer giving patterns at similar organizations — and alerts the major gifts officer to open a conversation before the donor makes a gift to a different organization.",
+prog:"The development auntie system is the cumulative result of all previous workflows working together. An organization that implements it fully operates with the fundraising intelligence of an organization twice its size."},
+];
+
+let activeTier="all", sel=W[0];
+
+function getComplexityLabel(n){
+  return ["","Starter","Standard","Advanced","Advanced","Enterprise"][n]||"Enterprise";
+}
+
+function renderTierBar(){
+  document.getElementById("tierbar").innerHTML=TIERS.map(t=>{
+    const count=t.id==="all"?W.length:W.filter(w=>w.tier===t.id).length;
+    const active=activeTier===t.id;
+    return `<div class="tier-item${active?" active":""}" style="color:${t.color}" onclick="setTier('${t.id}')">
+      <div class="tier-dot" style="background:${t.color}"></div>
+      <span class="tier-label">${t.label}</span>
+      <span class="tier-count">(${count})</span>
+    </div>`;
+  }).join('<div style="width:1px;background:#DDD9D0;margin:0 4px"></div>');
+}
+
+function renderSidebar(){
+  const items=activeTier==="all"?W:W.filter(w=>w.tier===activeTier);
+  const byTier={starter:[],standard:[],advanced:[],enterprise:[]};
+  items.forEach(w=>byTier[w.tier]&&byTier[w.tier].push(w));
+  const tierLabels={
+    starter:{label:"🟢 Starter",desc:"1–3 team members"},
+    standard:{label:"🟡 Standard",desc:"2–5 team members"},
+    advanced:{label:"🟠 Advanced",desc:"4–8 team members"},
+    enterprise:{label:"🔴 Enterprise",desc:"6–10 team members"}
+  };
+  let html="";
+  Object.entries(byTier).forEach(([tid,ws])=>{
+    if(!ws.length)return;
+    const tinfo=tierLabels[tid];
+    const tColor={starter:"#2D6A4F",standard:"#D4860A",advanced:"#C4577A",enterprise:"#7F77DD"}[tid];
+    html+=`<div class="s-tier-header"><div class="s-dot" style="background:${tColor}"></div>${tinfo.label}</div>`;
+    ws.forEach(w=>{
+      html+=`<div class="sitem${w.id===sel.id?" active":""}" style="--accent:${w.color}" onclick="pick('${w.id}')">
+        <div class="sitem-num" style="color:${w.color}">${w.num} · ${w.emoji}</div>
+        <div class="sitem-name">${w.name}</div>
+        <div class="sitem-tag">${w.teamSize} team · ${w.outputs} outputs</div>
+      </div>`;
+    });
+  });
+  document.getElementById("sidebar").innerHTML=html||'<div style="padding:20px;color:#888;font-size:12px">No workflows in this tier</div>';
+}
+
+function renderDetail(){
+  const w=sel;
+  const tierLabels={starter:"🟢 Starter",standard:"🟡 Standard",advanced:"🟠 Advanced",enterprise:"🔴 Enterprise"};
+  const tierColors={starter:"#2D6A4F",standard:"#D4860A",advanced:"#C4577A",enterprise:"#7F77DD"};
+  const tColor=tierColors[w.tier];
+  const tLabel=tierLabels[w.tier];
+  // complexity meter
+  const maxC=5;
+  const meterSegs=Array.from({length:maxC},(_,i)=>`<div class="meter-seg" style="background:${i<w.complexity?tColor:'#E8E5DE'}"></div>`).join("");
+  document.getElementById("detail").innerHTML=`
+    <div class="dcard">
+      <div class="dcard-topbar" style="background:${w.color}"></div>
+      <div class="dcard-body">
+        <div class="d-eyebrow" style="color:${w.color}">${w.num} · Nonprofit Series · ${tLabel}</div>
+        <div class="d-title">${w.emoji} ${w.name}</div>
+        <div class="d-tagline">${w.tagline}</div>
+        <div class="d-tags">
+          <span class="dtag" style="background:${w.color}22;color:${w.color};border:1px solid ${w.color}44">${tLabel}</span>
+          <span class="dtag" style="background:#E1F5EE;color:#085041;border:1px solid #5DCAA544">👥 ${w.teamSize} team members</span>
+          <span class="dtag" style="background:#EEEDFE;color:#3C3489;border:1px solid #7F77DD44">📤 ${w.outputs} outputs</span>
+        </div>
+
+        <div class="meter-wrap">
+          <div class="meter-item">
+            <span class="meter-label">Complexity</span>
+            <div class="meter-bar">${meterSegs}</div>
+            <span class="meter-val" style="color:${tColor}">${getComplexityLabel(w.complexity)}</span>
+          </div>
+        </div>
+
+        <div class="trigger-box" style="background:${w.color}0D;border:1px solid ${w.color}33">
+          <div class="trigger-icon">${w.triggerIcon}</div>
+          <div>
+            <div class="trigger-label" style="color:${w.color}">Trigger</div>
+            <div class="trigger-text">${w.trigger}</div>
+          </div>
+        </div>
+
+        <div class="agent-box">
+          <div class="agent-header">
+            <div class="agent-icon">🧠</div>
+            <div class="agent-name">${w.agentName}</div>
+            <div class="agent-type">${w.agentType}</div>
+          </div>
+          <div class="agent-desc">${w.agentDesc}</div>
+        </div>
+
+        <div class="team-section">
+          <div class="section-label">Team routing — ${w.teamSize} members</div>
+          <div class="team-grid">
+            ${w.team.map((m,i)=>`<div class="team-row">
+              <div class="team-avatar" style="background:${TC[i%TC.length]}">${i+1}</div>
+              <div><span class="team-role">${m.r}</span><span class="team-action"> — ${m.a}</span></div>
+            </div>`).join("")}
+          </div>
+        </div>
+
+        <div class="section-label">Workflow architecture</div>
+        <div class="flow-area">
+          <div class="flow-inputs">
+            ${w.inputs.map(inp=>`<div class="flow-chip">${inp}</div>`).join("")}
+            <div class="flow-arr">→</div>
+            <div class="flow-agent">🧠 ${w.agentName.split(" ").slice(0,3).join(" ")} (GPT-4o)</div>
+            <div class="flow-arr">→</div>
+            <div class="flow-n8n">n8n routes</div>
+          </div>
+          <div class="routes-grid">
+            ${w.routes.map(r=>`<div class="route-card" style="border-left-color:${w.color}">
+              <div class="route-icon">${r.i}</div>
+              <div class="route-label">${r.l}</div>
+              <div class="route-tool" style="color:${w.color}">${r.t}</div>
+            </div>`).join("")}
+          </div>
+        </div>
+
+        <div class="desc-row">
+          <div class="desc-box" style="background:#F8F7F4">
+            <div class="desc-box-label" style="color:#888">How it works</div>
+            <div class="desc-text">${w.desc}</div>
+          </div>
+          <div class="desc-box" style="background:${w.color}0D;border:1px solid ${w.color}33">
+            <div class="desc-box-label" style="color:${w.color}">What makes it unique</div>
+            <div class="desc-text">${w.unique}</div>
+          </div>
+        </div>
+
+        <div class="prog-note">
+          <div class="prog-icon">📈</div>
+          <div class="prog-text"><strong>Why start here:</strong> ${w.prog}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function setTier(t){activeTier=t;renderTierBar();renderSidebar();}
+function pick(id){sel=W.find(w=>w.id===id);renderSidebar();renderDetail();document.getElementById("detail").scrollTop=0;}
+renderTierBar();renderSidebar();renderDetail();
+</script>
+</body>
+</html>
