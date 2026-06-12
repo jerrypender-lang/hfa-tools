@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HFA × AI Aunties — Pricing Strategy</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#2C5F6F;--teal-l:#4A8A9A;--gold:#D4A574;--coral:#D97757;
+  --green:#8AB661;--purple:#7F77DD;--navy:#1E3A5F;--rose:#C4577A;
+  --amber:#D4860A;--forest:#2D6A4F;--cream:#F5F3EE;--white:#fff;
+  --border:#DDD9D0;--text:#1E2D32;--muted:#6B7C83;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+.hdr{background:var(--teal);padding:13px 20px;border-bottom:3px solid var(--gold);flex-shrink:0}
+.hdr-eye{font-size:9px;color:#A8D4DF;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.hdr-title{font-size:19px;font-weight:500;color:#fff;margin-bottom:2px}
+.hdr-sub{font-size:11px;color:#D4EBF0}
+.tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;display:flex;gap:0;flex-shrink:0;overflow-x:auto}
+.tab{padding:10px 16px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.view{display:none;flex:1;overflow-y:auto;padding:20px}
+.view.active{display:block}
+.view::-webkit-scrollbar{width:4px}.view::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+/* shared */
+.section-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
+.section-sub{font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.5}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+.tag{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px;display:inline-block;margin-right:4px;margin-bottom:4px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:700px){.three-col{grid-template-columns:1fr}}
+.row{display:flex;gap:8px;margin-bottom:6px;align-items:flex-start;font-size:11px;line-height:1.5}
+/* problem view */
+.problem-box{background:#FAECE7;border:1px solid rgba(217,119,87,.3);border-left:3px solid var(--coral);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.problem-title{font-size:12px;font-weight:600;color:#712B13;margin-bottom:6px}
+.current-vs-new{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px}
+.cvn-col{padding:14px 16px}
+.cvn-header{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.cvn-item{font-size:11px;color:#444;line-height:1.7;display:flex;gap:7px;margin-bottom:3px}
+/* component calculator */
+.comp-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #F0EDE8}
+.comp-item:last-child{border-bottom:none}
+.comp-name{font-size:12px;font-weight:500;color:var(--text)}
+.comp-detail{font-size:10px;color:var(--muted);margin-top:1px}
+.comp-range{font-size:12px;font-weight:600;text-align:right}
+.comp-low{font-size:11px;color:var(--muted);text-align:right}
+.total-row{background:var(--teal);border-radius:9px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.total-label{font-size:12px;font-weight:600;color:#fff}
+.total-val{font-size:18px;font-weight:600;color:var(--gold)}
+/* tier cards */
+.tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px}
+.tier-card{background:#fff;border:1px solid var(--border);border-radius:13px;overflow:hidden}
+.tier-top{padding:14px 16px;color:#fff}
+.tier-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;opacity:.8}
+.tier-name{font-size:16px;font-weight:600;margin-bottom:2px}
+.tier-price{font-size:24px;font-weight:600;margin-bottom:2px}
+.tier-price-sub{font-size:10px;opacity:.8}
+.tier-body{padding:14px 16px}
+.tier-for{font-size:10px;color:var(--muted);font-style:italic;margin-bottom:10px}
+.tier-item{font-size:11px;line-height:1.6;display:flex;gap:6px;margin-bottom:4px;color:#444}
+.tier-check{flex-shrink:0;font-size:11px}
+.tier-sub-price{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:11px;color:var(--muted)}
+.tier-sub-val{font-size:13px;font-weight:600;color:var(--text)}
+.tier-hfa{margin-top:8px;padding:7px 10px;border-radius:7px;font-size:10px;font-weight:500}
+/* add-on table */
+.addon-table{width:100%;border-collapse:collapse;margin-bottom:18px}
+.addon-table th{background:var(--teal);color:#fff;font-size:11px;font-weight:500;padding:9px 12px;text-align:left}
+.addon-table td{padding:9px 12px;font-size:11px;border-bottom:1px solid var(--border);line-height:1.5;vertical-align:top}
+.addon-table tr:nth-child(even) td{background:rgba(44,95,111,.025)}
+.addon-table tr:last-child td{border-bottom:none}
+/* ROI */
+.roi-card{background:#fff;border:1px solid var(--border);border-left:3px solid;border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.roi-scenario{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px}
+.roi-math{background:var(--cream);border-radius:8px;padding:10px 12px;margin-top:8px}
+.roi-math-row{display:flex;justify-content:space-between;font-size:11px;line-height:1.7}
+.roi-math-total{font-weight:600;color:var(--forest);border-top:1px solid var(--border);margin-top:4px;padding-top:4px}
+/* argument view */
+.arg-box{border-radius:10px;padding:14px 16px;margin-bottom:12px;border-left:3px solid}
+.arg-title{font-size:12px;font-weight:600;margin-bottom:5px}
+.arg-text{font-size:11px;line-height:1.65;color:#444}
+/* footer */
+.footer{background:#fff;border-top:1px solid var(--border);padding:8px 16px;flex-shrink:0}
+.footer p{font-size:10px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-eye">HFA × AI Aunties · Pricing Strategy</div>
+  <div class="hdr-title">AI Aunties Pricing Reassessment</div>
+  <div class="hdr-sub">Why $15K is the wrong anchor · What the correct tiers are · How HFA workflow extensions layer on top</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('problem')">01 · The Problem with $15K</div>
+  <div class="tab" onclick="showTab('components')">02 · Component Value Breakdown</div>
+  <div class="tab" onclick="showTab('tiers')">03 · New Pricing Tiers</div>
+  <div class="tab" onclick="showTab('addons')">04 · HFA Workflow Extensions</div>
+  <div class="tab" onclick="showTab('roi')">05 · ROI Arguments</div>
+  <div class="tab" onclick="showTab('argument')">06 · How to Present the Increase</div>
+</div>
+
+<!-- ══ TAB 1: PROBLEM ══ -->
+<div id="view-problem" class="view active">
+
+  <div class="section-title">Why $15K is the wrong anchor — and what happened</div>
+  <div class="section-sub">The $15K price was set during development, before the scope was fully defined. Now that the scope document articulates exactly what an Auntie delivers, the pricing can be anchored to actual value — not to the "figuring it out" stage.</div>
+
+  <div class="problem-box">
+    <div class="problem-title">The three reasons $15K underprices the Auntie</div>
+    <div class="row"><span style="color:var(--coral);font-weight:700;flex-shrink:0">01</span><span><strong>It bundles three distinct, high-value products</strong> — the Auntie build, the Notion brain, and the retrieval layer — at a single price that doesn't reveal the individual value of any of them. When clients don't see the components, they compare to cheaper alternatives.</span></div>
+    <div class="row"><span style="color:var(--coral);font-weight:700;flex-shrink:0">02</span><span><strong>It was set before the IP was fully proven.</strong> 15 months of self-funded R&D produced runtime governance, taste profiles, and version-proof hardening that no other product in the market has. First-draft pricing shouldn't survive proof of concept.</span></div>
+    <div class="row"><span style="color:var(--coral);font-weight:700;flex-shrink:0">03</span><span><strong>It signals the wrong product category.</strong> $15K says "custom software build." The Auntie is actually a proprietary cognitive infrastructure investment — closer to hiring a senior strategic advisor, building a knowledge management system, and custom AI development simultaneously.</span></div>
+  </div>
+
+  <div class="current-vs-new">
+    <div class="cvn-col" style="background:#FAECE722;border-right:1px solid var(--border)">
+      <div class="cvn-header" style="color:#712B13">
+        <div style="width:8px;height:8px;border-radius:50%;background:#D97757"></div>
+        What $15K currently signals
+      </div>
+      <div class="cvn-item"><span style="color:#D97757;flex-shrink:0">→</span><span>Custom software project</span></div>
+      <div class="cvn-item"><span style="color:#D97757;flex-shrink:0">→</span><span>One-time build, limited ongoing value</span></div>
+      <div class="cvn-item"><span style="color:#D97757;flex-shrink:0">→</span><span>Comparable to a freelance developer</span></div>
+      <div class="cvn-item"><span style="color:#D97757;flex-shrink:0">→</span><span>Negotiable (clients try to get to $10K)</span></div>
+      <div class="cvn-item"><span style="color:#D97757;flex-shrink:0">→</span><span>Subscription feels like a SaaS tool add-on</span></div>
+      <div class="cvn-item"><span style="color:#D97757;flex-shrink:0">→</span><span>Undercuts the Notion brain's standalone value</span></div>
+      <div class="cvn-item"><span style="color:#D97757;flex-shrink:0">→</span><span>No workflow extensions priced separately</span></div>
+      <div style="margin-top:12px;padding:8px 10px;background:#fff;border-radius:7px;border:1px solid rgba(217,119,87,.3)">
+        <div style="font-size:11px;font-weight:600;color:#D97757">Value captured at $15K:</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text)">~40–50% of actual value</div>
+      </div>
+    </div>
+    <div class="cvn-col" style="background:#EAF3DE22">
+      <div class="cvn-header" style="color:#2D6A4F">
+        <div style="width:8px;height:8px;border-radius:50%;background:#2D6A4F"></div>
+        What the correct price signals
+      </div>
+      <div class="cvn-item"><span style="color:#2D6A4F;flex-shrink:0">→</span><span>Proprietary cognitive infrastructure</span></div>
+      <div class="cvn-item"><span style="color:#2D6A4F;flex-shrink:0">→</span><span>Compounding asset that grows smarter over time</span></div>
+      <div class="cvn-item"><span style="color:#2D6A4F;flex-shrink:0">→</span><span>Comparable to a retained strategic advisor</span></div>
+      <div class="cvn-item"><span style="color:#2D6A4F;flex-shrink:0">→</span><span>Price-anchored to value, not hours</span></div>
+      <div class="cvn-item"><span style="color:#2D6A4F;flex-shrink:0">→</span><span>Subscription reflects ongoing intelligence access</span></div>
+      <div class="cvn-item"><span style="color:#2D6A4F;flex-shrink:0">→</span><span>Each component priced and visible</span></div>
+      <div class="cvn-item"><span style="color:#2D6A4F;flex-shrink:0">→</span><span>Workflow extensions as a separate upgrade path</span></div>
+      <div style="margin-top:12px;padding:8px 10px;background:#fff;border-radius:7px;border:1px solid #5DCAA555">
+        <div style="font-size:11px;font-weight:600;color:#2D6A4F">Value captured at new price:</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text)">85–95% of actual value</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">The market comparables that justify the increase</div>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="background:var(--cream)"><th style="font-size:11px;font-weight:500;text-align:left;padding:7px 10px">Comparable product or service</th><th style="font-size:11px;font-weight:500;text-align:right;padding:7px 10px">Market price</th><th style="font-size:11px;font-weight:500;text-align:right;padding:7px 10px">What it delivers</th></tr>
+      <tr><td style="font-size:11px;padding:7px 10px;border-bottom:1px solid var(--border)">AI strategy consulting engagement</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);font-weight:500">$15K–$50K</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--muted)">Strategy only, no build</td></tr>
+      <tr style="background:rgba(44,95,111,.03)"><td style="font-size:11px;padding:7px 10px;border-bottom:1px solid var(--border)">Custom enterprise AI assistant</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);font-weight:500">$50K–$300K</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--muted)">Generic, no IP</td></tr>
+      <tr><td style="font-size:11px;padding:7px 10px;border-bottom:1px solid var(--border)">Knowledge management system build</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);font-weight:500">$10K–$50K</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--muted)">Storage, no cognition</td></tr>
+      <tr style="background:rgba(44,95,111,.03)"><td style="font-size:11px;padding:7px 10px;border-bottom:1px solid var(--border)">Part-time senior strategic advisor (1yr)</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);font-weight:500">$24K–$48K</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--muted)">Human, limited availability</td></tr>
+      <tr><td style="font-size:11px;padding:7px 10px;border-bottom:1px solid var(--border)">Custom GPT build (basic)</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);font-weight:500">$5K–$25K</td><td style="font-size:11px;padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--muted)">Prompt stacking, no architecture</td></tr>
+      <tr style="background:#EAF3DE"><td style="font-size:11px;padding:7px 10px;font-weight:600;color:#2D6A4F">The Auntie — all of the above combined</td><td style="font-size:11px;padding:7px 10px;text-align:right;font-weight:700;color:#2D6A4F">$22K–$90K</td><td style="font-size:11px;padding:7px 10px;text-align:right;color:#2D6A4F;font-weight:500">Proprietary IP + brain + retrieval</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ TAB 2: COMPONENTS ══ -->
+<div id="view-components" class="view">
+  <div class="section-title">What the $15K actually contains — and what each piece is worth</div>
+  <div class="section-sub">The Auntie is not one product. It's three distinct, high-value components that have been bundled into a single price. Breaking them apart makes the value visible — and makes the price increase obvious, not arbitrary.</div>
+
+  <div class="card">
+    <div class="label" style="margin-bottom:10px">Component 1 — The Auntie Build</div>
+    <div class="comp-item">
+      <div><div class="comp-name">Product Requirements Document (PRD)</div><div class="comp-detail">20–40 hrs expert time · Sequencing logic, decision trees, role definition</div></div>
+      <div><div class="comp-range" style="color:var(--teal)">$3,000–$12,000</div><div class="comp-low">@$150–300/hr</div></div>
+    </div>
+    <div class="comp-item">
+      <div><div class="comp-name">Cognitive model architecture</div><div class="comp-detail">10–20 hrs · NOT prompt stacking — full cognitive framework design</div></div>
+      <div><div class="comp-range" style="color:var(--teal)">$1,500–$6,000</div><div class="comp-low">High-expertise work</div></div>
+    </div>
+    <div class="comp-item">
+      <div><div class="comp-name">Taste profile + exemplar file system</div><div class="comp-detail">5–15 hrs · The proprietary IP — how the Auntie executes taste, not just follows rules</div></div>
+      <div><div class="comp-range" style="color:var(--teal)">$750–$4,500</div><div class="comp-low">Unique IP, no market comp</div></div>
+    </div>
+    <div class="comp-item">
+      <div><div class="comp-name">Runtime governance + hardening</div><div class="comp-detail">10–20 hrs testing · Version-proof architecture — what makes it not degrade</div></div>
+      <div><div class="comp-range" style="color:var(--teal)">$1,500–$6,000</div><div class="comp-low">15 months R&D backing this</div></div>
+    </div>
+    <div class="comp-item" style="border-bottom:none">
+      <div><div class="comp-name">Stress testing + QA protocol</div><div class="comp-detail">5–10 hrs · Corporate-grade testing methodology applied to Auntie outputs</div></div>
+      <div><div class="comp-range" style="color:var(--teal)">$750–$3,000</div><div class="comp-low">Breaks-before-shipping standard</div></div>
+    </div>
+    <div class="total-row">
+      <div class="total-label">Component 1 standalone value</div>
+      <div class="total-val">$7,500–$31,500</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label" style="margin-bottom:10px">Component 2 — The Notion Brain + Source Library</div>
+    <div class="comp-item">
+      <div><div class="comp-name">Notion brain architecture</div><div class="comp-detail">5–10 hrs · Database structure, tagging taxonomy, section design</div></div>
+      <div><div class="comp-range" style="color:var(--amber)">$750–$3,000</div><div class="comp-low">Knowledge architecture expertise</div></div>
+    </div>
+    <div class="comp-item">
+      <div><div class="comp-name">Source library build + categorization</div><div class="comp-detail">3–8 hrs · Accepted/rejected outputs, use-case history, test logs organized</div></div>
+      <div><div class="comp-range" style="color:var(--amber)">$450–$2,400</div><div class="comp-low">Growing asset over time</div></div>
+    </div>
+    <div class="comp-item">
+      <div><div class="comp-name">Retrieval notes + structured knowledge base</div><div class="comp-detail">3–6 hrs · What the Auntie draws from to stay consistent and context-aware</div></div>
+      <div><div class="comp-range" style="color:var(--amber)">$450–$1,800</div><div class="comp-low">Compounding value</div></div>
+    </div>
+    <div class="comp-item" style="border-bottom:none">
+      <div><div class="comp-name">Ongoing brain maintenance (monthly)</div><div class="comp-detail">2–4 hrs/month · Updates, new outputs logged, pattern tracking</div></div>
+      <div><div class="comp-range" style="color:var(--amber)">$300–$1,200/mo</div><div class="comp-low">Ongoing value creation</div></div>
+    </div>
+    <div class="total-row" style="background:var(--amber)">
+      <div class="total-label">Component 2 standalone value</div>
+      <div class="total-val">$1,650–$7,200</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label" style="margin-bottom:10px">Component 3 — The Retrieval Layer</div>
+    <div class="comp-item">
+      <div><div class="comp-name">Vector search / semantic retrieval setup</div><div class="comp-detail">3–6 hrs · Enables the Auntie to pull relevant prior knowledge automatically</div></div>
+      <div><div class="comp-range" style="color:var(--purple)">$450–$1,800</div><div class="comp-low">Technical setup</div></div>
+    </div>
+    <div class="comp-item">
+      <div><div class="comp-name">Model registry system</div><div class="comp-detail">2–5 hrs · Logs every test, failure, update, and deployment lesson</div></div>
+      <div><div class="comp-range" style="color:var(--purple)">$300–$1,500</div><div class="comp-low">Prevents 15-month problem Sarita described</div></div>
+    </div>
+    <div class="comp-item" style="border-bottom:none">
+      <div><div class="comp-name">Context injection architecture</div><div class="comp-detail">2–4 hrs · How prior knowledge gets fed to the Auntie before each run</div></div>
+      <div><div class="comp-range" style="color:var(--purple)">$300–$1,200</div><div class="comp-low">What gives the Auntie memory</div></div>
+    </div>
+    <div class="total-row" style="background:var(--purple)">
+      <div class="total-label">Component 3 standalone value</div>
+      <div class="total-val">$1,050–$4,500</div>
+    </div>
+  </div>
+
+  <div style="background:var(--teal);border-radius:12px;padding:16px 18px;border:2px solid var(--gold)">
+    <div style="font-size:11px;color:#D4EBF0;margin-bottom:6px;font-weight:500">All three components combined (without any workflow extensions)</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:13px;color:#A8D4DF">Conservative estimate (low end)</div>
+        <div style="font-size:26px;font-weight:600;color:#fff">$10,200</div>
+      </div>
+      <div style="font-size:22px;color:var(--gold)">→</div>
+      <div>
+        <div style="font-size:13px;color:#A8D4DF">Professional estimate (mid range)</div>
+        <div style="font-size:26px;font-weight:600;color:var(--gold)">$22,000–$28,000</div>
+      </div>
+      <div style="font-size:22px;color:var(--gold)">→</div>
+      <div>
+        <div style="font-size:13px;color:#A8D4DF">Full enterprise build (high end)</div>
+        <div style="font-size:26px;font-weight:600;color:#fff">$43,200</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.1);border-radius:7px;font-size:11px;color:#D4EBF0">
+      The $15K was capturing the conservative low end. The professional market price for these three components is $22K–$28K — before any workflow extensions.
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 3: TIERS ══ -->
+<div id="view-tiers" class="view">
+  <div class="section-title">New AI Aunties pricing tiers</div>
+  <div class="section-sub">Four tiers anchored to component value and client type. $15K becomes the entry-level tier — not the standard. The professional tier starts at $22K, which is where Sarita's instinct to increase is validated by the component breakdown.</div>
+
+  <div class="tier-grid">
+
+    <div class="tier-card">
+      <div class="tier-top" style="background:#5A6E7A">
+        <div class="tier-badge">Tier 01 · Entry</div>
+        <div class="tier-name">Auntie Essentials</div>
+        <div class="tier-price">$9,500–$12,000</div>
+        <div class="tier-price-sub">One-time build · Single domain</div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-for">For: solopreneurs, early adopters, proof of concept — the "first user funds development" tier</div>
+        <div class="tier-item"><span class="tier-check">✓</span><span>Single-domain Auntie (analytical OR creative)</span></div>
+        <div class="tier-item"><span class="tier-check">✓</span><span>Standard hardening (not fully version-proof)</span></div>
+        <div class="tier-item"><span class="tier-check">✓</span><span>Basic Notion brain (no retrieval layer)</span></div>
+        <div class="tier-item"><span class="tier-check">✓</span><span>3-month subscription included</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--muted)">✗</span><span style="color:var(--muted)">No workflow extensions included</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--muted)">✗</span><span style="color:var(--muted)">No retrieval layer</span></div>
+        <div class="tier-sub-price">After 3 months:<br><span class="tier-sub-val">$597/month</span></div>
+        <div class="tier-hfa" style="background:#F5F2EE;color:var(--muted)">HFA workflow extensions available as add-ons from $1,500</div>
+      </div>
+    </div>
+
+    <div class="tier-card" style="border-color:var(--teal);border-width:2px">
+      <div class="tier-top" style="background:var(--teal)">
+        <div class="tier-badge">Tier 02 · Standard ★ Recommended</div>
+        <div class="tier-name">Auntie Professional</div>
+        <div class="tier-price">$22,000–$28,000</div>
+        <div class="tier-price-sub">One-time · Full component suite</div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-for">For: business owners, consultants, professionals who use the Auntie daily — the new standard package</div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--teal)">✓</span><span>Full Auntie: complete PRD + cognitive model + taste profile</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--teal)">✓</span><span>Full runtime governance + version-proof hardening</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--teal)">✓</span><span>Complete Notion brain + source library</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--teal)">✓</span><span>Retrieval layer + model registry</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--teal)">✓</span><span>6-month subscription included</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--teal)">✓</span><span>1 workflow extension (input OR output delivery)</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--muted)">✗</span><span style="color:var(--muted)">Multi-auntie system (upgrade available)</span></div>
+        <div class="tier-sub-price">After 6 months:<br><span class="tier-sub-val">$1,497/month</span></div>
+        <div class="tier-hfa" style="background:#E8F2F5;color:var(--teal)">1 HFA workflow extension included · Additional from $2,000</div>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div class="tier-top" style="background:var(--purple)">
+        <div class="tier-badge">Tier 03 · Business</div>
+        <div class="tier-name">Auntie Business</div>
+        <div class="tier-price">$38,000–$52,000</div>
+        <div class="tier-price-sub">One-time · Multi-auntie system</div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-for">For: teams, growing organizations, consultants with multiple domain needs</div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--purple)">✓</span><span>2 Aunties (e.g., Renee analytical + creative)</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--purple)">✓</span><span>Full brain ecosystem for both Aunties</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--purple)">✓</span><span>QA loop (Maxine/Lux review cycle)</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--purple)">✓</span><span>Complete workflow extension suite (all 4 categories)</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--purple)">✓</span><span>12-month subscription included</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--purple)">✓</span><span>HFA builds 3 workflow extensions</span></div>
+        <div class="tier-sub-price">After 12 months:<br><span class="tier-sub-val">$2,997/month</span></div>
+        <div class="tier-hfa" style="background:#EEEDFE;color:var(--purple)">3 HFA workflow extensions included · Full suite builds from $8K</div>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div class="tier-top" style="background:var(--navy)">
+        <div class="tier-badge">Tier 04 · Enterprise</div>
+        <div class="tier-name">Auntie Enterprise</div>
+        <div class="tier-price">$65,000–$90,000+</div>
+        <div class="tier-price-sub">Custom scope · Org-wide deployment</div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-for">For: organizations, nonprofits, multi-department teams needing an organizational intelligence system</div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--navy)">✓</span><span>4–6 Aunties covering all org functions</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--navy)">✓</span><span>Organizational intelligence hub (morning briefing)</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--navy)">✓</span><span>Complete brain + retrieval + registry + QA loop</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--navy)">✓</span><span>All workflow extensions built by HFA</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--navy)">✓</span><span>Ongoing account management</span></div>
+        <div class="tier-item"><span class="tier-check" style="color:var(--navy)">✓</span><span>12-month subscription + SLA included</span></div>
+        <div class="tier-sub-price">After 12 months:<br><span class="tier-sub-val">$5,000–$8,500/month</span></div>
+        <div class="tier-hfa" style="background:#E6F1FB;color:var(--navy)">HFA builds complete workflow suite · Included in scope</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">Monthly subscription — restructured</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Current: $595–$2,000/yr (annually). Problem: annual pricing obscures the monthly value and makes it feel like a software tool. Monthly pricing reflects ongoing intelligence access.</div>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="background:var(--cream)">
+        <th style="font-size:11px;font-weight:500;text-align:left;padding:8px 10px">Tier</th>
+        <th style="font-size:11px;font-weight:500;text-align:right;padding:8px 10px">Monthly</th>
+        <th style="font-size:11px;font-weight:500;text-align:right;padding:8px 10px">Annual (2 months free)</th>
+        <th style="font-size:11px;font-weight:500;text-align:left;padding:8px 10px;color:var(--muted)">What it covers</th>
+      </tr>
+      <tr><td style="font-size:11px;padding:8px 10px;border-bottom:1px solid var(--border)">Essentials</td><td style="font-size:12px;font-weight:600;padding:8px 10px;text-align:right;border-bottom:1px solid var(--border)">$597/mo</td><td style="font-size:11px;padding:8px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--muted)">$5,970/yr</td><td style="font-size:11px;padding:8px 10px;border-bottom:1px solid var(--border);color:var(--muted)">Auntie access + basic brain maintenance</td></tr>
+      <tr style="background:rgba(44,95,111,.04)"><td style="font-size:11px;padding:8px 10px;border-bottom:1px solid var(--border);font-weight:500">Professional</td><td style="font-size:12px;font-weight:600;padding:8px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--teal)">$1,497/mo</td><td style="font-size:11px;padding:8px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--muted)">$14,970/yr</td><td style="font-size:11px;padding:8px 10px;border-bottom:1px solid var(--border);color:var(--muted)">Full brain maintenance + model updates + new use-case logging</td></tr>
+      <tr><td style="font-size:11px;padding:8px 10px;border-bottom:1px solid var(--border)">Business</td><td style="font-size:12px;font-weight:600;padding:8px 10px;text-align:right;border-bottom:1px solid var(--border)">$2,997/mo</td><td style="font-size:11px;padding:8px 10px;text-align:right;border-bottom:1px solid var(--border);color:var(--muted)">$29,970/yr</td><td style="font-size:11px;padding:8px 10px;border-bottom:1px solid var(--border);color:var(--muted)">Multi-auntie maintenance + QA loop + workflow monitoring</td></tr>
+      <tr style="background:rgba(44,95,111,.04)"><td style="font-size:11px;padding:8px 10px;font-weight:500">Enterprise</td><td style="font-size:12px;font-weight:600;padding:8px 10px;text-align:right;color:var(--navy)">$5,000–$8,500/mo</td><td style="font-size:11px;padding:8px 10px;text-align:right;color:var(--muted)">Custom</td><td style="font-size:11px;padding:8px 10px;color:var(--muted)">Full org system + account management + SLA + HFA monitoring</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ TAB 4: ADD-ONS ══ -->
+<div id="view-addons" class="view">
+  <div class="section-title">HFA Workflow Extensions — the add-on layer</div>
+  <div class="section-sub">Workflow extensions are not part of the core Auntie price. They are scoped separately, built by HFA, governed by AI Aunties' handbook. This creates a clean upsell path and gives HFA a defined revenue lane alongside every AI Aunties engagement.</div>
+
+  <table class="addon-table">
+    <tr>
+      <th>Extension Type</th>
+      <th>What it does</th>
+      <th>Category</th>
+      <th>HFA Price</th>
+      <th>Billed through</th>
+    </tr>
+    <tr>
+      <td><strong>Input Trigger Bundle</strong></td>
+      <td>Form → Auntie · Email → Auntie · Schedule → Auntie briefing · Voice note → Auntie input</td>
+      <td><span class="tag" style="background:#EAF3DE;color:#2D6A4F">Cat 1 · Input</span></td>
+      <td><strong>$2,500–$4,000</strong></td>
+      <td>HFA direct or co-sold with AIA package</td>
+    </tr>
+    <tr>
+      <td><strong>Output Rendering + Delivery</strong></td>
+      <td>Auntie → PDF/Word artifact · Auntie → email delivery · Auntie → portal post · Notion brain filing</td>
+      <td><span class="tag" style="background:#E8F2F5;color:#2C5F6F">Cat 2 · Output</span></td>
+      <td><strong>$2,000–$3,500</strong></td>
+      <td>Co-sold with AIA package (in AIA scope)</td>
+    </tr>
+    <tr>
+      <td><strong>Brain Maintenance Suite</strong></td>
+      <td>Session → brain update · Retrieval context pull · Model registry logging · Failure detection</td>
+      <td><span class="tag" style="background:#FAEEDA;color:#633806">Cat 3 · Brain</span></td>
+      <td><strong>$3,000–$5,000</strong></td>
+      <td>Co-sold with AIA package (core to product)</td>
+    </tr>
+    <tr>
+      <td><strong>QA Governance Loop</strong></td>
+      <td>Maxine/Lux review cycle · Runtime failure detection · Performance tracking · Escalation routing</td>
+      <td><span class="tag" style="background:#EEEDFE;color:#3C3489">Cat 4 · Governance</span></td>
+      <td><strong>$3,500–$6,000</strong></td>
+      <td>Co-sold with AIA Business/Enterprise</td>
+    </tr>
+    <tr style="background:#FAECE722">
+      <td><strong>Downstream CRM Integration</strong></td>
+      <td>Auntie output → CRM update · Deal records · Contact notes · Pipeline management</td>
+      <td><span class="tag" style="background:#FAECE7;color:#712B13">Cat 5 · Downstream</span></td>
+      <td><strong>$2,500–$6,000</strong></td>
+      <td>HFA direct sale — outside AIA core scope</td>
+    </tr>
+    <tr style="background:#FAECE722">
+      <td><strong>Downstream Task + Notification</strong></td>
+      <td>Auntie recommendations → ClickUp tasks · Slack alerts · Email routing · Team notifications</td>
+      <td><span class="tag" style="background:#FAECE7;color:#712B13">Cat 5 · Downstream</span></td>
+      <td><strong>$2,000–$4,000</strong></td>
+      <td>HFA direct sale — outside AIA core scope</td>
+    </tr>
+    <tr style="background:#FAECE722">
+      <td><strong>Downstream Operational Automation</strong></td>
+      <td>Custom integrations, dashboards, database writes, file routing — everything not in AIA scope</td>
+      <td><span class="tag" style="background:#FAECE7;color:#712B13">Cat 5 · Downstream</span></td>
+      <td><strong>$3,500–$15,000+</strong></td>
+      <td>HFA direct sale — referred by AIA</td>
+    </tr>
+  </table>
+
+  <div class="card" style="background:var(--cream);border:none">
+    <div class="label">How a complete engagement looks with workflow extensions</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">
+      <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px">
+        <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Auntie Professional + Extensions</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Typical small business or consultant engagement</div>
+        <div style="font-size:11px;line-height:1.9">
+          AIA Professional build <span style="float:right;font-weight:600">$25,000</span><br>
+          Input trigger bundle (HFA) <span style="float:right;font-weight:600">$3,000</span><br>
+          Output rendering + delivery (HFA) <span style="float:right;font-weight:600">$2,500</span><br>
+          <div style="border-top:1px solid var(--border);margin:6px 0;padding-top:6px;font-weight:600;color:var(--teal)">Total engagement <span style="float:right">$30,500</span></div>
+          Monthly subscription <span style="float:right;font-weight:600;color:var(--muted)">$1,497/mo</span>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px">
+        <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px">Auntie Business + Full Suite</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Team or growing organization engagement</div>
+        <div style="font-size:11px;line-height:1.9">
+          AIA Business build <span style="float:right;font-weight:600">$45,000</span><br>
+          Full workflow extension suite (HFA) <span style="float:right;font-weight:600">$12,000</span><br>
+          Downstream CRM integration (HFA) <span style="float:right;font-weight:600">$5,000</span><br>
+          <div style="border-top:1px solid var(--border);margin:6px 0;padding-top:6px;font-weight:600;color:var(--purple)">Total engagement <span style="float:right">$62,000</span></div>
+          Monthly subscription <span style="float:right;font-weight:600;color:var(--muted)">$2,997/mo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 5: ROI ══ -->
+<div id="view-roi" class="view">
+  <div class="section-title">ROI arguments — how to justify $22K–$28K to a prospect</div>
+  <div class="section-sub">The 10x ROI rule: to make the investment a "no-brainer," show 10x the price in value over a reasonable horizon. For a $22K–$28K investment, that means showing $22K–$28K in annual value — which every scenario below exceeds.</div>
+
+  <div class="roi-card" style="border-color:var(--teal)">
+    <div class="roi-scenario">Scenario 1 — The consultant who bills by the hour</div>
+    <div style="font-size:11px;color:#444;line-height:1.6">A consultant billing at $250/hour uses the Auntie for analysis, research synthesis, proposal drafting, and client strategy work. The Auntie reduces the time to complete those tasks by 30–40%, freeing capacity for additional billable work.</div>
+    <div class="roi-math">
+      <div class="roi-math-row"><span>Consultant rate</span><span>$250/hr</span></div>
+      <div class="roi-math-row"><span>Hours reclaimed per month (conservative)</span><span>8 hrs</span></div>
+      <div class="roi-math-row"><span>Monthly value created</span><span>$2,000/mo</span></div>
+      <div class="roi-math-row"><span>Annual value</span><span>$24,000/yr</span></div>
+      <div class="roi-math-row"><span>Auntie Professional build cost</span><span>$25,000</span></div>
+      <div class="roi-math-row roi-math-total"><span>Break-even</span><span style="color:var(--teal)">Month 13 (then pure profit)</span></div>
+    </div>
+  </div>
+
+  <div class="roi-card" style="border-color:var(--amber)">
+    <div class="roi-scenario">Scenario 2 — The business owner replacing advisory costs</div>
+    <div style="font-size:11px;color:#444;line-height:1.6">A business owner currently retains a part-time strategic advisor at $150/hr for 15 hours/month. The Auntie replaces 80% of those advisory interactions — not the relationship, but the cognitive work that happens between calls.</div>
+    <div class="roi-math">
+      <div class="roi-math-row"><span>Current advisor cost</span><span>$2,250/mo</span></div>
+      <div class="roi-math-row"><span>Auntie subscription (Professional)</span><span>$1,497/mo</span></div>
+      <div class="roi-math-row"><span>Monthly savings vs. advisor</span><span>$753/mo</span></div>
+      <div class="roi-math-row"><span>Year 1 savings after build cost ($25K)</span><span style="color:var(--amber)">Break even in ~28 months</span></div>
+      <div class="roi-math-row"><span>But: Auntie available 24/7 vs. 15hrs/mo</span><span>Value multiplier</span></div>
+      <div class="roi-math-row roi-math-total" style="border-color:var(--amber)"><span>Year 2 net savings</span><span style="color:var(--amber)">$9,036/yr</span></div>
+    </div>
+  </div>
+
+  <div class="roi-card" style="border-color:var(--green)">
+    <div class="roi-scenario">Scenario 3 — The executive making better decisions faster</div>
+    <div style="font-size:11px;color:#444;line-height:1.6">A nonprofit ED or business founder uses the Auntie for daily intelligence synthesis, board preparation, major donor strategy, and grant application drafts. The value is in decision quality and speed — harder to quantify but real. One avoided bad hire, one successful grant application, or one retained major donor covers the cost.</div>
+    <div class="roi-math">
+      <div class="roi-math-row"><span>Average nonprofit grant (mid-size)</span><span>$25,000–$75,000</span></div>
+      <div class="roi-math-row"><span>Auntie grant application quality improvement</span><span>1 additional grant/yr</span></div>
+      <div class="roi-math-row"><span>Cost of one bad hire (salary + replacement)</span><span>$15,000–$40,000</span></div>
+      <div class="roi-math-row"><span>1 retained major donor (5yr giving @ $5K/yr)</span><span>$25,000</span></div>
+      <div class="roi-math-row roi-math-total" style="border-color:var(--green)"><span>Any one outcome covers the cost</span><span style="color:var(--green)">ROI achieved in Year 1</span></div>
+    </div>
+  </div>
+
+  <div class="roi-card" style="border-color:var(--purple)">
+    <div class="roi-scenario">Scenario 4 — The creative professional who competes on quality and speed</div>
+    <div style="font-size:11px;color:#444;line-height:1.6">A writer, strategist, or creative consultant uses the Auntie to maintain their voice and taste at a volume they couldn't sustain manually. They can take on 20–30% more client work without sacrificing quality — because the Auntie handles the cognitive scaffolding.</div>
+    <div class="roi-math">
+      <div class="roi-math-row"><span>Current monthly client billings</span><span>$10,000/mo</span></div>
+      <div class="roi-math-row"><span>Additional capacity with Auntie (20%)</span><span>+$2,000/mo</span></div>
+      <div class="roi-math-row"><span>Annual additional revenue</span><span>$24,000/yr</span></div>
+      <div class="roi-math-row"><span>Auntie Professional build + year 1 subscription</span><span>$42,964</span></div>
+      <div class="roi-math-row roi-math-total" style="border-color:var(--purple)"><span>Year 2 net gain</span><span style="color:var(--purple)">+$6,036 and growing</span></div>
+    </div>
+  </div>
+
+  <div style="background:#E8F2F5;border-radius:10px;padding:14px 16px;border-left:3px solid var(--teal)">
+    <div style="font-size:12px;font-weight:600;color:var(--teal);margin-bottom:4px">The 10x ROI framing for the sales conversation</div>
+    <div style="font-size:11px;color:#2C3E44;line-height:1.6">"For a $25,000 investment to be worth it to you, we need to show you $25,000 in value within a year. Let me show you exactly where that comes from in your specific situation." — Then walk them through the scenario most relevant to their business. The conversation moves from 'is this expensive' to 'where exactly does this pay for itself.'</div>
+  </div>
+</div>
+
+<!-- ══ TAB 6: ARGUMENT ══ -->
+<div id="view-argument" class="view">
+  <div class="section-title">How to present the price increase to existing and new clients</div>
+  <div class="section-sub">The increase isn't arbitrary — it's revealing what was always there. The scope document is the proof. These are the arguments that work in a sales conversation.</div>
+
+  <div class="arg-box" style="background:#EAF3DE;border-color:#2D6A4F">
+    <div class="arg-title" style="color:#2D6A4F">Argument 1 — The component visibility argument (most effective)</div>
+    <div class="arg-text">"The $15K price didn't make visible what you were actually getting. You were getting the Auntie build — which is a proprietary cognitive architecture, not a custom chatbot. You were getting the Notion brain — a structured external knowledge system. And you were getting the retrieval layer — what gives the Auntie memory. When we price those three things separately, the combined value is $22K–$28K. The new price isn't an increase — it's the real price finally being shown."</div>
+  </div>
+
+  <div class="arg-box" style="background:#E8F2F5;border-color:var(--teal)">
+    <div class="arg-title" style="color:var(--teal)">Argument 2 — The IP maturity argument</div>
+    <div class="arg-text">"The $15K was the price during development — when we were proving the architecture. The runtime governance, the taste profile system, the version-proof hardening — those took 15 months and were self-funded. You're not paying for development time anymore. You're paying for 15 months of R&D that produced something the market doesn't have. The price reflects that maturity."</div>
+  </div>
+
+  <div class="arg-box" style="background:#FAEEDA;border-color:var(--amber)">
+    <div class="arg-title" style="color:var(--amber)">Argument 3 — The scope document argument (for B2B clients)</div>
+    <div class="arg-text">"We now have a formal Commercial Build & Deployment Handbook that defines what the Auntie delivers, how it's governed, and what's inside versus outside the scope. That's the kind of commercial rigor that enterprises and organizations need before they commit to an AI system. It's also what justifies the price — this is a documented, governed product, not a freelance build."</div>
+  </div>
+
+  <div class="arg-box" style="background:#EEEDFE;border-color:var(--purple)">
+    <div class="arg-title" style="color:var(--purple)">Argument 4 — The compounding asset argument</div>
+    <div class="arg-text">"The Auntie gets smarter the longer you use it. Every session feeds the brain. Every output gets logged. The model registry captures what works and what doesn't. In 12 months your Auntie knows you, your domain, your voice, and your patterns at a depth that no off-the-shelf tool ever will. You're not buying a software license — you're building a cognitive asset that compounds in value. That's worth more than $15K."</div>
+  </div>
+
+  <div class="arg-box" style="background:#FAECE7;border-color:var(--coral)">
+    <div class="arg-title" style="color:#712B13">Argument 5 — The replacement cost argument (for decision-makers)</div>
+    <div class="arg-text">"What would you pay for a senior strategic advisor who's available 24/7, knows your domain deeply, never has a bad day, maintains perfect consistency across every output, and costs less than $2,000 a month after the initial setup? Because that's what a Professional Auntie subscription is. The $25K build is the price of building that person — not hiring them for a year."</div>
+  </div>
+
+  <div class="card">
+    <div class="label">For existing clients at $15K — the transition language</div>
+    <div style="font-size:11px;color:#444;line-height:1.7;margin-bottom:10px">For clients who built at the old price, the conversation is about upgrades, not retroactive price increases.</div>
+    <div style="background:var(--cream);border-radius:8px;padding:12px 14px;font-size:11px;color:#444;line-height:1.7;font-style:italic;border-left:3px solid var(--teal)">
+      "You were part of the founding group who helped us build and validate the Auntie architecture. Your system was built at the early-adopter price, and that remains your build price — we're not changing what you paid. Going forward, the new pricing applies to new engagements. What I do want to offer you is the upgrade path — specifically the retrieval layer and model registry that weren't part of your original package, now available as a Professional upgrade at $X. This is what makes your Auntie version-proof going forward."
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">The one-sentence price increase justification</div>
+    <div style="background:var(--teal);border-radius:9px;padding:14px 16px;border:2px solid var(--gold)">
+      <div style="font-size:14px;color:#fff;line-height:1.6;font-style:italic">"The price didn't go up — the scope document finally made visible what we were always delivering."</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer"><p>AI Aunties Pricing Strategy · Based on scope boundary document + component value analysis · $15K = entry tier · $22K–$28K = professional standard · HFA workflow extensions layered separately</p></div>
+
+<script>
+function showTab(name){
+  const names=["problem","components","tiers","addons","roi","argument"];
+  document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("active",names[i]===name));
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id==="view-"+name));
+}
+</script>
+</body>
+</html>
