@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HFA × AI Aunties — Scope Architecture & n8n Workflow Taxonomy</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#2C5F6F;--teal-l:#4A8A9A;--gold:#D4A574;--coral:#D97757;
+  --green:#8AB661;--purple:#7F77DD;--navy:#1E3A5F;--rose:#C4577A;
+  --amber:#D4860A;--forest:#2D6A4F;--cream:#F5F3EE;--white:#fff;
+  --border:#DDD9D0;--text:#1E2D32;--muted:#6B7C83;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+.hdr{background:var(--teal);padding:13px 20px;border-bottom:3px solid var(--gold);flex-shrink:0}
+.hdr-eye{font-size:9px;color:#A8D4DF;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.hdr-title{font-size:19px;font-weight:500;color:#fff;margin-bottom:2px}
+.hdr-sub{font-size:11px;color:#D4EBF0}
+.tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;display:flex;gap:0;flex-shrink:0;overflow-x:auto}
+.tab{padding:10px 16px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.view{display:none;flex:1;overflow:hidden;min-height:0}
+.view.active{display:flex}
+/* ── BOUNDARY VIEW ── */
+.boundary-wrap{flex:1;overflow-y:auto;padding:20px}
+.boundary-wrap::-webkit-scrollbar{width:4px}.boundary-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.bound-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
+.bound-sub{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.bound-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.bound-col{padding:16px 18px}
+.bound-col-header{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.bound-item{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start}
+.bound-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.bound-item-text{font-size:11px;line-height:1.5}
+.bound-item-label{font-size:10px;color:var(--muted);margin-top:1px}
+.bound-divider{width:1px;background:var(--border)}
+.principle-card{border-radius:10px;padding:14px 16px;margin-bottom:12px;border-left:3px solid}
+.principle-title{font-size:12px;font-weight:600;margin-bottom:4px}
+.principle-text{font-size:11px;line-height:1.6;color:#444}
+.mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:20px}
+.mode-card{border-radius:10px;padding:14px 16px;border:1px solid var(--border)}
+.mode-num{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.mode-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:5px}
+.mode-desc{font-size:11px;color:#555;line-height:1.6;margin-bottom:8px}
+.mode-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block}
+/* ── TAXONOMY VIEW ── */
+.tax-wrap{display:flex;flex:1;overflow:hidden}
+.tax-sidebar{width:220px;background:#fff;border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0}
+.tax-sidebar::-webkit-scrollbar{width:3px}.tax-sidebar::-webkit-scrollbar-thumb{background:var(--border)}
+.tax-cat-header{padding:8px 14px 4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:#FAFAF8;border-bottom:1px solid #F0EDE8}
+.tax-item{padding:9px 14px;cursor:pointer;border-bottom:1px solid #F5F2EE;border-left:3px solid transparent}
+.tax-item:hover{background:#FAFAF8}
+.tax-item.active{border-left-color:var(--accent,var(--teal));background:rgba(44,95,111,.05)}
+.tax-item-name{font-size:11px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:1px}
+.tax-item-scope{font-size:10px;font-weight:600;padding:1px 7px;border-radius:10px;display:inline-block;margin-top:2px}
+.tax-detail{flex:1;overflow-y:auto;padding:16px}
+.tax-detail::-webkit-scrollbar{width:4px}.tax-detail::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.wf-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.wf-topbar{height:4px}
+.wf-body{padding:18px}
+.wf-meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.wf-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+.wf-title{font-size:18px;font-weight:500;color:var(--text);margin-bottom:4px}
+.wf-sub{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:14px;line-height:1.5}
+.wf-section{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 7px}
+.node-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px;margin-bottom:14px}
+.node-card{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:9px 11px}
+.node-role{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.node-name{font-size:11px;font-weight:500;color:var(--text);margin-bottom:2px}
+.node-desc{font-size:10px;color:var(--muted);line-height:1.4}
+.flow-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px;background:var(--cream);border-radius:9px;padding:12px}
+.flow-chip{background:#fff;border:1px solid var(--border);border-radius:7px;padding:4px 10px;font-size:11px;color:var(--muted);white-space:nowrap}
+.flow-chip.agent{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:600}
+.flow-chip.n8n{background:rgba(74,138,154,.15);color:var(--teal-l);border-color:rgba(74,138,154,.4);font-weight:500}
+.flow-arr{color:var(--muted);font-size:14px;flex-shrink:0}
+.allowed-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.allowed-box{border-radius:9px;padding:12px}
+.allowed-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
+.allowed-item{display:flex;gap:7px;margin-bottom:5px;font-size:11px;line-height:1.5}
+/* ── DOCUMENTATION VIEW ── */
+.doc-wrap{flex:1;overflow-y:auto;padding:20px}
+.doc-wrap::-webkit-scrollbar{width:4px}.doc-wrap::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.field-table{width:100%;border-collapse:collapse;margin-bottom:20px}
+.field-table th{background:var(--teal);color:#fff;font-size:11px;font-weight:500;padding:9px 12px;text-align:left}
+.field-table td{padding:9px 12px;font-size:11px;border-bottom:1px solid var(--border);line-height:1.5;vertical-align:top}
+.field-table tr:last-child td{border-bottom:none}
+.field-table tr:nth-child(even) td{background:rgba(44,95,111,.03)}
+.field-req{font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px}
+.bound-rule{background:#FAECE7;border:1px solid rgba(217,119,87,.3);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.bound-rule-title{font-size:12px;font-weight:600;color:#712B13;margin-bottom:6px}
+.rule-row{display:flex;gap:8px;margin-bottom:5px;font-size:11px}
+.check{color:#2D6A4F;font-weight:700;flex-shrink:0}
+.cross{color:#D97757;font-weight:700;flex-shrink:0}
+/* ── FOOTER ── */
+.footer{background:#fff;border-top:1px solid var(--border);padding:8px 16px;flex-shrink:0}
+.footer p{font-size:10px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-eye">HFA × AI Aunties · Partnership Architecture</div>
+  <div class="hdr-title">Scope Boundary & n8n Workflow Taxonomy</div>
+  <div class="hdr-sub">Based on AI Aunties Commercial Build & Deployment Handbook · Defines which n8n workflows serve the Auntie vs. which are downstream client territory</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('boundary')">01 · Scope Boundary</div>
+  <div class="tab" onclick="showTab('taxonomy')">02 · n8n Workflow Taxonomy</div>
+  <div class="tab" onclick="showTab('documentation')">03 · Workflow Extension Documentation</div>
+  <div class="tab" onclick="showTab('modes')">04 · HFA Commercial Modes</div>
+</div>
+
+<!-- ══════════════════ TAB 1: BOUNDARY ══════════════════ -->
+<div id="view-boundary" class="view active">
+<div class="boundary-wrap">
+
+  <div class="bound-title">The Architecture in One Sentence</div>
+  <div class="bound-sub">The Auntie thinks. n8n stabilizes, routes, renders, logs, and executes. Nothing in the workflow layer rewrites, ranks, advises, decides, or alters what the Auntie produced.</div>
+
+  <div class="bound-grid">
+    <div class="bound-col" style="background:#EAF3DE22">
+      <div class="bound-col-header" style="color:#2D6A4F">
+        <div style="width:10px;height:10px;border-radius:50%;background:#2D6A4F"></div>
+        AI Aunties delivers
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#2D6A4F;margin-top:3px"></div>
+        <div>
+          <div class="bound-item-text" style="font-weight:500">Chat output</div>
+          <div class="bound-item-label">Advisory response · Analysis · Recommendation · Draft · Structured guidance</div>
+        </div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#2D6A4F;margin-top:3px"></div>
+        <div>
+          <div class="bound-item-text" style="font-weight:500">Downloadable artifact</div>
+          <div class="bound-item-label">Report · Word document · PDF · Formatted output · Client-facing work product</div>
+        </div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#2D6A4F;margin-top:3px"></div>
+        <div>
+          <div class="bound-item-text" style="font-weight:500">External brain + retrieval layer</div>
+          <div class="bound-item-label">Notion brain · Source library · Accepted/rejected outputs · Test logs · Use-case history · Structured knowledge base</div>
+        </div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#4A8A9A;margin-top:3px"></div>
+        <div>
+          <div class="bound-item-text" style="font-weight:500;color:#2C5F6F">+ Auntie Workflow Extension (if scoped)</div>
+          <div class="bound-item-label">Input triggers · Output rendering · Brain maintenance · Runtime governance — built by HFA, governed by AI Aunties handbook</div>
+        </div>
+      </div>
+    </div>
+    <div class="bound-divider"></div>
+    <div class="bound-col" style="background:#FAECE722">
+      <div class="bound-col-header" style="color:#712B13">
+        <div style="width:10px;height:10px;border-radius:50%;background:#D97757"></div>
+        Outside AI Aunties core scope
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#D97757;margin-top:3px"></div>
+        <div><div class="bound-item-text">CRM updates</div></div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#D97757;margin-top:3px"></div>
+        <div><div class="bound-item-text">Slack / email notifications</div></div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#D97757;margin-top:3px"></div>
+        <div><div class="bound-item-text">Task creation in project tools</div></div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#D97757;margin-top:3px"></div>
+        <div><div class="bound-item-text">File movement and database updates</div></div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#D97757;margin-top:3px"></div>
+        <div><div class="bound-item-text">Dashboard creation</div></div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#D97757;margin-top:3px"></div>
+        <div><div class="bound-item-text">Operational workflows</div></div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#D97757;margin-top:3px"></div>
+        <div><div class="bound-item-text">Client-side automations</div></div>
+      </div>
+      <div class="bound-item">
+        <div class="bound-dot" style="background:#D97757;margin-top:3px"></div>
+        <div><div class="bound-item-text">Third-party workflow orchestration</div></div>
+      </div>
+      <div style="margin-top:10px;padding:8px 10px;background:#fff;border-radius:7px;border:1px solid rgba(217,119,87,.3)">
+        <div style="font-size:10px;font-weight:600;color:#D97757;margin-bottom:3px">Who handles this?</div>
+        <div style="font-size:10px;color:#5A2010;line-height:1.5">Client does it themselves, or engages HFA directly. AI Aunties refers but does not govern. HFA sells as a separate engagement.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <div class="principle-card" style="background:#E8F2F5;border-color:#2C5F6F">
+      <div class="principle-title" style="color:#2C5F6F">The strongest sentence from the handbook</div>
+      <div class="principle-text" style="font-style:italic">"AI Aunties delivers the thinking product, the artifact, and, where scoped, the external brain and retrieval layer. What the client connects to those deliverables afterward belongs to the client or their automation provider unless AI Aunties has explicitly scoped and priced that workflow extension."</div>
+    </div>
+    <div class="principle-card" style="background:#EAF3DE;border-color:#2D6A4F">
+      <div class="principle-title" style="color:#2D6A4F">The cognition boundary rule</div>
+      <div class="principle-text">"Automation does not replace the Auntie, rewrite the Auntie, or make decisions on behalf of the Auntie. The Auntie remains the product runtime. The Auntie, operating through GPT, owns cognition, judgment, advisory reasoning, recommendations, language, and final client-facing content."</div>
+    </div>
+    <div class="principle-card" style="background:#FAEEDA;border-color:#D4860A">
+      <div class="principle-title" style="color:#D4860A">The implementation rule</div>
+      <div class="principle-text">"Technical partners may support implementation of the workflow module, but the automation remains governed by the AI Aunties Commercial Build & Deployment Handbook. The partner's role is implementation support, not product ownership or cognitive architecture."</div>
+    </div>
+  </div>
+
+  <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:10px">Commercial responsibility matrix</div>
+  <table class="field-table" style="margin-bottom:0">
+    <tr><th>Delivered by AI Aunties</th><th>Downstream — Client or HFA responsibility</th></tr>
+    <tr><td>Auntie-generated chat output</td><td>Acting on that output inside client systems</td></tr>
+    <tr><td>Downloadable artifact</td><td>Routing, filing, emailing, or distributing it</td></tr>
+    <tr><td>Notion brain + retrieval layer</td><td>Connecting it to other tools or automations</td></tr>
+    <tr><td>Auntie package structure</td><td>Client-specific workflow orchestration beyond scope</td></tr>
+    <tr><td>Scoped AIA workflow extension (HFA builds, AIA governs)</td><td>Any automation not included in the AIA scope</td></tr>
+  </table>
+</div>
+</div>
+
+<!-- ══════════════════ TAB 2: TAXONOMY ══════════════════ -->
+<div id="view-taxonomy" class="view">
+<div class="tax-wrap">
+<div class="tax-sidebar" id="tax-sidebar"></div>
+<div class="tax-detail" id="tax-detail"></div>
+</div>
+</div>
+
+<!-- ══════════════════ TAB 3: DOCUMENTATION ══════════════════ -->
+<div id="view-documentation" class="view">
+<div class="doc-wrap">
+
+  <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px">Auntie Workflow Extension — Required Documentation</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.5">Every n8n workflow built as an Auntie Workflow Extension must be documented with these fields before it goes into production. AI Aunties owns the standard; HFA owns the implementation build tasks.</div>
+
+  <table class="field-table">
+    <tr>
+      <th style="width:22%">Required Field</th>
+      <th style="width:36%">Description</th>
+      <th style="width:42%">Example</th>
+    </tr>
+    <tr>
+      <td><strong>Auntie Name</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>The specific Auntie the workflow supports. Must be a named, documented Auntie in the AI Aunties system.</td>
+      <td style="color:var(--muted)">Renee (Commercial Real Estate Analytical Auntie)</td>
+    </tr>
+    <tr>
+      <td><strong>Client / Use Case</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>The client context and specific business process being automated.</td>
+      <td style="color:var(--muted)">Ardra (CBRE) — property analysis report delivery to client inbox</td>
+    </tr>
+    <tr>
+      <td><strong>Workflow Purpose</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>The specific job this n8n workflow performs. One sentence. If it takes more than one sentence, split into two workflows.</td>
+      <td style="color:var(--muted)">Renders Renee's analysis output as a formatted PDF and emails it to the client contact stored in the deal record.</td>
+    </tr>
+    <tr>
+      <td><strong>Trigger Event</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>What starts the workflow. Must be a specific, observable event — not "when the Auntie is done."</td>
+      <td style="color:var(--muted)">Webhook fired by GPT when Renee marks analysis complete; OR manual trigger by agent pressing "Send to Client" button in Notion.</td>
+    </tr>
+    <tr>
+      <td><strong>Inputs Required</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>Files, data, forms, messages, or Auntie outputs the workflow needs to run. Be specific about format and source.</td>
+      <td style="color:var(--muted)">Renee's analysis text (from Notion property page) · Client email address (from deal record in Supabase) · Property address for PDF filename</td>
+    </tr>
+    <tr>
+      <td><strong>Actions Performed</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>Routing, rendering, notifications, updates, delivery, logging, and any other defined action steps. List each action.</td>
+      <td style="color:var(--muted)">1. Fetch analysis text from Notion · 2. Render PDF using template · 3. Email PDF to client contact · 4. Log delivery timestamp to Supabase</td>
+    </tr>
+    <tr>
+      <td><strong>Systems Touched</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>Every system the workflow reads from or writes to. Include n8n, Notion, CRM, email, file storage, forms, or any other tools.</td>
+      <td style="color:var(--muted)">n8n (orchestration) · Notion (Auntie output source) · Supabase (client record + delivery log) · Gmail (delivery) · PDF renderer</td>
+    </tr>
+    <tr>
+      <td><strong>Cognition Boundary</strong><br><span class="field-req" style="background:#FAECE7;color:#712B13">Critical</span></td>
+      <td>Explicit confirmation that this workflow does NOT rewrite, rank, advise, decide, or alter Auntie output in any way. If it does, it is not an Auntie Workflow Extension — it is a separate system that requires AI Aunties review.</td>
+      <td style="color:var(--muted)">Confirmed. This workflow renders and delivers Renee's output verbatim. No text is modified, summarized, ranked, or altered. The PDF template applies formatting only.</td>
+    </tr>
+    <tr>
+      <td><strong>Failure Behavior</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>What happens when the workflow cannot complete. Auntie output must never be lost or silently dropped. Define the fallback.</td>
+      <td style="color:var(--muted)">If PDF render fails: alert sent to HFA and agent. Auntie output preserved in Notion. No silent failure. Manual delivery fallback via direct email.</td>
+    </tr>
+    <tr>
+      <td><strong>Testing Requirement</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>How this workflow is validated before client use. Must include at least: happy path test, empty input test, and failure mode test.</td>
+      <td style="color:var(--muted)">Happy path: full analysis → PDF rendered → email delivered. Empty input: no analysis text → workflow stops, alert fired. Failure: email API down → fallback alert triggered.</td>
+    </tr>
+    <tr>
+      <td><strong>Owner</strong><br><span class="field-req" style="background:#EAF3DE;color:#2D6A4F">Required</span></td>
+      <td>AI Aunties owns the product standard. HFA owns the implementation build. Both are named here.</td>
+      <td style="color:var(--muted)">Product standard: AI Aunties (Sarita Myers) · Implementation: Human First Automation (Jerry Pender)</td>
+    </tr>
+  </table>
+
+  <div class="bound-rule">
+    <div class="bound-rule-title">Cognition boundary — what n8n can and cannot do to Auntie output</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+      <div>
+        <div style="font-size:10px;font-weight:700;color:#2D6A4F;margin-bottom:6px">✓ n8n MAY</div>
+        <div class="rule-row"><span class="check">✓</span><span>Route the output to a person, system, or channel</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>Render the output as PDF, Word, or formatted email</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>File the output to Notion, Supabase, or Drive</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>Deliver the output via email, SMS, or portal</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>Log the output to the model registry</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>Trigger the Auntie with an input</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>Feed context from the Notion brain to the Auntie</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>Apply formatting templates (visual only, no text change)</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>Send notification that the output is ready</span></div>
+        <div class="rule-row"><span class="check">✓</span><span>Run the QA loop (route for revision, not rewrite it)</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:700;color:#712B13;margin-bottom:6px">✗ n8n MAY NOT</div>
+        <div class="rule-row"><span class="cross">✗</span><span>Rewrite or paraphrase Auntie advisory content</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Rank or select between Auntie-generated options</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Add recommendations not generated by the Auntie</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Override the Auntie's judgment or conclusions</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Summarize Auntie output with a different AI model</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Make decisions about what content the client receives</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Alter the Auntie's tone, voice, or language</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Generate advisory content independently</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Decide which clients receive which level of output</span></div>
+        <div class="rule-row"><span class="cross">✗</span><span>Run a second AI model on the output without AIA approval</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ TAB 4: HFA MODES ══════════════════ -->
+<div id="view-modes" class="view">
+<div class="boundary-wrap">
+
+  <div class="bound-title">HFA's Three Commercial Modes in the AI Aunties Architecture</div>
+  <div class="bound-sub" style="margin-bottom:20px">HFA operates differently depending on where in the architecture the work lives. Each mode has different scope, pricing, governance, and client relationship dynamics.</div>
+
+  <div class="mode-grid">
+    <div class="mode-card" style="border-color:#2C5F6F;border-top:3px solid #2C5F6F">
+      <div class="mode-num" style="color:#2C5F6F">Mode 01</div>
+      <div class="mode-name">Auntie Workflow Extension Builder</div>
+      <div class="mode-desc">HFA builds n8n workflows that serve the Auntie product directly — input triggers, output rendering, brain maintenance, and runtime governance. These live inside the AI Aunties commercial scope and are governed by the AI Aunties handbook.</div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;font-weight:600;color:var(--teal);margin-bottom:5px">What HFA builds here:</div>
+        <div style="font-size:11px;color:#444;line-height:1.7">
+          · Input trigger workflows (form → Auntie)<br>
+          · Output rendering workflows (Auntie → PDF/Word)<br>
+          · Notion brain maintenance workflows<br>
+          · QA loop workflows (Maxine/Lux)<br>
+          · Model registry logging workflows<br>
+          · Context retrieval workflows
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="mode-tag" style="background:#E8F2F5;color:#2C5F6F">Governed by AIA handbook</span>
+        <span class="mode-tag" style="background:#EAF3DE;color:#2D6A4F">Co-sold with AIA package</span>
+      </div>
+    </div>
+    <div class="mode-card" style="border-color:#D97757;border-top:3px solid #D97757">
+      <div class="mode-num" style="color:#D97757">Mode 02</div>
+      <div class="mode-name">Downstream Automation Partner</div>
+      <div class="mode-desc">Once the Auntie delivers its output, anything the client wants to do with that output in their own systems is outside AI Aunties core scope. AI Aunties refers the client to HFA. HFA sells this directly. No AIA governance applies.</div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;font-weight:600;color:#D97757;margin-bottom:5px">What HFA builds here:</div>
+        <div style="font-size:11px;color:#444;line-height:1.7">
+          · CRM updates from Auntie output<br>
+          · Task creation from recommendations<br>
+          · Slack/email notification routing<br>
+          · Database writes from artifacts<br>
+          · Dashboard creation from reports<br>
+          · File routing and operational workflows
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="mode-tag" style="background:#FAECE7;color:#712B13">HFA direct sale</span>
+        <span class="mode-tag" style="background:#FAEEDA;color:#633806">AIA refers, HFA closes</span>
+      </div>
+    </div>
+    <div class="mode-card" style="border-color:#7F77DD;border-top:3px solid #7F77DD">
+      <div class="mode-num" style="color:#7F77DD">Mode 03</div>
+      <div class="mode-name">Independent HFA Engagement</div>
+      <div class="mode-desc">Clients who don't have an Auntie but need automation. Pure HFA business. AI Aunties is not involved unless HFA identifies an opportunity to introduce the Auntie product — which becomes a referral in the other direction.</div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;font-weight:600;color:#7F77DD;margin-bottom:5px">What HFA builds here:</div>
+        <div style="font-size:11px;color:#444;line-height:1.7">
+          · All workflow types from the catalog<br>
+          · Industry-specific automation builds<br>
+          · Solopreneur workflow subscriptions<br>
+          · Full business automation systems<br>
+          · Custom integrations and pipelines<br>
+          · Everything in the HFA product catalog
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="mode-tag" style="background:#EEEDFE;color:#3C3489">Pure HFA business</span>
+        <span class="mode-tag" style="background:#EAF3DE;color:#2D6A4F">Reverse referral to AIA</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px">
+    <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:12px">The referral loop between modes</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div style="background:#E8F2F5;border-radius:8px;padding:10px 14px;font-size:11px;color:#2C5F6F;text-align:center;min-width:120px">
+        <div style="font-weight:600;margin-bottom:2px">AIA client</div>
+        <div style="color:var(--muted)">needs automation</div>
+      </div>
+      <div style="color:var(--muted);font-size:18px">→</div>
+      <div style="background:#FAEEDA;border-radius:8px;padding:10px 14px;font-size:11px;color:#633806;text-align:center;min-width:120px">
+        <div style="font-weight:600;margin-bottom:2px">AIA refers to HFA</div>
+        <div style="color:var(--muted)">Mode 01 or 02</div>
+      </div>
+      <div style="color:var(--muted);font-size:18px">→</div>
+      <div style="background:#EAF3DE;border-radius:8px;padding:10px 14px;font-size:11px;color:#2D6A4F;text-align:center;min-width:120px">
+        <div style="font-weight:600;margin-bottom:2px">HFA builds</div>
+        <div style="color:var(--muted)">extension or downstream</div>
+      </div>
+    </div>
+    <div style="height:10px"></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div style="background:#EEEDFE;border-radius:8px;padding:10px 14px;font-size:11px;color:#3C3489;text-align:center;min-width:120px">
+        <div style="font-weight:600;margin-bottom:2px">HFA client</div>
+        <div style="color:var(--muted)">needs cognitive layer</div>
+      </div>
+      <div style="color:var(--muted);font-size:18px">→</div>
+      <div style="background:#FAEEDA;border-radius:8px;padding:10px 14px;font-size:11px;color:#633806;text-align:center;min-width:120px">
+        <div style="font-weight:600;margin-bottom:2px">HFA refers to AIA</div>
+        <div style="color:var(--muted)">Mode 03 → AIA sale</div>
+      </div>
+      <div style="color:var(--muted);font-size:18px">→</div>
+      <div style="background:#EAF3DE;border-radius:8px;padding:10px 14px;font-size:11px;color:#2D6A4F;text-align:center;min-width:120px">
+        <div style="font-weight:600;margin-bottom:2px">AIA delivers Auntie</div>
+        <div style="color:var(--muted)">HFA stays as ext. builder</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="footer"><p>Based on AI Aunties Commercial Build & Deployment Handbook — The Auntie thinks. n8n executes. HFA builds both ends of that relationship.</p></div>
+
+<script>
+const CATS=[
+  {id:"c1",label:"Category 1 — Auntie Input Workflows",scope:"AIA scope",scopeColor:"#2D6A4F",
+   desc:"Workflows that feed information INTO the Auntie before it thinks. These are inside AI Aunties scope as Auntie Workflow Extensions.",
+   workflows:[
+    {id:"c1w1",name:"Form → Auntie Trigger",
+     sub:"Client or team member submits a form → n8n parses, structures, and fires the Auntie with the right context",
+     nodes:[
+      {role:"Trigger",name:"Webhook / Form node",desc:"Receives form submission from Typeform, JotForm, or embedded form"},
+      {role:"Transform",name:"Edit Fields node",desc:"Structures raw form data into the exact JSON the Auntie expects as input"},
+      {role:"Enrich",name:"Supabase / Notion node",desc:"Pulls any existing client history or brain context to include in the Auntie call"},
+      {role:"Execute",name:"HTTP Request (GPT API)",desc:"Fires the Auntie with structured input + retrieved context"},
+    ],
+     flow:["📋 Form submitted","→","n8n parses + structures","→","Retrieves brain context","→","🧠 Auntie triggered","→","Auntie produces output"],
+     boundary:"Input prep only. n8n does not decide what the Auntie should say — it organizes the information the Auntie needs to think clearly.",
+     examples:["Client intake → Auntie brief","Property data → Renee analysis trigger","Volunteer application → Auntie response trigger","Grant RFP → Auntie eligibility assessment trigger"]},
+    {id:"c1w2",name:"Scheduled Auntie Briefing",
+     sub:"Time-based trigger fires the Auntie on a schedule — morning briefings, weekly syntheses, monthly reports",
+     nodes:[
+      {role:"Trigger",name:"Schedule Trigger node",desc:"Fires at defined time — daily 6AM, weekly Monday, monthly 1st"},
+      {role:"Gather",name:"Multiple source nodes",desc:"Pulls data from CRM, Notion, calendar, news APIs, email to assemble context"},
+      {role:"Structure",name:"Merge + Code node",desc:"Combines all sources into a single coherent brief for the Auntie"},
+      {role:"Execute",name:"HTTP Request (GPT API)",desc:"Fires the Auntie with the assembled context for synthesis"},
+    ],
+     flow:["⏰ Schedule trigger","→","n8n pulls all sources","→","Merges into brief","→","🧠 Auntie synthesizes","→","Output delivered"],
+     boundary:"Data gathering and structuring only. The Auntie decides what matters, what to flag, and what to recommend. n8n just collects and combines.",
+     examples:["Daily ED morning briefing","Weekly donor intelligence digest","Monthly grant compliance check","Annual report data assembly"]},
+    {id:"c1w3",name:"Document → Auntie Context Injection",
+     sub:"Document uploaded or received → n8n extracts and structures content → Auntie receives it as context",
+     nodes:[
+      {role:"Trigger",name:"Email Trigger / Drive Watch",desc:"Detects new document in email attachment or Drive folder"},
+      {role:"Extract",name:"Extract From File node",desc:"Pulls text content from PDF, Word, or other document format"},
+      {role:"Structure",name:"Summarize + Edit Fields",desc:"Structures the extracted text for Auntie consumption — no AI summarization, just field organization"},
+      {role:"Execute",name:"HTTP Request (GPT API)",desc:"Provides document content as context in the Auntie call"},
+    ],
+     flow:["📄 Document received","→","n8n extracts text","→","Structures for Auntie","→","🧠 Auntie receives as context","→","Auntie analyzes + responds"],
+     boundary:"Text extraction and structuring only. n8n does not summarize or analyze the document — that is the Auntie's job.",
+     examples:["Grant RFP → Auntie eligibility review","Client intake doc → Auntie case brief","Meeting recording → Auntie minutes analysis","Research doc → Auntie synthesis trigger"]},
+    {id:"c1w4",name:"Voice Note → Auntie Input",
+     sub:"Audio or voice note submitted → transcribed → structured → Auntie receives as clean text input",
+     nodes:[
+      {role:"Trigger",name:"Webhook / Telegram node",desc:"Receives voice message from Telegram, WhatsApp, or uploaded audio file"},
+      {role:"Transcribe",name:"OpenAI Whisper API",desc:"Converts audio to text transcript — no AI reasoning, just transcription"},
+      {role:"Clean",name:"Edit Fields node",desc:"Removes filler words, structures into paragraphs for Auntie readability"},
+      {role:"Execute",name:"HTTP Request (GPT API)",desc:"Fires the Auntie with the clean transcript as the input"},
+    ],
+     flow:["🎙️ Voice note received","→","Whisper transcription","→","Text cleaned + structured","→","🧠 Auntie receives","→","Auntie thinks + produces"],
+     boundary:"Transcription is mechanical, not cognitive. Whisper converts audio to text — it does not analyze, summarize, or draw conclusions. The Auntie does that.",
+     examples:["ED voice memo → morning briefing trigger","Client voice note → Auntie intake processing","Staff field report → Auntie program update","Coach session note → Auntie client recap trigger"]},
+   ]},
+  {id:"c2",label:"Category 2 — Auntie Output Workflows",scope:"AIA scope (with extension)",scopeColor:"#2C5F6F",
+   desc:"Workflows that take the Auntie's finished output and render, deliver, or distribute it — without changing a word. These are Auntie Workflow Extensions, inside AI Aunties scope when explicitly purchased.",
+   workflows:[
+    {id:"c2w1",name:"Output → PDF / Word Artifact",
+     sub:"Auntie produces text output → n8n renders it as a formatted, branded document the client can download or receive",
+     nodes:[
+      {role:"Receive",name:"Webhook / n8n internal",desc:"Receives the Auntie's completed text output from the GPT API response"},
+      {role:"Format",name:"HTML / Markdown node",desc:"Applies document template formatting — headers, spacing, brand fonts. No text changes."},
+      {role:"Render",name:"PDF generation library",desc:"Converts formatted HTML to PDF or Word document"},
+      {role:"Deliver",name:"Email / Drive / Notion node",desc:"Sends rendered artifact to client or files it in the right location"},
+    ],
+     flow:["🧠 Auntie output received","→","Template formatting applied","→","PDF/Word rendered","→","Delivered to client / filed"],
+     boundary:"Template applies visual formatting only — no text modification. The output the client receives is exactly what the Auntie produced.",
+     examples:["Renee analysis → formatted client PDF","Grant narrative → Word document for submission","Board packet → formatted PDF to board members","Client report → branded PDF delivery"]},
+    {id:"c2w2",name:"Output → Notion Brain Filing",
+     sub:"Auntie session or output → n8n files it to the right location in the Notion brain with metadata tags",
+     nodes:[
+      {role:"Receive",name:"Webhook / HTTP trigger",desc:"Receives Auntie output + session metadata (date, client, type)"},
+      {role:"Classify",name:"IF / Switch node",desc:"Routes to correct Notion database based on output type — accepted, rejected, test, production"},
+      {role:"File",name:"Notion node",desc:"Creates properly structured Notion page with the output + metadata tags"},
+      {role:"Log",name:"Supabase node",desc:"Appends entry to model registry with full context for pattern tracking"},
+    ],
+     flow:["🧠 Auntie output + metadata","→","IF/Switch classifies type","→","Notion page created","→","Model registry logged"],
+     boundary:"Filing is mechanical classification and storage — not cognitive evaluation. The IF/Switch uses explicit metadata rules (output type, flagged/accepted) set by AI Aunties, not AI judgment.",
+     examples:["Session output → accepted outputs library","Failed test → rejected outputs log","Client delivery → use-case history","New learning → retrieval notes database"]},
+    {id:"c2w3",name:"Output → Email / Portal Delivery",
+     sub:"Auntie produces the content → n8n sends it to the right person through the right channel at the right time",
+     nodes:[
+      {role:"Receive",name:"Webhook trigger",desc:"Receives Auntie output with delivery metadata (recipient, channel, timing)"},
+      {role:"Personalize",name:"Edit Fields node",desc:"Inserts recipient name, date, and reference fields — no content changes"},
+      {role:"Route",name:"IF / Switch node",desc:"Routes to email, portal, Slack, or SMS based on channel preference in client record"},
+      {role:"Send",name:"Gmail / Outlook / SMS node",desc:"Delivers the output through the selected channel"},
+    ],
+     flow:["🧠 Auntie output + delivery metadata","→","Recipient fields inserted","→","Channel routing","→","Delivered to client"],
+     boundary:"Delivery routing only. The IF/Switch routes based on client preferences stored in Supabase — not on content evaluation. No word of the Auntie's output is changed.",
+     examples:["Coaching recap → client email delivery","Analysis report → portal post","Daily briefing → ED email","Artifact → client download link"]},
+   ]},
+  {id:"c3",label:"Category 3 — Brain & Memory Workflows",scope:"AIA scope (core)",scopeColor:"#D4860A",
+   desc:"Workflows that build, maintain, and retrieve from the Notion brain and retrieval layer. These are central to the Auntie product — the brain is what gives the Auntie long-term memory and consistency.",
+   workflows:[
+    {id:"c3w1",name:"Conversation → Brain Update",
+     sub:"Every Auntie session updates the knowledge base — new information logged, contradictions flagged, patterns recorded",
+     nodes:[
+      {role:"Trigger",name:"Webhook (post-session)",desc:"Fires after each Auntie session completes with session transcript"},
+      {role:"Classify",name:"GPT classification call",desc:"AI Aunties-sanctioned classification: new knowledge, contradiction, use-case pattern, or test result. This is the ONE place a second AI call is permitted — to classify, not to rewrite."},
+      {role:"Route",name:"Switch node",desc:"Routes classified content to the correct brain section in Notion"},
+      {role:"Update",name:"Notion node",desc:"Updates existing page or creates new entry with full context"},
+    ],
+     flow:["🧠 Session completes","→","Classification call (type only)","→","Switch routes to brain section","→","Notion brain updated"],
+     boundary:"Classification is permitted here because it determines WHERE to file, not WHAT the content means. The Auntie's words are filed verbatim — the classification only selects the destination.",
+     examples:["New client insight → brain knowledge section","Test failure → rejected outputs with notes","Successful pattern → use-case history","Contradiction with prior → flag for AI Aunties review"]},
+    {id:"c3w2",name:"Retrieval Layer — Context Pull",
+     sub:"Before the Auntie runs, n8n pulls the most relevant prior knowledge from the brain and feeds it as context",
+     nodes:[
+      {role:"Trigger",name:"Pre-Auntie hook",desc:"Fires before the Auntie call based on input type and client context"},
+      {role:"Query",name:"Supabase / Notion query node",desc:"Searches the brain for relevant prior sessions, knowledge, and patterns by keyword and client"},
+      {role:"Score",name:"Vector similarity (optional)",desc:"If vector search is set up: finds semantically similar prior outputs for richer context"},
+      {role:"Inject",name:"Edit Fields node",desc:"Structures retrieved context as the 'prior knowledge' field in the Auntie's system prompt"},
+    ],
+     flow:["🔍 Input received","→","Brain queried for relevant context","→","Context structured","→","🧠 Auntie receives prior knowledge","→","Auntie thinks with memory"],
+     boundary:"Retrieval and injection only. n8n selects context by recency and keyword match — not by judging what the Auntie should think. The Auntie decides what's relevant once it has the context.",
+     examples:["Client name → pull prior session history","Topic → pull related knowledge entries","Auntie name → pull taste profile + exemplar file","Grant funder → pull prior application notes"]},
+    {id:"c3w3",name:"Model Registry Logging",
+     sub:"Every Auntie test, deployment, update, or failure logged with full context — the organizational memory of the Auntie system",
+     nodes:[
+      {role:"Trigger",name:"Multiple triggers",desc:"Test complete, deployment made, runtime failure detected, model update received"},
+      {role:"Capture",name:"Edit Fields node",desc:"Structures the event: what happened, when, which Auntie, what the output was, what the outcome was"},
+      {role:"Append",name:"Supabase node",desc:"Appends structured record to model registry table — never overwrites, always appends"},
+      {role:"Alert",name:"Email / Slack node",desc:"Notifies AI Aunties if the event requires human review"},
+    ],
+     flow:["⚡ Event occurs","→","Event structured with full context","→","Appended to registry","→","Alert fired if review needed"],
+     boundary:"Pure logging — no evaluation. The workflow records what happened. AI Aunties reviews the registry and decides what to do with the patterns.",
+     examples:["Test pass/fail → registry entry","Runtime degradation → flagged entry + alert","Model update → compatibility test log","Deployment → production record"]},
+   ]},
+  {id:"c4",label:"Category 4 — Runtime Governance Workflows",scope:"AIA scope (core)",scopeColor:"#C4577A",
+   desc:"Workflows that maintain the quality and consistency of the Auntie's output over time. These are the hardening mechanisms — the QA loop, failure handling, and performance tracking that make the Auntie version-proof.",
+   workflows:[
+    {id:"c4w1",name:"QA Loop — Maxine / Lux Review Cycle",
+     sub:"Auntie Maxine produces → Lux reviews against taste profile → n8n routes: pass to delivery, fail back to Maxine with critique",
+     nodes:[
+      {role:"Production",name:"HTTP Request (Maxine call)",desc:"Fires Auntie Maxine with the content brief — receives first draft output"},
+      {role:"Review",name:"HTTP Request (Lux call)",desc:"Fires Auntie Lux with Maxine's draft + taste profile — receives structured critique with pass/fail"},
+      {role:"Route",name:"IF node",desc:"IF pass → route to delivery workflow. IF fail → route back to Maxine with Lux's critique. Max iterations counter maintained."},
+      {role:"Escalate",name:"Email / ClickUp node",desc:"If max iterations reached → escalate to human reviewer with all drafts and Lux's full critique attached"},
+    ],
+     flow:["📝 Brief enters","→","🧠 Maxine drafts","→","🧠 Lux reviews","→","IF pass → deliver","→","IF fail → Maxine revises","→","Max 3 iterations → human"],
+     boundary:"The routing decision (pass/fail) is made by Auntie Lux — a cognitive agent. n8n executes the routing based on Lux's explicit output. n8n does not make the quality judgment.",
+     examples:["Content output → Maxine/Lux quality check","Client report → taste profile validation","Social post → brand voice verification","Proposal → strategic alignment check"]},
+    {id:"c4w2",name:"Runtime Failure Detection + Recovery",
+     sub:"Auntie output degrades, becomes inconsistent, or fails — n8n detects, logs, alerts, and initiates recovery protocol",
+     nodes:[
+      {role:"Monitor",name:"Scheduled check / webhook",desc:"Periodic test runs against known-good benchmark inputs to detect drift"},
+      {role:"Evaluate",name:"IF / comparison node",desc:"Compares output structure, length, and key markers against expected parameters — structural checks only, not content evaluation"},
+      {role:"Alert",name:"Email / SMS node",desc:"Notifies AI Aunties immediately with failure context — what changed, which test, what the output looked like"},
+      {role:"Preserve",name:"Supabase node",desc:"Logs the degraded output and all context to registry before any recovery action"},
+    ],
+     flow:["⏰ Scheduled test","→","Output checked vs. structural benchmark","→","IF anomaly → alert AI Aunties","→","Log to registry","→","Recovery initiated by AIA"],
+     boundary:"Detection is structural — checking output format, completeness markers, and length parameters. Determining WHETHER the content has degraded is AI Aunties' judgment call, not n8n's.",
+     examples:["Daily Auntie health check","Post-model-update stability test","Client delivery failure alert","Runtime error capture + log"]},
+   ]},
+  {id:"c5",label:"Category 5 — Downstream Client Workflows",scope:"OUTSIDE AIA core",scopeColor:"#D97757",
+   desc:"Workflows that take the Auntie's delivered output and act on it inside the client's business systems. This is outside AI Aunties' core scope. AI Aunties refers; HFA sells directly. No AIA handbook governance applies.",
+   workflows:[
+    {id:"c5w1",name:"Auntie Output → CRM Update",
+     sub:"Auntie delivers analysis or recommendation → client's CRM is updated with the relevant data points from that output",
+     nodes:[
+      {role:"Receive",name:"Webhook trigger",desc:"Receives notification that Auntie output was delivered"},
+      {role:"Parse",name:"Extract From File / JSON parse",desc:"Extracts specific structured fields from the Auntie artifact (deal stage, action items, next steps)"},
+      {role:"Update",name:"HubSpot / Salesforce / ClickUp node",desc:"Writes extracted fields to the correct CRM record"},
+      {role:"Log",name:"Supabase node",desc:"Logs the CRM update event for audit trail"},
+    ],
+     flow:["📄 Auntie output delivered","→","Specific fields extracted","→","CRM record updated","→","Update logged"],
+     boundary:"This workflow is OUTSIDE AI Aunties scope. HFA sells this directly. The Auntie's content is not modified — specific data points are extracted and written to CRM fields.",
+     examples:["Deal analysis → CRM deal stage update","Client brief → contact record notes update","Property report → deal record update","Grant recommendation → opportunity record update"]},
+    {id:"c5w2",name:"Auntie Artifact → Task Creation",
+     sub:"Auntie delivers recommendations with action items → n8n creates tasks in the client's project management system for each action item",
+     nodes:[
+      {role:"Receive",name:"Webhook trigger",desc:"Receives Auntie output that contains action items"},
+      {role:"Extract",name:"GPT extraction call",desc:"Structured extraction of action items — this is the ONE case where a second AI call is permitted in downstream scope, but ONLY to extract structured data, not to evaluate or add recommendations"},
+      {role:"Create",name:"ClickUp / Asana / Notion node",desc:"Creates one task per extracted action item with due date and assignee"},
+      {role:"Notify",name:"Slack / email node",desc:"Notifies task owners that new actions have been created"},
+    ],
+     flow:["📄 Auntie artifact with action items","→","Action items extracted (structured)","→","Tasks created per item","→","Owners notified"],
+     boundary:"Outside AIA core scope. HFA direct sale. The extraction call only pulls text that the Auntie already identified as action items — it does not generate new recommendations.",
+     examples:["Board meeting output → ClickUp tasks for ED","Grant requirements → task checklist for team","Client analysis → action item tasks","Program recommendations → implementation tasks"]},
+    {id:"c5w3",name:"Auntie Report → Notification Routing",
+     sub:"Auntie produces a report → n8n routes specific sections to the specific people who need to act on them, via Slack, email, or SMS",
+     nodes:[
+      {role:"Receive",name:"Webhook trigger",desc:"Receives completed Auntie report"},
+      {role:"Segment",name:"IF / Switch node",desc:"Routes report sections based on pre-defined recipient rules — 'financial section goes to finance manager'"},
+      {role:"Format",name:"Edit Fields node",desc:"Inserts recipient name and reference fields — no content changes"},
+      {role:"Send",name:"Slack / Gmail / SMS node",desc:"Delivers section to each recipient via their preferred channel"},
+    ],
+     flow:["📄 Auntie report complete","→","Sections routed by rule","→","Recipient fields inserted","→","Each section delivered to right person"],
+     boundary:"Outside AIA core scope. HFA direct sale. Routing rules are predefined by the client and HFA — not determined by AI. Content of each section is unchanged.",
+     examples:["Board packet → each committee member gets their section","Grant report → program, finance, grants manager each get their part","Client intelligence → account team members notified","Briefing → relevant department heads alerted"]},
+    {id:"c5w4",name:"All Downstream Operational Workflows",
+     sub:"The complete category of client-side automations — database updates, dashboards, file routing, integrations — triggered by or related to Auntie outputs but fully outside AIA scope",
+     nodes:[
+      {role:"Examples",name:"Database writes",desc:"Supabase, Airtable, or other database updates from Auntie-derived data"},
+      {role:"Examples",name:"Dashboard creation",desc:"Populating client dashboards with metrics from Auntie reports"},
+      {role:"Examples",name:"File routing",desc:"Moving Auntie artifacts to the correct folders, archives, or sharing platforms"},
+      {role:"Examples",name:"Third-party integrations",desc:"Connecting Auntie outputs to any third-party system the client uses"},
+    ],
+     flow:["📄 Auntie delivers product","→","▶ AI Aunties scope ends here ▶","→","HFA sells and builds downstream","→","Client systems updated"],
+     boundary:"OUTSIDE AI Aunties core scope entirely. HFA prices, sells, builds, and governs these independently. AI Aunties does not apply its handbook to these workflows. AI Aunties refers.",
+     examples:["All CRM integrations","All dashboard builds","All file and document routing","All third-party system connections","All operational automations not in an explicit AIA scope"]},
+   ]},
+];
+
+let selWf=CATS[0].workflows[0];
+
+function renderTaxSidebar(){
+  let html="";
+  CATS.forEach(cat=>{
+    html+=`<div class="tax-cat-header">${cat.label.split("—")[0].trim()}</div>`;
+    cat.workflows.forEach(wf=>{
+      const active=wf.id===selWf.id;
+      const scopeStyle=cat.scope.includes("OUTSIDE")?
+        "background:#FAECE7;color:#712B13":"background:#EAF3DE;color:#2D6A4F";
+      html+=`<div class="tax-item${active?" active":""}" style="${active?"--accent:"+cat.scopeColor:""}" onclick="pickWf('${wf.id}')">
+        <div class="tax-item-name">${wf.name}</div>
+        <span class="tax-item-scope" style="${scopeStyle}">${cat.scope}</span>
+      </div>`;
+    });
+  });
+  document.getElementById("tax-sidebar").innerHTML=html;
+}
+
+function renderTaxDetail(){
+  const cat=CATS.find(c=>c.workflows.some(w=>w.id===selWf.id));
+  const wf=selWf;
+  const isOutside=cat.scope.includes("OUTSIDE");
+  document.getElementById("tax-detail").innerHTML=`
+    <div class="wf-card">
+      <div class="wf-topbar" style="background:${cat.scopeColor}"></div>
+      <div class="wf-body">
+        <div class="wf-meta">
+          <span class="wf-tag" style="background:${isOutside?"#FAECE7":"#EAF3DE"};color:${isOutside?"#712B13":"#2D6A4F"}">${cat.scope}</span>
+          <span class="wf-tag" style="background:${cat.scopeColor}22;color:${cat.scopeColor}">${cat.label.split("—")[1].trim()}</span>
+        </div>
+        <div class="wf-title">${wf.name}</div>
+        <div class="wf-sub">${wf.sub}</div>
+
+        <div class="wf-section">Workflow flow</div>
+        <div class="flow-row">
+          ${wf.flow.map(f=>{
+            if(f==="→")return`<div class="flow-arr">→</div>`;
+            if(f.includes("Auntie"))return`<div class="flow-chip agent">${f}</div>`;
+            if(f.includes("n8n"))return`<div class="flow-chip n8n">${f}</div>`;
+            return`<div class="flow-chip">${f}</div>`;
+          }).join("")}
+        </div>
+
+        <div class="wf-section">n8n nodes used</div>
+        <div class="node-grid">
+          ${wf.nodes.map(n=>`<div class="node-card">
+            <div class="node-role" style="color:${cat.scopeColor}">${n.role}</div>
+            <div class="node-name">${n.name}</div>
+            <div class="node-desc">${n.desc}</div>
+          </div>`).join("")}
+        </div>
+
+        <div class="wf-section">Cognition boundary confirmation</div>
+        <div style="background:${isOutside?"#FAECE7":"#EAF3DE"};border-radius:9px;padding:11px 14px;margin-bottom:14px;border-left:3px solid ${cat.scopeColor}">
+          <div style="font-size:10px;font-weight:700;color:${cat.scopeColor};margin-bottom:4px">${isOutside?"OUTSIDE AI AUNTIES CORE SCOPE":"INSIDE AI AUNTIES SCOPE — Boundary confirmed"}</div>
+          <div style="font-size:11px;color:#444;line-height:1.6">${wf.boundary}</div>
+        </div>
+
+        <div class="wf-section">Common use cases</div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px">
+          ${wf.examples.map(e=>`<span style="background:#fff;border:1px solid var(--border);border-radius:7px;padding:4px 10px;font-size:11px;color:var(--muted)">${e}</span>`).join("")}
+        </div>
+      </div>
+    </div>`;
+}
+
+function pickWf(id){
+  CATS.forEach(c=>c.workflows.forEach(w=>{if(w.id===id)selWf=w;}));
+  renderTaxSidebar();renderTaxDetail();
+  document.getElementById("tax-detail").scrollTop=0;
+}
+
+function showTab(name){
+  document.querySelectorAll(".tab").forEach((t,i)=>{
+    const names=["boundary","taxonomy","documentation","modes"];
+    t.classList.toggle("active",names[i]===name);
+  });
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.toggle("active",v.id==="view-"+name);
+  });
+}
+
+renderTaxSidebar();renderTaxDetail();
+</script>
+</body>
+</html>
