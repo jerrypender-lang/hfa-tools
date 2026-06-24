@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HFA Response — Maxine Commercial Handbook Addendum</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#2C5F6F;--teal-l:#4A8A9A;--gold:#D4A574;--coral:#D97757;
+  --green:#8AB661;--forest:#2D6A4F;--purple:#7F77DD;--amber:#D4860A;
+  --navy:#1E3A5F;--rose:#C4577A;--cream:#F5F3EE;--white:#fff;
+  --border:#DDD9D0;--text:#1E2D32;--muted:#6B7C83;--light:#F0F6F8;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+.hdr{background:var(--teal);padding:13px 20px;border-bottom:3px solid var(--gold);flex-shrink:0}
+.hdr-eye{font-size:9px;color:#A8D4DF;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.hdr-title{font-size:19px;font-weight:500;color:#fff;margin-bottom:2px}
+.hdr-sub{font-size:11px;color:#D4EBF0}
+.tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;display:flex;flex-shrink:0;overflow-x:auto}
+.tab{padding:10px 15px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;font-family:'DM Sans',sans-serif}
+.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.view{display:none;flex:1;overflow-y:auto;padding:18px}
+.view.active{display:block}
+.view::-webkit-scrollbar{width:4px}.view::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+/* shared */
+.pg-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
+.pg-sub{font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.5}
+.section-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 8px}
+.card{background:#fff;border:1px solid var(--border);border-radius:11px;padding:15px 17px;margin-bottom:12px}
+.card-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:5px}
+.card-body{font-size:11px;color:#444;line-height:1.65}
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-right:4px;margin-bottom:4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:640px){.two,.three{grid-template-columns:1fr}}
+.callout{border-radius:9px;padding:12px 14px;margin-bottom:12px;border-left:3px solid}
+.row{display:flex;gap:8px;margin-bottom:6px;font-size:11px;line-height:1.5;align-items:flex-start}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
+/* workflow cards */
+.wf-card{background:#fff;border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:14px}
+.wf-bar{height:4px}
+.wf-body{padding:15px 17px}
+.wf-num{font-size:9px;font-weight:700;letter-spacing:.06em;margin-bottom:3px}
+.wf-title{font-size:14px;font-weight:500;margin-bottom:4px}
+.wf-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block;margin-right:4px;margin-bottom:8px}
+.wf-sub{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;line-height:1.5}
+.wf-section{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:10px 0 6px}
+.node-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:7px;margin-bottom:10px}
+.node{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+.node-role{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.node-name{font-size:11px;font-weight:500;color:var(--text);margin-bottom:2px}
+.node-desc{font-size:10px;color:var(--muted);line-height:1.4}
+.flow-chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:var(--cream);border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.fc{background:#fff;border:1px solid var(--border);border-radius:7px;padding:4px 9px;font-size:11px;color:var(--muted);white-space:nowrap}
+.fc.auntie{background:var(--teal);color:#fff;font-weight:600}
+.fc.gate{background:#FAECE7;color:#712B13;font-weight:600;border-color:rgba(217,119,87,.3)}
+.fc.n8n{background:rgba(74,138,154,.15);color:var(--teal-l);font-weight:500;border-color:rgba(74,138,154,.4)}
+.fc-arr{color:var(--muted);font-size:13px;flex-shrink:0}
+/* JSON block */
+.json-block{background:#1E2D32;border-radius:9px;padding:14px 16px;font-family:'Courier New',monospace;font-size:11px;line-height:1.8;overflow-x:auto;margin-bottom:12px}
+.j-key{color:#A8D4DF}
+.j-str{color:#D4A574}
+.j-bool{color:#8AB661}
+.j-comment{color:#5A6E7A;font-style:italic}
+/* DB tables */
+.db-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11px}
+.db-table th{background:var(--teal);color:#fff;padding:7px 10px;text-align:left;font-weight:500}
+.db-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.db-table tr:nth-child(even) td{background:rgba(44,95,111,.025)}
+.db-table tr:last-child td{border-bottom:none}
+/* TBD answers */
+.tbd-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.tbd-header{background:var(--teal);padding:9px 14px;display:flex;justify-content:space-between;align-items:center}
+.tbd-q{font-size:11px;font-weight:600;color:#fff}
+.tbd-was{font-size:10px;color:#A8D4DF}
+.tbd-body{padding:12px 14px;background:#fff}
+.tbd-answer{font-size:11px;color:#444;line-height:1.6}
+/* phases */
+.phase-card{border-radius:10px;padding:14px 16px;border:1px solid var(--border);margin-bottom:10px}
+.phase-num{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.phase-title{font-size:14px;font-weight:500;margin-bottom:4px}
+.phase-item{display:flex;gap:8px;margin-bottom:6px;font-size:11px;line-height:1.5}
+/* footer */
+.footer{background:#fff;border-top:1px solid var(--border);padding:8px 16px;flex-shrink:0}
+.footer p{font-size:10px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-eye">Human First Automations — Technical Response</div>
+  <div class="hdr-title">Maxine Commercial Handbook Addendum v1.1</div>
+  <div class="hdr-sub">HFA's full read on JSON routing · Notion library architecture · Publishing Queue · Joint client orchestration · 7 workflow proposals</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('read')">01 · HFA's Read</div>
+  <div class="tab" onclick="showTab('workflows')">02 · 7 Workflow Proposals</div>
+  <div class="tab" onclick="showTab('databases')">03 · Notion Library Architecture</div>
+  <div class="tab" onclick="showTab('json')">04 · JSON Routing Implementation</div>
+  <div class="tab" onclick="showTab('tbds')">05 · TBD Answers</div>
+  <div class="tab" onclick="showTab('phases')">06 · Build Phases</div>
+</div>
+
+<!-- ══ TAB 1: HFA'S READ ══════════════════════════════════════════ -->
+<div id="view-read" class="view active">
+  <div class="pg-title">HFA's technical and operational read on the Addendum</div>
+  <div class="pg-sub">Section-by-section response to Sarita's Handbook v1.1. This document is HFA's formal input before the main Handbook is updated.</div>
+
+  <div class="callout" style="background:#EAF3DE;border-color:#2D6A4F">
+    <div style="font-size:12px;font-weight:600;color:#2D6A4F;margin-bottom:4px">The system principle holds — HFA fully endorses it</div>
+    <div style="font-size:11px;color:#2A3A2A;line-height:1.6;font-style:italic">"Content engine first. Automation second. Conductor approval always."</div>
+    <div style="font-size:11px;color:#444;margin-top:6px;line-height:1.5">Every HFA workflow in the Maxine system is built around this. Nothing publishes without Sarita's approval gate. The automation moves content from Maxine to Notion and from Notion to platforms — it does not decide, select, or approve anything.</div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--teal)">
+    <div class="card-title">Section 1 — Content Engine Library Doctrine</div>
+    <div class="card-body">HFA read: Aligned. Notion stores and retrieves. n8n connects Maxine's output to Notion and connects Notion's approved assets to publishing destinations. The library never becomes the campaign brain — Maxine owns that. HFA's workflows will write to and read from these libraries with full field discipline, using the exact field structure Sarita defines.</div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--amber)">
+    <div class="card-title">Section 2 — Domain-Specific Library Pattern</div>
+    <div class="card-body">HFA read: Clean architecture. Two libraries is the right call — the fields differ enough between music campaign and traditional campaign work that a single library would become unmanageable. HFA will build both Notion databases with the exact fields from the Addendum, plus add a <strong>Campaign Mode</strong> field that maps to Maxine's 11 modes. This is the link between Section 2 and Section 6.</div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--purple)">
+    <div class="card-title">Section 3 — Publishing Queue Decision Rule</div>
+    <div class="card-body"><strong>HFA recommendation: Do not build the queue yet.</strong> The content library publishing fields handle single-platform, manual, or simple scheduled posts. Build the Publishing Queue as a separate Supabase operations table only when one asset needs to go to multiple platforms on different dates with different versions. Trigger condition: when the Lowcountry Jazz Festival campaign requires Facebook + Instagram + Email simultaneously with platform-specific versions. Until then — library fields are sufficient.</div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--coral)">
+    <div class="card-title">Section 4 — JSON Routing Contract Rule</div>
+    <div class="card-body">HFA read: This is HFA's direct implementation territory. n8n reads the <code>content_domain</code> field from Maxine's output JSON and routes to the correct Notion library. HFA proposes extending the JSON beyond the two-field example in the Addendum to include campaign mode, status, platform targets, and approval flag. See Tab 04 for the full JSON schema proposal. The rule that JSON records but does not decide is core to everything HFA builds here — the cognition boundary holds.</div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--navy)">
+    <div class="card-title">Section 5 — Joint Client Orchestration</div>
+    <div class="card-body">HFA read: All four TBDs can be answered now. See Tab 05 for the full ownership JSON with HFA's positions on each. Short version: client relationship owner is determined at intake by who originated the relationship. Database owner is split — Notion structure is AI Aunties' domain, Supabase operations is HFA's. Publishing operator is HFA for automated multi-platform delivery, Conductor for manual single posts. Orchestration owner is HFA as Mode 1 (Auntie Workflow Extension), with Conductor approval always as the non-negotiable gate.</div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--forest)">
+    <div class="card-title">Section 6 — Campaign Mode Routing</div>
+    <div class="card-body">HFA can solve this in n8n. Before Maxine runs, an intake workflow reads the brief, identifies intent signals, and presents the correct mode options when intent is ambiguous — surfacing the exact question Sarita wrote: "Do you want a quick ticket-push post, a deeper cultural story post, or a story-led ticket movement post?" This is a pre-Auntie routing workflow (Category 1 in the scope architecture) that HFA builds as part of the intake bundle. See Workflow 01 in Tab 02.</div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--gold)">
+    <div class="card-title">Section 7 — Evidence to Preserve from Testing</div>
+    <div class="card-body">HFA recommendation: The rejection patterns (AI-ism drift, campaign-copy patterns) should be logged to Supabase — not just stored in Notion. Supabase allows queryable pattern analysis over time. A weekly summary workflow pulls the most common rejection patterns and sends them to Sarita as a brief, enabling systematic improvement of Maxine's taste pack. See Workflow 05 in Tab 02.</div>
+  </div>
+
+  <div class="callout" style="background:#FAEEDA;border-color:var(--amber)">
+    <div style="font-size:11px;font-weight:600;color:var(--amber);margin-bottom:4px">The one thing HFA wants to flag before Sarita updates the main Handbook</div>
+    <div style="font-size:11px;color:#444;line-height:1.6">The Addendum defines Campaign Mode as a product requirement for commercial deployment (Section 6). This needs to be a Notion field in both libraries — so every output is tagged with its mode. This allows Sarita to filter the library by mode, build pattern reports, and eventually build a mode-specific performance view. HFA is proposing this as a required field, not optional.</div>
+  </div>
+</div>
+
+<!-- ══ TAB 2: WORKFLOWS ══════════════════════════════════════════ -->
+<div id="view-workflows" class="view">
+  <div class="pg-title">7 n8n workflow proposals for the Maxine system</div>
+  <div class="pg-sub">Organized by category from the scope architecture. Every workflow respects the cognition boundary: Maxine thinks, n8n routes and executes. Conductor approves before anything publishes.</div>
+
+  <!-- WF 01 -->
+  <div class="wf-card">
+    <div class="wf-bar" style="background:var(--forest)"></div>
+    <div class="wf-body">
+      <div class="wf-num" style="color:var(--forest)">WORKFLOW 01 · CAT 1 — INPUT</div>
+      <div class="wf-title">Campaign Brief Intake → Mode Router → Maxine</div>
+      <div style="margin-bottom:8px">
+        <span class="wf-tag" style="background:#EAF3DE;color:#2D6A4F">Cat 1 · Input</span>
+        <span class="wf-tag" style="background:var(--cream);color:var(--muted);border:1px solid var(--border)">Solves Section 6 mode routing</span>
+      </div>
+      <div class="wf-sub">Client submits a campaign brief → n8n reads intent → routes to correct mode → retrieves relevant library context → fires Maxine with mode + context pre-loaded</div>
+      <div class="wf-section">Flow</div>
+      <div class="flow-chips">
+        <div class="fc">📋 Brief submitted (form / Telegram)</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Intent parsed</div>
+        <div class="fc-arr">→</div>
+        <div class="fc gate">Mode ambiguous?</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Presenter: mode options to user</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">content_domain set</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Relevant library context pulled</div>
+        <div class="fc-arr">→</div>
+        <div class="fc auntie">🧠 Maxine fires with brief + mode + context</div>
+      </div>
+      <div class="wf-section">n8n nodes</div>
+      <div class="node-grid">
+        <div class="node"><div class="node-role" style="color:var(--forest)">Trigger</div><div class="node-name">Webhook / Telegram node</div><div class="node-desc">Receives campaign brief from form or Telegram message</div></div>
+        <div class="node"><div class="node-role" style="color:var(--forest)">Parse</div><div class="node-name">IF / Switch node</div><div class="node-desc">Reads intent keywords: "ticket," "story," "cultural," "partnership," etc.</div></div>
+        <div class="node"><div class="node-role" style="color:var(--forest)">Clarify</div><div class="node-name">Telegram response node</div><div class="node-desc">If ambiguous: sends Maxine's mode question to user. Waits for selection.</div></div>
+        <div class="node"><div class="node-role" style="color:var(--forest)">Enrich</div><div class="node-name">Notion query node</div><div class="node-desc">Pulls relevant prior campaigns, source documents, and rejected patterns from correct library</div></div>
+        <div class="node"><div class="node-role" style="color:var(--forest)">Execute</div><div class="node-name">HTTP Request (GPT API)</div><div class="node-desc">Fires Maxine with: brief + confirmed mode + content_domain + library context</div></div>
+      </div>
+      <div class="callout" style="background:var(--light);border-color:var(--teal-l)">
+        <div style="font-size:10px;font-weight:600;color:var(--teal);margin-bottom:3px">Cognition boundary</div>
+        <div style="font-size:11px;color:#444">n8n identifies the mode type from keywords and presents options. Maxine decides what to do with the mode and how to produce the output. n8n does not select the mode — it confirms the user's selection and routes accordingly.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WF 02 -->
+  <div class="wf-card">
+    <div class="wf-bar" style="background:var(--teal)"></div>
+    <div class="wf-body">
+      <div class="wf-num" style="color:var(--teal)">WORKFLOW 02 · CAT 2 — OUTPUT</div>
+      <div class="wf-title">Maxine Output → Content Domain Router → Correct Library</div>
+      <div style="margin-bottom:8px">
+        <span class="wf-tag" style="background:#E8F2F5;color:var(--teal)">Cat 2 · Output</span>
+        <span class="wf-tag" style="background:var(--cream);color:var(--muted);border:1px solid var(--border)">Core routing workflow</span>
+      </div>
+      <div class="wf-sub">Maxine produces output → JSON content_domain read → routed to correct library with all fields populated → Conductor notified for approval → nothing moves without approval</div>
+      <div class="wf-section">Flow</div>
+      <div class="flow-chips">
+        <div class="fc auntie">🧠 Maxine output received (webhook)</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">content_domain read from JSON</div>
+        <div class="fc-arr">→</div>
+        <div class="fc gate">music_campaign or traditional?</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Correct library fields populated</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Notion entry created · Status: Pending Approval</div>
+        <div class="fc-arr">→</div>
+        <div class="fc gate">🎯 Conductor notified</div>
+      </div>
+      <div class="wf-section">n8n nodes</div>
+      <div class="node-grid">
+        <div class="node"><div class="node-role" style="color:var(--teal)">Receive</div><div class="node-name">Webhook trigger</div><div class="node-desc">Fires when Maxine produces output from GPT API</div></div>
+        <div class="node"><div class="node-role" style="color:var(--teal)">Route</div><div class="node-name">Switch node (content_domain)</div><div class="node-desc">Reads content_domain field → routes to music or traditional path</div></div>
+        <div class="node"><div class="node-role" style="color:var(--teal)">Write</div><div class="node-name">Notion node (correct library)</div><div class="node-desc">Creates new database entry with all fields — Status: Pending Approval, Ready to Publish: false</div></div>
+        <div class="node"><div class="node-role" style="color:var(--teal)">Log</div><div class="node-name">Supabase node</div><div class="node-desc">Appends session record to model registry with campaign_mode, domain, and session_id</div></div>
+        <div class="node"><div class="node-role" style="color:var(--teal)">Notify</div><div class="node-name">Telegram / email node</div><div class="node-desc">Sends Sarita a notification: "New Maxine output ready for review in [library] — [Asset Title]"</div></div>
+      </div>
+      <div class="callout" style="background:#FAECE7;border-color:var(--coral)">
+        <div style="font-size:10px;font-weight:600;color:#712B13;margin-bottom:3px">Hard gate — this workflow cannot be bypassed</div>
+        <div style="font-size:11px;color:#444">The Notion entry is created with Status: Pending Approval and Ready to Publish: FALSE. Nothing in the publishing workflow (Workflow 04) fires until Sarita changes Ready to Publish to TRUE. The Conductor approval is not a step — it is a hard gate built into the database field logic.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WF 03 -->
+  <div class="wf-card">
+    <div class="wf-bar" style="background:var(--amber)"></div>
+    <div class="wf-body">
+      <div class="wf-num" style="color:var(--amber)">WORKFLOW 03 · CAT 1 — INPUT</div>
+      <div class="wf-title">Source Dossier Builder</div>
+      <div style="margin-bottom:8px">
+        <span class="wf-tag" style="background:#EAF3DE;color:#2D6A4F">Cat 1 · Input</span>
+        <span class="wf-tag" style="background:var(--cream);color:var(--muted);border:1px solid var(--border)">Solves Anthony Hamilton pattern from Section 7</span>
+      </div>
+      <div class="wf-sub">Research documents provided (URLs, PDFs, articles) → n8n aggregates and structures → consolidated dossier filed to library → Maxine triggered in Source Dossier / Campaign Prep mode</div>
+      <div class="wf-section">Flow</div>
+      <div class="flow-chips">
+        <div class="fc">📎 Research sources submitted</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">n8n aggregates: URLs fetched, PDFs extracted</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Structures as dossier format</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Filed to Music Library as Source Document</div>
+        <div class="fc-arr">→</div>
+        <div class="fc auntie">🧠 Maxine triggered: Source Dossier mode</div>
+      </div>
+      <div class="node-grid">
+        <div class="node"><div class="node-role" style="color:var(--amber)">Trigger</div><div class="node-name">Form / Telegram node</div><div class="node-desc">Receives list of sources (URLs, PDFs) for a specific artist or festival</div></div>
+        <div class="node"><div class="node-role" style="color:var(--amber)">Fetch</div><div class="node-name">HTTP Request + Extract From File</div><div class="node-desc">Fetches URLs and extracts text from PDFs</div></div>
+        <div class="node"><div class="node-role" style="color:var(--amber)">Structure</div><div class="node-name">Code node</div><div class="node-desc">Formats all source text into structured dossier input for Maxine</div></div>
+        <div class="node"><div class="node-role" style="color:var(--amber)">File</div><div class="node-name">Notion node</div><div class="node-desc">Creates Source Document entry in Music Campaign Library with all sources referenced</div></div>
+        <div class="node"><div class="node-role" style="color:var(--amber)">Execute</div><div class="node-name">HTTP Request (GPT API)</div><div class="node-desc">Fires Maxine in Source Dossier / Campaign Prep mode with structured source input</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WF 04 -->
+  <div class="wf-card">
+    <div class="wf-bar" style="background:var(--purple)"></div>
+    <div class="wf-body">
+      <div class="wf-num" style="color:var(--purple)">WORKFLOW 04 · CAT 2 — OUTPUT + DELIVERY</div>
+      <div class="wf-title">Conductor Approval → Publishing Gate</div>
+      <div style="margin-bottom:8px">
+        <span class="wf-tag" style="background:#EEEDFE;color:var(--purple)">Cat 2 · Output</span>
+        <span class="wf-tag" style="background:var(--cream);color:var(--muted);border:1px solid var(--border)">Conductor approval → single or multi-platform</span>
+      </div>
+      <div class="wf-sub">Sarita marks "Ready to Publish" TRUE → n8n fires → reads platform + date → routes to manual notification or automated publishing → write-back to Notion</div>
+      <div class="wf-section">Flow</div>
+      <div class="flow-chips">
+        <div class="fc gate">Sarita marks Ready to Publish: TRUE</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Notion trigger fires</div>
+        <div class="fc-arr">→</div>
+        <div class="fc gate">Single platform or multi?</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Single: notification to Conductor with content</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Multi: parallel publishing paths (Phase 2)</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Write-back: Published Date + Link + Status: Published</div>
+      </div>
+      <div class="node-grid">
+        <div class="node"><div class="node-role" style="color:var(--purple)">Trigger</div><div class="node-name">Notion database trigger</div><div class="node-desc">Fires when "Ready to Publish" checkbox is set to TRUE</div></div>
+        <div class="node"><div class="node-role" style="color:var(--purple)">Check</div><div class="node-name">IF node (platform count)</div><div class="node-desc">Reads platform field — single entry = manual notification; multiple = queue (Phase 2)</div></div>
+        <div class="node"><div class="node-role" style="color:var(--purple)">Notify</div><div class="node-name">Telegram node</div><div class="node-desc">Single platform: sends content to Conductor with copy-ready format and post instructions</div></div>
+        <div class="node"><div class="node-role" style="color:var(--purple)">Write-back</div><div class="node-name">Notion node</div><div class="node-desc">Updates Notion record: Status → Published, Published Date → now, Published Link → URL</div></div>
+        <div class="node"><div class="node-role" style="color:var(--purple)">Log</div><div class="node-name">Supabase node</div><div class="node-desc">Appends to campaign performance log: domain, mode, platform, dates</div></div>
+      </div>
+      <div class="callout" style="background:var(--light);border-color:var(--teal-l)">
+        <div style="font-size:10px;font-weight:600;color:var(--teal);margin-bottom:3px">Phase 1 vs Phase 2</div>
+        <div style="font-size:11px;color:#444">Phase 1: single-platform path routes a notification to Conductor with formatted content. Conductor posts manually or approves automation. Phase 2: when multi-platform volume requires it, the Publishing Queue (Supabase) handles parallel platform delivery with retry tracking.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WF 05 -->
+  <div class="wf-card">
+    <div class="wf-bar" style="background:var(--coral)"></div>
+    <div class="wf-body">
+      <div class="wf-num" style="color:var(--coral)">WORKFLOW 05 · CAT 3/4 — BRAIN + GOVERNANCE</div>
+      <div class="wf-title">AI-ism Rejection Pattern Logger + Weekly Brief</div>
+      <div style="margin-bottom:8px">
+        <span class="wf-tag" style="background:#FAEEDA;color:#633806">Cat 3 · Brain</span>
+        <span class="wf-tag" style="background:#FAECE7;color:#712B13">Cat 4 · Governance</span>
+        <span class="wf-tag" style="background:var(--cream);color:var(--muted);border:1px solid var(--border)">Solves AI-ism rejection evidence from Section 7</span>
+      </div>
+      <div class="wf-sub">Conductor rejects output or Lux review fails → rejection captured with full context → logged to Supabase → weekly pattern brief to Sarita for taste pack improvement</div>
+      <div class="wf-section">Flow</div>
+      <div class="flow-chips">
+        <div class="fc gate">Conductor rejects OR Lux fails QA</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Rejection captured: content, reason, mode, domain</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Supabase rejection log appended</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Notion Status → Rejected</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">⏰ Weekly: patterns summarized → brief to Sarita</div>
+      </div>
+      <div class="node-grid">
+        <div class="node"><div class="node-role" style="color:var(--coral)">Trigger A</div><div class="node-name">Notion trigger (rejection)</div><div class="node-desc">Fires when Conductor marks Status = "Rejected" with Conductor Notes</div></div>
+        <div class="node"><div class="node-role" style="color:var(--coral)">Trigger B</div><div class="node-name">Lux QA webhook</div><div class="node-desc">Fires when Lux review cycle reaches max iterations without pass</div></div>
+        <div class="node"><div class="node-role" style="color:var(--coral)">Log</div><div class="node-name">Supabase node</div><div class="node-desc">Appends: rejected content snippet, reason, campaign_mode, content_domain, date, conductor_notes</div></div>
+        <div class="node"><div class="node-role" style="color:var(--coral)">Weekly brief</div><div class="node-name">Schedule trigger + GPT summarize</div><div class="node-desc">Every Monday: queries last 7 days of rejections, GPT identifies top 3 drift patterns, sends brief to Sarita</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WF 06 -->
+  <div class="wf-card">
+    <div class="wf-bar" style="background:var(--navy)"></div>
+    <div class="wf-body">
+      <div class="wf-num" style="color:var(--navy)">WORKFLOW 06 · CAT 2 — OUTPUT</div>
+      <div class="wf-title">Campaign Calendar Sequencer</div>
+      <div style="margin-bottom:8px">
+        <span class="wf-tag" style="background:#E6F1FB;color:var(--navy)">Cat 2 · Output</span>
+        <span class="wf-tag" style="background:var(--cream);color:var(--muted);border:1px solid var(--border)">Maxine Campaign Calendar mode</span>
+      </div>
+      <div class="wf-sub">Maxine produces a campaign calendar in Calendar/Sequencing mode → n8n parses the calendar structure → creates one Notion library entry per asset → sets scheduled dates → Conductor 24hr reminder before each</div>
+      <div class="flow-chips">
+        <div class="fc auntie">🧠 Maxine: Campaign Calendar output</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Parse calendar structure</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Create Notion entry per asset</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Platform + Date + Mode set per entry</div>
+        <div class="fc-arr">→</div>
+        <div class="fc gate">⏰ 24hr reminder to Conductor before each</div>
+      </div>
+      <div class="node-grid">
+        <div class="node"><div class="node-role" style="color:var(--navy)">Receive</div><div class="node-name">Webhook trigger</div><div class="node-desc">Maxine's calendar output received as structured JSON</div></div>
+        <div class="node"><div class="node-role" style="color:var(--navy)">Parse</div><div class="node-name">Code node</div><div class="node-desc">Splits calendar into individual asset items with date, platform, mode, and copy</div></div>
+        <div class="node"><div class="node-role" style="color:var(--navy)">Create</div><div class="node-name">Notion node (loop)</div><div class="node-desc">Creates one library entry per asset with Scheduled Date, Status: Pending Approval</div></div>
+        <div class="node"><div class="node-role" style="color:var(--navy)">Remind</div><div class="node-name">Schedule trigger</div><div class="node-desc">24 hours before each Scheduled Date: sends Conductor a reminder with asset preview</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WF 07 -->
+  <div class="wf-card">
+    <div class="wf-bar" style="background:var(--rose)"></div>
+    <div class="wf-body">
+      <div class="wf-num" style="color:var(--rose)">WORKFLOW 07 · CAT 5 — PHASE 2 ONLY</div>
+      <div class="wf-title">Multi-Platform Publishing Queue</div>
+      <div style="margin-bottom:8px">
+        <span class="wf-tag" style="background:#FBEAF0;color:#72243E">Cat 5 · Downstream</span>
+        <span class="wf-tag" style="background:#FAECE7;color:#712B13">Build only when volume requires</span>
+      </div>
+      <div class="wf-sub">When one asset must go to multiple platforms on different dates with different versions — Supabase Publishing Queue handles parallel paths, retry tracking, and status write-back</div>
+      <div class="wf-section">Trigger condition (do not build until this is true)</div>
+      <div style="background:#FAECE7;border-radius:8px;padding:10px 12px;margin-bottom:10px">
+        <div class="row"><div class="dot" style="background:var(--coral)"></div><span>One Maxine asset must go to Facebook + Instagram + Email on different dates</span></div>
+        <div class="row"><div class="dot" style="background:var(--coral)"></div><span>Multiple platform-specific versions of the same asset exist</span></div>
+        <div class="row"><div class="dot" style="background:var(--coral)"></div><span>Volume requires retry tracking (failed posts need to re-queue)</span></div>
+        <div class="row"><div class="dot" style="background:var(--coral)"></div><span>Published links need to differ per platform and write back separately</span></div>
+      </div>
+      <div class="flow-chips">
+        <div class="fc gate">Conductor approves + platforms &gt; 1</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Supabase Publishing Queue row created</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Parallel paths spawned per platform</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Platform-specific format adapted</div>
+        <div class="fc-arr">→</div>
+        <div class="fc">Status write-back per platform</div>
+        <div class="fc-arr">→</div>
+        <div class="fc n8n">Notion record updated with all published links</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 3: DATABASES ══════════════════════════════════════════ -->
+<div id="view-databases" class="view">
+  <div class="pg-title">Notion Content Engine Library Architecture</div>
+  <div class="pg-sub">HFA builds both databases in Notion with full field structure. The field schemas follow Sarita's Addendum exactly with additions noted. The "Ready to Publish" checkbox is the HFA automation trigger — nothing fires without it.</div>
+
+  <div class="callout" style="background:#EAF3DE;border-color:var(--forest)">
+    <div style="font-size:11px;font-weight:600;color:var(--forest);margin-bottom:3px">HFA additions to Sarita's field list (marked with ★)</div>
+    <div style="font-size:11px;color:#444;line-height:1.5">Campaign Mode field (maps to Maxine's 11 modes), content_domain field (for JSON routing), Session ID (for model registry linking), and Lux Review Status (for QA loop integration). All other fields are exactly as defined in the Addendum.</div>
+  </div>
+
+  <div class="section-lbl">Music Campaign Library — Notion Database</div>
+  <table class="db-table">
+    <tr><th>Field Name</th><th>Type</th><th>Options / Notes</th><th>HFA Automation Role</th></tr>
+    <tr><td><strong>Asset Title</strong></td><td>Title</td><td>Required — primary identifier</td><td>Used in Conductor notification</td></tr>
+    <tr><td><strong>Festival Name</strong></td><td>Select</td><td>Lowcountry Jazz Festival, other</td><td>Routes source dossier builder</td></tr>
+    <tr><td><strong>Campaign Name</strong></td><td>Text</td><td>Maxine-generated or user-entered</td><td>JSON routing field</td></tr>
+    <tr><td><strong>Artist Name</strong></td><td>Select</td><td>Anthony Hamilton, Keiko Matsui, other</td><td>Dossier builder trigger</td></tr>
+    <tr><td><strong>Story Title</strong></td><td>Text</td><td>Story-led content identifier</td><td>—</td></tr>
+    <tr><td><strong>Asset Type</strong></td><td>Select</td><td>Post, Email, Carousel, Ticket Push, Story Post, Visual Direction, Source Dossier, Email Sequence</td><td>Publishing path routing</td></tr>
+    <tr><td><strong>★ Campaign Mode</strong></td><td>Select</td><td>All 11 Maxine modes: Deep Cultural Storytelling, Ticket Push, Story-Led Ticket Movement, Source Dossier, Visual Direction, Campaign Calendar, Email Sequence, Carousel, Audience Segment, Traditional Campaign, Partnership Campaign</td><td>Mode routing + pattern analysis</td></tr>
+    <tr><td><strong>★ content_domain</strong></td><td>Select</td><td>music_campaign, traditional_campaign</td><td>JSON routing field — set by WF 02</td></tr>
+    <tr><td><strong>Content / Copy</strong></td><td>Rich Text</td><td>Maxine's full output — never altered by n8n</td><td>Read-only by automation</td></tr>
+    <tr><td><strong>Source Document</strong></td><td>Files / URL</td><td>Research materials, dossiers, briefs</td><td>Dossier builder writes here</td></tr>
+    <tr><td><strong>Created Date</strong></td><td>Date (auto)</td><td>Auto-set on creation</td><td>Auto-populated</td></tr>
+    <tr><td><strong>Status</strong></td><td>Select</td><td>Draft → Pending Approval → Approved → Scheduled → Published → Rejected</td><td>WF 02 sets Pending. WF 04 sets Published. WF 05 sets Rejected.</td></tr>
+    <tr><td><strong>Conductor Notes</strong></td><td>Text</td><td>Sarita's review notes</td><td>WF 05 captures on rejection</td></tr>
+    <tr><td><strong>Platform</strong></td><td>Multi-select</td><td>Instagram, Facebook, Email, LinkedIn, Twitter</td><td>WF 04 reads to route publishing</td></tr>
+    <tr><td><strong>Scheduled Date</strong></td><td>Date</td><td>When to publish</td><td>WF 06 sets per calendar entry. WF 04 triggers at time.</td></tr>
+    <tr><td><strong>Published Date</strong></td><td>Date</td><td>Auto-set by WF 04 write-back</td><td>Written by WF 04</td></tr>
+    <tr><td><strong>Published Link</strong></td><td>URL</td><td>Live post URL</td><td>Written by WF 04</td></tr>
+    <tr><td><strong>Ready to Publish</strong></td><td>Checkbox</td><td>Conductor sets TRUE — THIS IS THE GATE</td><td>WF 04 trigger — nothing fires until TRUE</td></tr>
+    <tr><td><strong>★ Session ID</strong></td><td>Text</td><td>Links to Supabase model registry</td><td>WF 02 populates for cross-system tracking</td></tr>
+    <tr><td><strong>★ Lux Review Status</strong></td><td>Select</td><td>Not reviewed, Passed, Failed, Escalated</td><td>QA loop integration (future)</td></tr>
+  </table>
+
+  <div class="section-lbl" style="margin-top:20px">Traditional Campaign Library — Notion Database</div>
+  <table class="db-table">
+    <tr><th>Field Name</th><th>Type</th><th>Options / Notes</th><th>HFA Automation Role</th></tr>
+    <tr><td><strong>Asset Title</strong></td><td>Title</td><td>Required — primary identifier</td><td>Used in Conductor notification</td></tr>
+    <tr><td><strong>Campaign Name</strong></td><td>Text</td><td>e.g. "AI Aunties + HFA Launch"</td><td>JSON routing field</td></tr>
+    <tr><td><strong>Client / Brand Name</strong></td><td>Select</td><td>AI Aunties, HFA, joint, client names</td><td>Orchestration ownership routing</td></tr>
+    <tr><td><strong>Subject / Offer</strong></td><td>Text</td><td>What the campaign is about</td><td>—</td></tr>
+    <tr><td><strong>Asset Type</strong></td><td>Select</td><td>LinkedIn Post, Email, Carousel, Campaign Strategy, Partnership Content, Offer Campaign, Civic Campaign</td><td>Publishing path routing</td></tr>
+    <tr><td><strong>★ Campaign Mode</strong></td><td>Select</td><td>Traditional Campaign Strategy, Partnership Campaign, Email Sequence, Carousel Campaign, Audience Segment Campaign, Founder-Led, Service Launch</td><td>Mode routing + pattern analysis</td></tr>
+    <tr><td><strong>★ content_domain</strong></td><td>Select</td><td>traditional_campaign</td><td>JSON routing field</td></tr>
+    <tr><td><strong>Content / Copy</strong></td><td>Rich Text</td><td>Maxine's full output — never altered</td><td>Read-only by automation</td></tr>
+    <tr><td><strong>Source Document</strong></td><td>Files / URL</td><td>Briefs, strategy docs, research</td><td>—</td></tr>
+    <tr><td><strong>Created Date</strong></td><td>Date (auto)</td><td>Auto-set</td><td>Auto-populated</td></tr>
+    <tr><td><strong>Status</strong></td><td>Select</td><td>Draft → Pending Approval → Approved → Scheduled → Published → Rejected</td><td>Same gates as Music library</td></tr>
+    <tr><td><strong>Conductor Notes</strong></td><td>Text</td><td>Sarita's review notes</td><td>WF 05 captures on rejection</td></tr>
+    <tr><td><strong>Platform</strong></td><td>Multi-select</td><td>LinkedIn, Email, Instagram, Facebook, Twitter</td><td>Publishing path routing</td></tr>
+    <tr><td><strong>Scheduled Date</strong></td><td>Date</td><td>When to publish</td><td>WF 06 sets. WF 04 triggers.</td></tr>
+    <tr><td><strong>Published Date</strong></td><td>Date</td><td>Auto-set by WF 04</td><td>Written by WF 04</td></tr>
+    <tr><td><strong>Published Link</strong></td><td>URL</td><td>Live post URL</td><td>Written by WF 04</td></tr>
+    <tr><td><strong>Ready to Publish</strong></td><td>Checkbox</td><td>Conductor sets TRUE — THE GATE</td><td>WF 04 trigger</td></tr>
+    <tr><td><strong>★ Session ID</strong></td><td>Text</td><td>Links to Supabase model registry</td><td>WF 02 populates</td></tr>
+  </table>
+</div>
+
+<!-- ══ TAB 4: JSON ════════════════════════════════════════════════ -->
+<div id="view-json" class="view">
+  <div class="pg-title">JSON Routing Implementation</div>
+  <div class="pg-sub">HFA extends Sarita's two-field JSON schema into a full routing contract. The extended schema gives n8n everything it needs to route, file, log, and gate — while preserving Maxine's content verbatim.</div>
+
+  <div class="section-lbl">Full Maxine output routing JSON (HFA proposal)</div>
+  <div class="json-block">
+{<br>
+&nbsp;&nbsp;<span class="j-comment">// AI Aunties defines these — n8n reads them</span><br>
+&nbsp;&nbsp;<span class="j-key">"content_domain"</span>: <span class="j-str">"music_campaign"</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-comment">// Routes to correct Notion library</span><br>
+&nbsp;&nbsp;<span class="j-key">"campaign_mode"</span>: <span class="j-str">"deep_cultural_storytelling"</span>,&nbsp;&nbsp;<span class="j-comment">// Maxine's active mode — required</span><br>
+&nbsp;&nbsp;<span class="j-key">"auntie"</span>: <span class="j-str">"maxine"</span>,<br>
+&nbsp;&nbsp;<span class="j-key">"asset_type"</span>: <span class="j-str">"story_post"</span>,<br>
+<br>
+&nbsp;&nbsp;<span class="j-comment">// HFA writes these during routing</span><br>
+&nbsp;&nbsp;<span class="j-key">"routing_destination"</span>: <span class="j-str">"maxine_music_campaign_library"</span>,<br>
+&nbsp;&nbsp;<span class="j-key">"session_id"</span>: <span class="j-str">"mx_20260618_001"</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-comment">// Links to Supabase model registry</span><br>
+&nbsp;&nbsp;<span class="j-key">"status"</span>: <span class="j-str">"pending_approval"</span>,<br>
+&nbsp;&nbsp;<span class="j-key">"ready_to_publish"</span>: <span class="j-bool">false</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-comment">// Hard gate — never true on creation</span><br>
+<br>
+&nbsp;&nbsp;<span class="j-comment">// Campaign context (from WF 01 intake)</span><br>
+&nbsp;&nbsp;<span class="j-key">"campaign_name"</span>: <span class="j-str">"Anthony Hamilton — Festival Campaign"</span>,<br>
+&nbsp;&nbsp;<span class="j-key">"artist_name"</span>: <span class="j-str">"Anthony Hamilton"</span>,<br>
+&nbsp;&nbsp;<span class="j-key">"festival_name"</span>: <span class="j-str">"Lowcountry Jazz Festival"</span>,<br>
+<br>
+&nbsp;&nbsp;<span class="j-comment">// Publishing targets (Conductor sets platform)</span><br>
+&nbsp;&nbsp;<span class="j-key">"platform_targets"</span>: [<span class="j-str">"instagram"</span>, <span class="j-str">"facebook"</span>],<br>
+&nbsp;&nbsp;<span class="j-key">"scheduled_date"</span>: <span class="j-str">"2026-06-25"</span>,<br>
+<br>
+&nbsp;&nbsp;<span class="j-comment">// Cognition boundary confirmation</span><br>
+&nbsp;&nbsp;<span class="j-key">"requires_conductor_approval"</span>: <span class="j-bool">true</span>,<br>
+&nbsp;&nbsp;<span class="j-key">"content_alteration_by_workflow"</span>: <span class="j-bool">false</span>&nbsp;&nbsp;<span class="j-comment">// n8n never changes Maxine's content</span><br>
+}
+  </div>
+
+  <div class="section-lbl" style="margin-top:16px">The ownership JSON — HFA's complete answer to Section 5 TBDs</div>
+  <div class="json-block">
+{<br>
+&nbsp;&nbsp;<span class="j-key">"ownership"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"campaign_strategy_owner"</span>: <span class="j-str">"AI Aunties"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"content_owner"</span>: <span class="j-str">"AI Aunties (Maxine produces, Conductor approves)"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"auntie_cognition_owner"</span>: <span class="j-str">"AI Aunties"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"story_selection_owner"</span>: <span class="j-str">"AI Aunties"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"language_quality_owner"</span>: <span class="j-str">"AI Aunties"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"final_approval_owner"</span>: <span class="j-str">"Sarita Myers / Conductor — always"</span>,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-comment">// HFA owns the execution layer</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"workflow_build_owner"</span>: <span class="j-str">"Human First Automations"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"automation_reliability_owner"</span>: <span class="j-str">"Human First Automations"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"publishing_mechanics_owner"</span>: <span class="j-str">"Human First Automations (automated) | Conductor (manual)"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"orchestration_owner"</span>: <span class="j-str">"Human First Automations (Mode 1 — Auntie Workflow Extension)"</span>,<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-comment">// TBDs now answered</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"client_relationship_owner"</span>: <span class="j-str">"Lead brand who originated the relationship — determined at engagement intake"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"database_owner"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"notion_structure"</span>: <span class="j-str">"AI Aunties governs field schema"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"notion_integration"</span>: <span class="j-str">"Human First Automations builds n8n connection"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="j-key">"supabase_operations"</span>: <span class="j-str">"Human First Automations — publishing ops, rejection log, session data"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+  </div>
+
+  <div class="section-lbl" style="margin-top:16px">Content domain routing table (n8n IF/Switch logic)</div>
+  <table class="db-table">
+    <tr><th>content_domain value</th><th>n8n routes to</th><th>Notion database</th><th>Library context pulled</th></tr>
+    <tr><td><code>"music_campaign"</code></td><td>Music Campaign path</td><td>Maxine Music Campaign Library</td><td>Prior music campaigns, source dossiers, artist history</td></tr>
+    <tr><td><code>"traditional_campaign"</code></td><td>Traditional Campaign path</td><td>Maxine Traditional Campaign Library</td><td>Prior brand campaigns, partnership history, service launches</td></tr>
+    <tr><td><code>null</code> or missing</td><td>Intake WF 01 re-triggered</td><td>—</td><td>Mode question sent to user for clarification</td></tr>
+  </table>
+</div>
+
+<!-- ══ TAB 5: TBD ANSWERS ════════════════════════════════════════ -->
+<div id="view-tbds" class="view">
+  <div class="pg-title">HFA's answers to the Section 5 TBDs</div>
+  <div class="pg-sub">These are HFA's definitive operational positions. Sarita should review these before updating the main Commercial Handbook. Any position marked ⚠️ should be discussed before it is codified.</div>
+
+  <div class="tbd-card">
+    <div class="tbd-header"><div class="tbd-q">client_relationship_owner</div><div class="tbd-was">Was: TBD</div></div>
+    <div class="tbd-body">
+      <div class="tbd-answer"><strong style="color:var(--teal)">HFA answer:</strong> The brand who originated the client relationship. Determined at engagement intake and recorded in the engagement scope document. If AI Aunties sourced the client (festival, cultural org, NPO, founder), AI Aunties owns the client relationship. If HFA sourced the client (solopreneur, small business, workflow subscription), HFA owns it. For joint engagements where both brands are co-named, the lead varies by what the client primarily bought.</div>
+      <div style="margin-top:8px;font-size:10px;color:var(--muted)">Implementation: add "client_relationship_owner" field to the engagement intake form. Value locked at deal start. Cannot be changed without both founders agreeing.</div>
+    </div>
+  </div>
+
+  <div class="tbd-card">
+    <div class="tbd-header"><div class="tbd-q">database_owner</div><div class="tbd-was">Was: TBD</div></div>
+    <div class="tbd-body">
+      <div class="tbd-answer"><strong style="color:var(--teal)">HFA answer: Split ownership.</strong> Notion field schema and library structure is governed by AI Aunties — Sarita defines what fields exist and what they mean. HFA builds the n8n connections that write to and read from those databases. Supabase is HFA's domain — publishing operations, rejection log, session data, model registry, and performance tracking live in Supabase, built and owned by HFA. Neither party modifies the other's database layer without discussion.</div>
+    </div>
+  </div>
+
+  <div class="tbd-card">
+    <div class="tbd-header"><div class="tbd-q">publishing_operator</div><div class="tbd-was">Was: Human First Automations or client, depending on scope</div></div>
+    <div class="tbd-body">
+      <div class="tbd-answer"><strong style="color:var(--teal)">HFA answer: Two clear tiers.</strong>
+        <br><br><strong>Tier 1 — Manual:</strong> Single platform, Conductor posts directly. HFA workflow sends a notification with copy-ready formatted content. No automation beyond the notification.
+        <br><br><strong>Tier 2 — Automated (Phase 2):</strong> Multi-platform, scheduled, with version adaptation. HFA builds and operates the publishing pipeline. Conductor approval remains the hard gate — automation only fires after "Ready to Publish" is TRUE.
+        <br><br>The Addendum's decision rule (library publishing fields now, separate queue when volume requires) stays intact.</div>
+    </div>
+  </div>
+
+  <div class="tbd-card">
+    <div class="tbd-header"><div class="tbd-q">orchestration_owner</div><div class="tbd-was">Was: TBD</div></div>
+    <div class="tbd-body">
+      <div class="tbd-answer"><strong style="color:var(--teal)">HFA answer: Human First Automations — Mode 1 (Auntie Workflow Extension).</strong> HFA owns the orchestration of all n8n workflows in this system: intake routing, output routing, library filing, approval gating, publishing mechanics, rejection logging, and calendar sequencing. This is governed by the AI Aunties Commercial Build & Deployment Handbook. AI Aunties owns the Conductor role — the decision point that every automated workflow must pause at before any content moves to publication.</div>
+      <div style="margin-top:8px;padding:8px 10px;background:var(--light);border-radius:7px;font-size:10px;color:var(--muted)">⚠️ Discussion point: For joint client engagements where HFA has an independent relationship with the client, the orchestration boundary should be clarified in writing. HFA Mode 2 (downstream) vs. Mode 1 (inside AIA scope) may overlap on some joint engagements. This should be addressed before first joint commercial Maxine deployment.</div>
+    </div>
+  </div>
+
+  <div class="callout" style="background:var(--light);border-color:var(--teal-l);margin-top:8px">
+    <div style="font-size:11px;font-weight:600;color:var(--teal);margin-bottom:4px">Maxine evidence table — HFA's read on Section 7 lessons</div>
+    <table class="db-table" style="margin-bottom:0">
+      <tr><th>Evidence</th><th>System Lesson</th><th>HFA Implication</th></tr>
+      <tr><td>Anthony Hamilton dossier consolidation</td><td>Maxine can ingest messy research</td><td>Source Dossier Builder (WF 03) handles multi-source aggregation automatically</td></tr>
+      <tr><td>Anthony ticket-push test</td><td>Maxine needs mode routing when user asks for sales movement</td><td>WF 01 mode router presents clarifying question before firing Maxine</td></tr>
+      <tr><td>Keiko Matsui story-pillar test</td><td>Maxine can identify culturally sensitive story pillars</td><td>Campaign Mode field captures this in library — enables pattern analysis over time</td></tr>
+      <tr><td>HFA campaign package</td><td>Maxine works beyond music/festival</td><td>Traditional Campaign Library handles this domain — same architecture, different fields</td></tr>
+      <tr><td>AI-ism rejection patterns</td><td>Taste Pack and rejection gates must include drift patterns</td><td>WF 05 logs all rejections to Supabase with context. Weekly brief surfaces top 3 patterns.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ TAB 6: PHASES ════════════════════════════════════════════ -->
+<div id="view-phases" class="view">
+  <div class="pg-title">Build phase recommendation</div>
+  <div class="pg-sub">Three phases. Phase 1 is what HFA can build now. Phase 2 is triggered by volume. Phase 3 is joint client commercial scale.</div>
+
+  <div class="phase-card" style="background:#EAF3DE;border-color:#5DCAA5">
+    <div class="phase-num" style="color:var(--forest)">Phase 1 — Build now</div>
+    <div class="phase-title" style="color:var(--forest)">Content Engine Foundation</div>
+    <div style="font-size:11px;color:#444;margin-bottom:10px;line-height:1.5">Everything Maxine needs to move from testing to commercial deployment. Both libraries. All routing. Conductor gate. Rejection logging.</div>
+    <div class="phase-item"><div class="dot" style="background:var(--forest)"></div><span><strong>Two Notion databases:</strong> Music Campaign Library + Traditional Campaign Library with all field structures including HFA additions</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--forest)"></div><span><strong>WF 01 — Campaign Brief Intake + Mode Router:</strong> Solves the Section 6 mode routing requirement before commercial deployment</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--forest)"></div><span><strong>WF 02 — Maxine Output → Domain Router → Library:</strong> Core routing workflow. content_domain field routes to correct library. Conductor notified.</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--forest)"></div><span><strong>WF 03 — Source Dossier Builder:</strong> Solves the Anthony Hamilton aggregation lesson. Multi-source research → structured dossier → Maxine</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--forest)"></div><span><strong>WF 04 — Conductor Approval Gate:</strong> Notion trigger on "Ready to Publish" → content notification → write-back. Single-platform path only.</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--forest)"></div><span><strong>WF 05 — Rejection Pattern Logger:</strong> Conductor rejection or Lux fail → Supabase log → weekly pattern brief to Sarita</span></div>
+    <div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.7);border-radius:7px;font-size:10px;color:var(--forest);font-weight:500">Estimated build: 2–3 sessions. Prerequisite: Notion library databases created by Sarita with agreed field schema. HFA connects to them via n8n Notion API.</div>
+  </div>
+
+  <div class="phase-card" style="background:#FAEEDA;border-color:rgba(212,134,10,.4)">
+    <div class="phase-num" style="color:var(--amber)">Phase 2 — Build when volume requires</div>
+    <div class="phase-title" style="color:var(--amber)">Campaign Calendar + Multi-Platform Publishing</div>
+    <div style="font-size:11px;color:#444;margin-bottom:10px;line-height:1.5">Triggered when a single asset needs to go to multiple platforms, or when campaign volume requires a true publishing operations layer.</div>
+    <div class="phase-item"><div class="dot" style="background:var(--amber)"></div><span><strong>WF 06 — Campaign Calendar Sequencer:</strong> Maxine calendar output → one Notion entry per asset → 24hr Conductor reminders</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--amber)"></div><span><strong>WF 07 — Multi-Platform Publishing Queue:</strong> Supabase queue, parallel platform paths, retry tracking, write-back per platform</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--amber)"></div><span><strong>Platform-specific adapters:</strong> Caption length, image ratio, hashtag strategy per platform — n8n applies formatting rules without altering Maxine's content</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--amber)"></div><span><strong>Performance log:</strong> Published date, platform, engagement write-back to Supabase for campaign pattern analysis</span></div>
+    <div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.7);border-radius:7px;font-size:10px;color:var(--amber);font-weight:500">Trigger: when Lowcountry Jazz Festival campaign requires Facebook + Instagram + Email on different dates with platform-specific versions.</div>
+  </div>
+
+  <div class="phase-card" style="background:#EEEDFE;border-color:rgba(127,119,221,.4)">
+    <div class="phase-num" style="color:var(--purple)">Phase 3 — Joint client commercial scale</div>
+    <div class="phase-title" style="color:var(--purple)">Joint Client Orchestration + Revenue Tracking</div>
+    <div style="font-size:11px;color:#444;margin-bottom:10px;line-height:1.5">Triggered when the partnership has active joint clients and needs formal orchestration, ownership tracking, and revenue split automation.</div>
+    <div class="phase-item"><div class="dot" style="background:var(--purple)"></div><span><strong>Joint engagement intake workflow:</strong> Captures client_relationship_owner at intake, routes to correct brand for billing</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--purple)"></div><span><strong>Revenue split enforcement:</strong> Integrates with HFA's CFO agent (Stripe metadata) to enforce agreed split per engagement</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--purple)"></div><span><strong>Cross-brand orchestration log:</strong> Tracks which workflows belong to which brand for governance compliance</span></div>
+    <div class="phase-item"><div class="dot" style="background:var(--purple)"></div><span><strong>Lux QA integration with Maxine libraries:</strong> Full Maxine/Lux review cycle connected to Notion library status fields</span></div>
+    <div style="margin-top:10px;padding:8px 10px;background:rgba(255,255,255,.7);border-radius:7px;font-size:10px;color:var(--purple);font-weight:500">Prerequisite: revenue split formally agreed and signed. Joint client orchestration rule added to main Commercial Handbook.</div>
+  </div>
+
+  <div class="callout" style="background:var(--light);border-color:var(--teal);margin-top:4px">
+    <div style="font-size:12px;font-weight:600;color:var(--teal);margin-bottom:4px">The immediate action for both founders</div>
+    <div style="font-size:11px;color:#444;line-height:1.6">Sarita creates the two Notion databases with the agreed field schema from Tab 03. HFA gets API access to both databases. HFA builds Phase 1 workflows (WF 01–05). After first Maxine commercial deployment completes, Sarita updates the main Commercial Handbook with the five items from Section 8 of the Addendum. Phase 2 and 3 build after the system is live and producing.</div>
+  </div>
+</div>
+
+<div class="footer"><p>HFA Technical Response to AI Aunties Commercial Handbook Addendum v1.1 · Status: Ready for Sarita's review before main Handbook update · Human First Automations · humanfirstautomations.com</p></div>
+
+<script>
+function showTab(name){
+  const names=["read","workflows","databases","json","tbds","phases"];
+  document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("active",names[i]===name));
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id==="view-"+name));
+}
+</script>
+</body>
+</html>
