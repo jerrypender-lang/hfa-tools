@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Corporate Agent — Objection Handling Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#2C5F6F;--teal-l:#4A8A9A;--gold:#D4A574;--coral:#D97757;
+  --green:#2D6A4F;--purple:#7F77DD;--amber:#D4860A;--navy:#1E3A5F;
+  --rose:#C4577A;--cream:#F5F3EE;--border:#DDD9D0;--text:#1E2D32;
+  --muted:#6B7C83;--light:#F0F6F8;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+.hdr{background:var(--teal);padding:12px 20px;border-bottom:3px solid var(--gold);flex-shrink:0}
+.hdr-eye{font-size:9px;color:#A8D4DF;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.hdr-title{font-size:18px;font-weight:500;color:#fff;margin-bottom:1px}
+.hdr-sub{font-size:11px;color:#D4EBF0}
+.tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;display:flex;flex-shrink:0;overflow-x:auto}
+.tab{padding:9px 15px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.view{display:none;flex:1;overflow-y:auto;padding:20px}
+.view.active{display:block}
+.view::-webkit-scrollbar{width:4px}.view::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+/* shared */
+.pg-title{font-size:15px;font-weight:500;margin-bottom:4px}
+.pg-sub{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.section-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:20px 0 8px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:660px){.two,.three{grid-template-columns:1fr}}
+.callout{border-radius:10px;padding:13px 15px;margin-bottom:14px;border-left:4px solid}
+.callout-title{font-size:12px;font-weight:600;margin-bottom:4px}
+.callout-body{font-size:11px;line-height:1.65;color:#444}
+.row{display:flex;gap:8px;margin-bottom:6px;font-size:11px;line-height:1.5;align-items:flex-start}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+/* layer cards */
+.layer-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.layer-card{background:#fff;border:1px solid var(--border);border-radius:11px;overflow:hidden}
+.layer-hdr{padding:11px 16px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.layer-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.layer-title{font-size:13px;font-weight:500;flex:1}
+.layer-badge{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px}
+.layer-chevron{font-size:14px;color:var(--muted);transition:transform .2s}
+.layer-chevron.open{transform:rotate(180deg)}
+.layer-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border)}
+.layer-body.open{display:block}
+.layer-body-inner{padding-top:12px}
+.what-hfa-box{background:var(--light);border-radius:8px;padding:10px 12px;margin-top:10px}
+.what-hfa-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px}
+/* comparison table */
+.comp-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11px}
+.comp-table th{padding:8px 12px;text-align:left;font-weight:500;font-size:11px}
+.comp-table td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-table tr:nth-child(odd) td{background:rgba(44,95,111,.02)}
+/* sales script */
+.script-card{background:#fff;border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:14px}
+.script-hdr{padding:11px 15px;border-bottom:1px solid var(--border)}
+.script-who{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:2px}
+.script-title{font-size:13px;font-weight:500;color:var(--text)}
+.script-body{padding:12px 15px}
+.objection-box{background:#FAECE7;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:11px;color:#712B13;font-style:italic;border-left:3px solid var(--coral)}
+.answer-box{background:#EAF3DE;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:11px;color:#1A3A1A;border-left:3px solid var(--green)}
+.pivot-box{background:var(--light);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--navy);border-left:3px solid var(--teal)}
+.pivot-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:4px}
+/* guardrail diagram */
+.guardrail-flow{display:flex;flex-direction:column;gap:0;margin-bottom:14px}
+.gr-step{background:#fff;border:1px solid var(--border);border-radius:9px;padding:12px 15px;margin-bottom:4px;display:flex;gap:12px;align-items:flex-start}
+.gr-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px}
+.gr-content{}
+.gr-title{font-size:12px;font-weight:600;margin-bottom:3px}
+.gr-desc{font-size:11px;color:#444;line-height:1.5}
+.gr-gate{background:#FAECE7;border:2px solid rgba(217,119,87,.4);border-radius:9px;padding:11px 14px;margin-bottom:4px;display:flex;gap:10px;align-items:center}
+.gr-gate-icon{font-size:18px;flex-shrink:0}
+.gr-gate-content{}
+.gr-gate-title{font-size:12px;font-weight:600;color:#712B13;margin-bottom:2px}
+.gr-gate-desc{font-size:11px;color:#5A2010;line-height:1.5}
+.gr-arrow{display:flex;justify-content:center;font-size:14px;color:var(--muted);margin:2px 0}
+/* reframe */
+.reframe-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:14px}
+.reframe-col{padding:14px 16px}
+.reframe-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;gap:7px;align-items:center}
+.reframe-item{font-size:11px;line-height:1.6;margin-bottom:8px;display:flex;gap:7px}
+/* footer */
+.footer{background:#fff;border-top:1px solid var(--border);padding:7px 16px;flex-shrink:0}
+.footer p{font-size:10px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-eye">AI Aunties + Human First Automations · Corporate Sales</div>
+  <div class="hdr-title">Corporate Agent Objection Handling Guide</div>
+  <div class="hdr-sub">Security · Error protection · Human guardrails · What to say in the room</div>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="showTab('security')">01 · Security Architecture</div>
+  <div class="tab" onclick="showTab('mistakes')">02 · Error Protection</div>
+  <div class="tab" onclick="showTab('guardrails')">03 · Human Guardrail System</div>
+  <div class="tab" onclick="showTab('reframe')">04 · The Reframe</div>
+  <div class="tab" onclick="showTab('scripts')">05 · What to Say</div>
+</div>
+
+<!-- ══ TAB 1: SECURITY ══════════════════════════════════════════ -->
+<div id="view-security" class="view active">
+  <div class="pg-title">Security Architecture — Six Layers</div>
+  <div class="pg-sub">The CISO and IT Director don't want a promise. They want to see the architecture. Each layer below answers a specific security concern — click to expand the detail and see what HFA builds for each.</div>
+
+  <div class="callout" style="background:#FAECE7;border-color:var(--coral)">
+    <div class="callout-title" style="color:#712B13">The wrong answer to a security question</div>
+    <div class="callout-body">"Your data is safe with us." This is a claim without substance. It signals to an IT professional that you haven't thought through the architecture. Never say it. Instead, show the layers.</div>
+  </div>
+
+  <div class="callout" style="background:#EAF3DE;border-color:var(--green)">
+    <div class="callout-title" style="color:var(--green)">The right framing</div>
+    <div class="callout-body">"Let me show you specifically how your data moves, who can see it, what's logged, and how you retain control." Then walk through the six layers below. The CISO wants a diagram — give them architecture, not assurances.</div>
+  </div>
+
+  <div class="layer-wrap" id="security-layers"></div>
+</div>
+
+<!-- ══ TAB 2: ERROR PROTECTION ══════════════════════════════════ -->
+<div id="view-mistakes" class="view">
+  <div class="pg-title">Error Protection Architecture — Six Layers</div>
+  <div class="pg-sub">The wrong answer is "it won't make mistakes." The right answer is "here's exactly what happens when it does — and here's why that's actually better accountability than a human-only process."</div>
+
+  <div class="callout" style="background:#FAECE7;border-color:var(--coral)">
+    <div class="callout-title" style="color:#712B13">The wrong answer to the mistake question</div>
+    <div class="callout-body">"The agent won't make mistakes." That's a lie, and any experienced executive knows it. Saying this destroys credibility immediately. Humans make mistakes too — often without an audit trail. The real question is: which system makes mistakes more visible and correctable?</div>
+  </div>
+
+  <div class="callout" style="background:#EAF3DE;border-color:var(--green)">
+    <div class="callout-title" style="color:var(--green)">The right framing</div>
+    <div class="callout-body">"An agent's mistakes are visible, traceable, and correctable. Most human process mistakes are invisible until they compound into something much more serious. Let me show you the six protections we build in — and then let me show you the comparison."</div>
+  </div>
+
+  <div class="layer-wrap" id="mistake-layers"></div>
+</div>
+
+<!-- ══ TAB 3: GUARDRAILS ══════════════════════════════════════ -->
+<div id="view-guardrails" class="view">
+  <div class="pg-title">Human Guardrail System</div>
+  <div class="pg-sub">The guardrail system is not one thing — it's a complete architecture of checkpoints, approval gates, and escalation paths designed around the principle that humans stay in the decision seat on everything that matters.</div>
+
+  <div class="callout" style="background:var(--light);border-color:var(--teal)">
+    <div class="callout-title" style="color:var(--teal)">The governing principle</div>
+    <div class="callout-body">"The agent does the analytical and drafting work. The authorized human makes the decision. That is not a feature — it is the architecture. It cannot be bypassed."</div>
+  </div>
+
+  <div class="section-lbl">The three types of guardrail</div>
+  <div class="three">
+    <div style="background:#EAF3DE;border-radius:10px;padding:13px 14px;border:1px solid #5DCAA555">
+      <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px">Type 1 — Hard Gates</div>
+      <div style="font-size:11px;color:#333;line-height:1.6">Mandatory human approval before the workflow continues. No override. No bypass. The system stops and waits until the authorized person confirms.</div>
+    </div>
+    <div style="background:#FAEEDA;border-radius:10px;padding:13px 14px;border:1px solid rgba(212,134,10,.3)">
+      <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:4px">Type 2 — Confidence Flags</div>
+      <div style="font-size:11px;color:#333;line-height:1.6">Agent flags its own uncertainty. Low-confidence outputs are automatically marked for extra human scrutiny before any action is taken.</div>
+    </div>
+    <div style="background:var(--light);border-radius:10px;padding:13px 14px;border:1px solid rgba(44,95,111,.2)">
+      <div style="font-size:11px;font-weight:700;color:var(--teal);margin-bottom:4px">Type 3 — Escalation Triggers</div>
+      <div style="font-size:11px;color:#333;line-height:1.6">Certain conditions automatically elevate to a higher authority. An exception above a defined threshold routes to the COO, not just the manager.</div>
+    </div>
+  </div>
+
+  <div class="section-lbl">The consequentiality rule — what always requires human approval</div>
+  <div style="background:#fff;border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:16px">
+    <table class="comp-table">
+      <tr style="background:var(--navy)">
+        <th style="color:#fff">Decision Type</th>
+        <th style="color:#fff">Guardrail Level</th>
+        <th style="color:#fff">Who Must Approve</th>
+        <th style="color:#fff">Why</th>
+      </tr>
+      <tr><td><strong>Financial commitment</strong><br>Any spend, contract, or obligation</td><td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FAECE7;color:#712B13">Hard Gate</span></td><td>CFO or authorized budget holder</td><td>Financial liability</td></tr>
+      <tr><td><strong>Regulatory filing</strong><br>Any submission to a regulator</td><td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FAECE7;color:#712B13">Hard Gate</span></td><td>CLO + CCO</td><td>Legal liability</td></tr>
+      <tr><td><strong>External communication</strong><br>Any public or client-facing message</td><td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FAECE7;color:#712B13">Hard Gate</span></td><td>Communications lead + Legal</td><td>Reputational and legal risk</td></tr>
+      <tr><td><strong>Personnel-related</strong><br>Any action affecting an employee</td><td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FAECE7;color:#712B13">Hard Gate</span></td><td>CHRO + relevant VP</td><td>Employment law</td></tr>
+      <tr><td><strong>Board-level reporting</strong><br>Any content going to the board</td><td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FAECE7;color:#712B13">Hard Gate</span></td><td>CEO + CLO</td><td>Fiduciary duty</td></tr>
+      <tr><td><strong>Strategic recommendation</strong><br>Advisory direction for the business</td><td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FAEEDA;color:#633806">Human Review</span></td><td>CEO or relevant C-suite</td><td>Strategic accountability</td></tr>
+      <tr><td><strong>Internal report</strong><br>Operational dashboard, status update</td><td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#EAF3DE;color:#2D6A4F">Spot Review</span></td><td>Department head (periodic)</td><td>Quality assurance</td></tr>
+      <tr><td><strong>Routine draft</strong><br>Internal memo, meeting summary</td><td><span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#EAF3DE;color:#2D6A4F">Confidence Flag</span></td><td>Task owner</td><td>Efficiency with oversight</td></tr>
+    </table>
+  </div>
+
+  <div class="section-lbl">How a hard gate works — step by step</div>
+  <div class="guardrail-flow">
+    <div class="gr-step">
+      <div class="gr-num" style="background:var(--teal)">1</div>
+      <div class="gr-content">
+        <div class="gr-title">Agent completes analytical or drafting work</div>
+        <div class="gr-desc">The agent produces its output — analysis, report, draft communication, recommendation. The output is stored in the system with a full source citation showing where every data point came from.</div>
+      </div>
+    </div>
+    <div class="gr-arrow">↓</div>
+    <div class="gr-gate">
+      <div class="gr-gate-icon">🔐</div>
+      <div class="gr-gate-content">
+        <div class="gr-gate-title">HARD GATE — System pauses. Nothing moves.</div>
+        <div class="gr-gate-desc">The workflow stops completely. No notification, no action, no next step until the authorized approver takes explicit action. The gate cannot be bypassed by the agent, by another workflow, or by any automated system.</div>
+      </div>
+    </div>
+    <div class="gr-arrow">↓</div>
+    <div class="gr-step">
+      <div class="gr-num" style="background:var(--amber)">2</div>
+      <div class="gr-content">
+        <div class="gr-title">Authorized approver receives notification</div>
+        <div class="gr-desc">The designated human receives an alert — via email, Slack, or their preferred channel — containing the agent's output, its sources, and a clear approval/rejection action. They can review the full output and the source data before deciding.</div>
+      </div>
+    </div>
+    <div class="gr-arrow">↓</div>
+    <div class="gr-step">
+      <div class="gr-num" style="background:var(--amber)">3</div>
+      <div class="gr-content">
+        <div class="gr-title">Human makes an explicit decision</div>
+        <div class="gr-desc">Approve (workflow continues), Reject (workflow stops, agent receives rejection note for improvement), or Request revision (agent revises and returns to the gate). The decision is logged with the approver's identity, their decision, and the timestamp. This log is permanent.</div>
+      </div>
+    </div>
+    <div class="gr-arrow">↓</div>
+    <div class="gr-step">
+      <div class="gr-num" style="background:var(--green)">4</div>
+      <div class="gr-content">
+        <div class="gr-title">If approved — workflow continues with accountability trail intact</div>
+        <div class="gr-desc">The next step in the workflow receives the approved output. Every subsequent step knows who approved what and when. The accountability chain is complete and permanent for any audit.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-lbl">The break glass protocol — emergency agent shutdown</div>
+  <div style="background:#FAECE7;border-radius:10px;padding:13px 15px;border-left:4px solid var(--coral);margin-bottom:16px">
+    <div style="font-size:12px;font-weight:600;color:#712B13;margin-bottom:5px">Every agent deployment includes an immediate revocation capability</div>
+    <div class="row"><div class="dot" style="background:var(--coral)"></div><span style="font-size:11px;color:#444">IT administrator can revoke an agent's access credentials instantly — no vendor action required</span></div>
+    <div class="row"><div class="dot" style="background:var(--coral)"></div><span style="font-size:11px;color:#444">All active workflows for that agent terminate within 60 seconds of revocation</span></div>
+    <div class="row"><div class="dot" style="background:var(--coral)"></div><span style="font-size:11px;color:#444">Full audit log of all agent activity up to the moment of revocation is preserved</span></div>
+    <div class="row"><div class="dot" style="background:var(--coral)"></div><span style="font-size:11px;color:#444">Revocation reason is logged for incident reporting</span></div>
+    <div class="row"><div class="dot" style="background:var(--coral)"></div><span style="font-size:11px;color:#444">Reinstatement requires authorized re-approval — the agent cannot self-reinstate</span></div>
+  </div>
+</div>
+
+<!-- ══ TAB 4: THE REFRAME ══════════════════════════════════════ -->
+<div id="view-reframe" class="view">
+  <div class="pg-title">The Reframe — AI Agents vs. Human-Only Processes</div>
+  <div class="pg-sub">The most powerful answer to both security and mistake objections is not a defense. It's a comparison. Show the corporate buyer what their current human-only process actually looks like — and then show them what the agent process looks like. The comparison does the selling.</div>
+
+  <div class="callout" style="background:var(--light);border-color:var(--teal)">
+    <div class="callout-title" style="color:var(--teal)">The reframe in one sentence</div>
+    <div class="callout-body" style="font-style:italic;font-size:12px">"The question isn't whether an AI agent might make a mistake. The question is: compared to your current process, which one makes mistakes more visible, more traceable, and more correctable?"</div>
+  </div>
+
+  <div class="section-lbl">Security: Human-only process vs. Agent process</div>
+  <div class="reframe-grid">
+    <div class="reframe-col" style="background:#FAECE7">
+      <div class="reframe-hdr" style="color:#712B13"><span>⚠️</span>Current human-only process</div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>Analyst emails a report to 12 people — no record of who forwarded it or where it went</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>Sensitive data sits in someone's personal Downloads folder on an unmanaged laptop</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>No audit trail of who accessed what data to build the report</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>Knowledge walks out the door when the analyst leaves the company</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>No logging of what sources were used or when they were current</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>Shadow IT everywhere — people use personal tools to get work done faster</span></div>
+    </div>
+    <div class="reframe-col" style="background:#EAF3DE">
+      <div class="reframe-hdr" style="color:var(--green)"><span>✓</span>Agent process with HFA integration</div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Every data access is logged — what was queried, when, by which agent, for which task</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Data stays within approved systems — no sensitive data in personal folders or shadow tools</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Complete audit trail from data source to final approved output</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Knowledge is preserved in the system — doesn't leave when a person does</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Every output cites its data sources with timestamps — reviewers can verify</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Approved tools only — the agent works within the company's approved tech perimeter</span></div>
+    </div>
+  </div>
+
+  <div class="section-lbl">Mistakes: Human-only process vs. Agent process</div>
+  <div class="reframe-grid">
+    <div class="reframe-col" style="background:#FAECE7">
+      <div class="reframe-hdr" style="color:#712B13"><span>⚠️</span>How human process mistakes happen</div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>Analyst copies wrong data from a spreadsheet — nobody catches it until the board meeting</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>No audit trail — impossible to trace where the error entered the process</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>The person who made the mistake may not even know they made it</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>Error compounds silently as other work builds on it</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>When discovered, attribution is unclear — hard to know whose error it was</span></div>
+      <div class="reframe-item"><span style="color:var(--coral)">✗</span><span>No learning — the same type of error can happen again next quarter</span></div>
+    </div>
+    <div class="reframe-col" style="background:#EAF3DE">
+      <div class="reframe-hdr" style="color:var(--green)"><span>✓</span>How agent process mistakes are handled</div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Output cites its sources — reviewer can see exactly where every data point came from</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Full audit trail — if a mistake enters, you can find exactly where and how</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Human approval gate catches errors before they act on anything consequential</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Every version of every output is stored — rollback to any prior state is possible</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Rejection with reason logged — error is attributed, documented, and preserved</span></div>
+      <div class="reframe-item"><span style="color:var(--green)">✓</span><span>Error patterns tracked over time — the system gets better, not the same</span></div>
+    </div>
+  </div>
+
+  <div class="section-lbl">The liability question — who is responsible when something goes wrong?</div>
+  <div class="callout" style="background:var(--light);border-color:var(--navy)">
+    <div class="callout-title" style="color:var(--navy)">The answer the legal team actually needs to hear</div>
+    <div class="callout-body">The agent produces analysis and drafts for human review. The human who reviews and approves the output is the decision-maker — not the agent. This is the same principle as a law firm associate who researches and drafts a brief: the partner who signs it is responsible, not the associate who wrote it.<br><br>Every approval gate creates a clear record of who reviewed what and decided what. That record is the accountability chain. If something goes wrong, the audit trail shows exactly who approved what and when — which is actually <em>more</em> accountability than a human process where a decision might have been made in a hallway conversation with no record at all.</div>
+  </div>
+</div>
+
+<!-- ══ TAB 5: SCRIPTS ══════════════════════════════════════════ -->
+<div id="view-scripts" class="view">
+  <div class="pg-title">What to Say in the Room</div>
+  <div class="pg-sub">These are the exact conversations you'll have. The objection, the answer, and the pivot that moves the conversation forward. Don't memorize the words — internalize the logic, then say it in your own voice.</div>
+
+  <div id="scripts-content"></div>
+</div>
+
+<div class="footer"><p>AI Aunties + Human First Automations · Corporate Agent Objection Handling · Security · Error Protection · Human Guardrails · The Reframe</p></div>
+
+<script>
+// ── SECURITY LAYERS ────────────────────────────────────────────
+const SECURITY_LAYERS = [
+  {
+    num:1, color:"#1B5E3B", badge_bg:"#EAF3DE", badge_color:"#1B5E3B",
+    title:"Data Access Scoping — minimum access, maximum control",
+    badge:"Answers: What data can the agent see?",
+    body:"Each agent is configured with the narrowest possible data access required for its specific function. The Business Intelligence Agent can query the data warehouse — it cannot see HR records. The Compliance Agent can access regulatory documents — it cannot see individual customer accounts. This is not a policy decision. It is built into the API credentials HFA configures for each agent at deployment.",
+    hfa:[
+      "Separate, permission-scoped API credentials per agent",
+      "Role-based access lists reviewed at deployment and quarterly thereafter",
+      "Access scope documented and provided to IT for review before go-live",
+      "Any scope change requires IT approval and re-documentation"
+    ]
+  },
+  {
+    num:2, color:"#1565C0", badge_bg:"#E3F2FD", badge_color:"#1565C0",
+    title:"Data in Transit — encrypted, not retained",
+    badge:"Answers: Does our data get stored by the vendor?",
+    body:"Data sent to the agent for processing is encrypted in transit (TLS 1.2 minimum) and is not retained by the processing layer after the task completes. The agent receives context, produces output, and returns it to your systems. Your company's data does not accumulate in a vendor system. Outputs go back to your approved destinations — your Notion instance, your CRM, your communication platform.",
+    hfa:[
+      "All API calls encrypted in transit — no plaintext data transmission",
+      "No persistent storage of company data in HFA's systems",
+      "Output routing returns data to client's own systems only",
+      "Data flow diagram provided to IT during integration review"
+    ]
+  },
+  {
+    num:3, color:"#6B3FA0", badge_bg:"#F3EDFC", badge_color:"#6B3FA0",
+    title:"LLM Provider Commitments — enterprise-grade contractual protections",
+    badge:"Answers: Is OpenAI training on our data?",
+    body:"Enterprise API agreements with LLM providers (OpenAI Enterprise, Anthropic, etc.) include contractual commitments that are materially different from consumer accounts. Your data is not used to train models. Data is encrypted at rest. Retention periods are defined and limited. These are contractual obligations, not product features — they can be verified by your legal team before any deployment begins.",
+    hfa:[
+      "Enterprise API tier only — consumer accounts are never used for corporate deployments",
+      "Data processing agreements (DPA) available for legal review",
+      "Model provider's security certifications (SOC 2 Type II, ISO 27001) documented",
+      "Annual review of provider commitments — any material change disclosed to client"
+    ]
+  },
+  {
+    num:4, color:"#D4860A", badge_bg:"#FEF3E2", badge_color:"#D4860A",
+    title:"Audit Trail — complete, immutable, available to you",
+    badge:"Answers: Can we see what the agent did?",
+    body:"Every agent action is logged: what data was accessed, when, for which task, what output was produced, and who approved it. This log is immutable — it cannot be altered after the fact — and it belongs to the client. Your IT or security team can request a full audit log at any time. For regulated industries, this log meets the audit trail requirements of most regulatory frameworks.",
+    hfa:[
+      "Immutable event log: every data access, query, and output timestamped",
+      "Approver identity and decision logged at every gate",
+      "Logs stored in client's own Supabase instance — client owns the data",
+      "Log format compatible with major SIEM and audit tools",
+      "Retention period configured per client's compliance requirements"
+    ]
+  },
+  {
+    num:5, color:"#C4577A", badge_bg:"#FCE8EF", badge_color:"#C4577A",
+    title:"Client Data Isolation — your data never touches another client's",
+    badge:"Answers: Is our data mixed with other companies?",
+    body:"Each client's agent deployment is a separate, isolated instance. There is no multi-tenant shared system where multiple companies' data runs through the same agent. Separate API keys, separate Notion workspaces, separate Supabase instances. Your company's competitive intelligence, financial data, and client information are processed in your instance only.",
+    hfa:[
+      "Separate agent instance per client — not shared infrastructure",
+      "Separate API credentials per client (no shared keys)",
+      "Separate Notion workspace per client for brain and library",
+      "Separate Supabase instance per client for operational data",
+      "Network isolation documented and available for IT security review"
+    ]
+  },
+  {
+    num:6, color:"#2C5F6F", badge_bg:"#E8F2F5", badge_color:"#2C5F6F",
+    title:"Access Control and Governance — who can instruct the agent",
+    badge:"Answers: Who can tell the agent what to do?",
+    body:"The agent only responds to authorized instructions from defined roles within the client organization. Not every employee can instruct the agent — access is role-gated. A quarterly access review confirms that only current authorized personnel retain agent access. When someone leaves the company, their access is revoked in the same process as any other system access revocation.",
+    hfa:[
+      "Role-based access: defined list of who can issue agent instructions",
+      "Approval authority matrix: separate list of who can approve agent outputs",
+      "Quarterly access review workflow — unused or departed access flagged",
+      "Offboarding integration: agent access revoked as part of standard IT offboarding",
+      "Break glass protocol: any authorized IT administrator can revoke all agent access instantly"
+    ]
+  }
+];
+
+// ── ERROR PROTECTION LAYERS ────────────────────────────────────
+const MISTAKE_LAYERS = [
+  {
+    num:1, color:"#2C5F6F", badge_bg:"#E8F2F5", badge_color:"#2C5F6F",
+    title:"Source-Verified Outputs — every data point shows where it came from",
+    badge:"Answers: How do we know the data is correct?",
+    body:"The agent does not create data. It synthesizes data from your verified source systems — your data warehouse, your CRM, your project management tool. Every output includes a source citation: where the data came from and when it was current. If a reviewer questions a data point, they can verify it against the source system in seconds. The agent's job is to synthesize and present — the data's accuracy is rooted in the accuracy of your systems.",
+    hfa:[
+      "Source citation embedded in every output — data source, system, and timestamp",
+      "Query log shows exactly what data was requested and what was returned",
+      "If source data changes after output is produced, the output is flagged as stale",
+      "Reviewers can click through to verify any data point against the source system"
+    ]
+  },
+  {
+    num:2, color:"#D4860A", badge_bg:"#FEF3E2", badge_color:"#D4860A",
+    title:"Confidence Flagging — the agent tells you when it's uncertain",
+    badge:"Answers: What if the agent isn't sure about something?",
+    body:"A well-designed agent does not present uncertain information as definitive. When the agent encounters ambiguous data, conflicting sources, or a question outside its knowledge boundary, it flags the uncertainty explicitly in the output. Low-confidence sections are marked differently from high-confidence sections. The reviewer knows which parts to scrutinize more carefully before approving.",
+    hfa:[
+      "Confidence level embedded in structured output format",
+      "Low-confidence flags trigger enhanced review notification to approver",
+      "Ambiguous inputs trigger a clarification request before output is produced",
+      "Agent does not fill gaps with assumptions — it identifies the gap and stops"
+    ]
+  },
+  {
+    num:3, color:"#1B5E3B", badge_bg:"#EAF3DE", badge_color:"#1B5E3B",
+    title:"Human Approval Gates — consequential outputs require explicit human sign-off",
+    badge:"Answers: What stops a mistake from becoming an action?",
+    body:"No output that could result in financial commitment, regulatory filing, public communication, or personnel decision moves forward without explicit human approval. The system stops and waits. The approver receives the full output, its sources, and confidence level before deciding. The approval is logged permanently. This is the primary line of defense against a mistake becoming a consequence.",
+    hfa:[
+      "Approval gate architecture built into every consequential workflow",
+      "Gate cannot be bypassed by any automated process",
+      "Approver receives output + sources + confidence level in one notification",
+      "Approval logged: who, what decision, when — permanent and immutable",
+      "Multi-level approval for highest-stakes decisions (two humans, not one)"
+    ]
+  },
+  {
+    num:4, color:"#6B3FA0", badge_bg:"#F3EDFC", badge_color:"#6B3FA0",
+    title:"Version Control — every output is saved, every change is tracked",
+    badge:"Answers: What if a mistake was already approved and acted on?",
+    body:"Every output the agent produces is versioned and stored. If a mistake passes through a gate and is discovered later, you can trace back through the version history to see exactly what the agent produced, what changes were made in human review, who approved it, and when. Rollback to a prior version is possible. The history is complete and does not disappear.",
+    hfa:[
+      "Every output version stored with full metadata (agent, timestamp, approver)",
+      "Change log: every edit made to an output between agent production and approval",
+      "Rollback capability: restore any prior version of any output",
+      "Version history accessible to authorized reviewers at any time"
+    ]
+  },
+  {
+    num:5, color:"#C4577A", badge_bg:"#FCE8EF", badge_color:"#C4577A",
+    title:"Error Logging and Learning — the system gets better, not the same",
+    badge:"Answers: Will it keep making the same mistake?",
+    body:"When an output is rejected — by a human reviewer, by the QA system, or after post-approval discovery — the rejection is logged with the reason. Over time, these rejection patterns are reviewed and used to improve the agent's behavior. Error rate decreases over time. The same type of mistake does not persist indefinitely because each one is documented and fed back into the system improvement cycle.",
+    hfa:[
+      "Rejection log: every rejected output with reason, mode, and context",
+      "Weekly rejection pattern summary to AI Aunties for agent improvement",
+      "Model registry: deployment history, error patterns, improvement log",
+      "Quarterly error rate review — trend toward improvement is measurable and reportable"
+    ]
+  },
+  {
+    num:6, color:"#1E3A5F", badge_bg:"#E8ECF5", badge_color:"#1E3A5F",
+    title:"The Accountability Argument — more visible than human processes",
+    badge:"The reframe: agent mistakes vs. human process mistakes",
+    body:"This is the most important layer. When an agent makes a mistake, there is a source citation showing where the data came from, a version history showing what the agent produced, an approval log showing who reviewed it, and a rejection log showing where it went wrong. When a human makes a mistake in a typical corporate process, there is often none of that. The agent makes your processes more accountable — not less.",
+    hfa:[
+      "Complete accountability chain from data source to approved output",
+      "Every decision point logged with human identity and timestamp",
+      "Audit-ready documentation available at any time for any output",
+      "Comparable to — and in most cases superior to — the documentation trail in a human-only process"
+    ]
+  }
+];
+
+// ── SALES SCRIPTS ──────────────────────────────────────────────
+const SCRIPTS = [
+  {
+    who:"CISO / IT Director",
+    title:"The Data Security Objection",
+    objection:"\"Before we go any further — where does our data go? Is it going to OpenAI? Can they train on it? Can your team see our data?\"",
+    answer:"Those are exactly the right questions and I want to answer all three directly.\n\nFirst — your data goes to the LLM provider's enterprise API only. Enterprise API agreements are fundamentally different from consumer accounts. Your data is not used for model training. That's a contractual commitment, not a product promise — your legal team can verify it before we deploy anything.\n\nSecond — the integration layer we build means your data queries your own systems. The agent reads from your data warehouse, your CRM, your project management tool — and outputs go back to your systems. Data is processed but not retained by us after the task completes.\n\nThird — neither our team nor AI Aunties has access to your company's data or outputs. The agent runs within your approved systems perimeter. We can walk your IT team through the full data flow diagram before any decision is made.",
+    pivot:"\"Would it be useful to schedule a technical review session with your IT security team before we proceed? I can bring the data flow architecture and the enterprise API documentation.\" — Getting IT in the room early converts the CISO from a blocker to a champion."
+  },
+  {
+    who:"CFO / COO",
+    title:"The Mistake and Liability Objection",
+    objection:"\"What happens when it makes a mistake? Who is liable? We can't have AI making decisions that affect our business.\"",
+    answer:"You're right that the agent shouldn't make decisions that affect your business — and it doesn't. Let me be specific about what it does and doesn't do.\n\nThe agent produces analysis, drafts, and synthesis for human review. Nothing consequential moves without explicit human approval. The CFO approves the financial report before it goes anywhere. The General Counsel approves the compliance draft before it's filed. The CEO approves the board communication before it's sent. Those humans are the decision-makers — the agent is doing the analytical and drafting work they'd otherwise spend hours on.\n\nOn liability — the agent produces a draft for human review. The authorized person who reviews and approves it made the decision. That's the same accountability model as a consulting firm that recommends and the client who implements — the person who acts is responsible for the action.\n\nAnd here's the part that usually surprises people: an agent's mistakes are actually more visible and traceable than most human process mistakes. When the agent produces something, it cites its sources. There's a version history. The approver is logged. If something goes wrong you can trace it immediately. In a typical human process, a mistake in a spreadsheet might compound for two quarters before anyone finds it.",
+    pivot:"\"Can I show you specifically what a review workflow looks like? I want to show you what the approver actually sees before they make a decision, and where the audit trail lives.\" — Making the gate concrete and visual removes the abstraction."
+  },
+  {
+    who:"Legal / General Counsel",
+    title:"The \"Too Sensitive\" Objection",
+    objection:"\"Our work involves confidential client information and sensitive legal matters. We can't have AI touching that.\"",
+    answer:"I understand why that's the instinct and I want to address it directly. The configuration question is what data the agent has access to — and that's entirely within your control.\n\nThe Compliance Agent, for example, doesn't need to see individual client files to track regulatory deadlines and draft compliance documentation. It needs access to the regulatory calendar, the policy library, and the filing requirements — none of which are confidential in the way individual client matters are. We scope the access specifically to what the function requires.\n\nFor matters where the agent does need to work with sensitive information — and there are legitimate cases — the architecture keeps that data within your systems perimeter. The agent queries your document management system; the data doesn't leave it. And every access is logged, which actually gives you better visibility into who touched what than a shared drive does.\n\nWe'd work with your team to define exactly which functions are appropriate for agent support and which remain fully human-handled. That line is yours to draw.",
+    pivot:"\"It might be helpful to start with a function that's clearly low-sensitivity — deadline tracking and calendar management — and let your team see the architecture in practice before making any decisions about more sensitive functions.\" — The foot-in-door works here."
+  },
+  {
+    who:"CEO / Board",
+    title:"The \"I Don't Trust AI\" Objection",
+    objection:"\"I've seen too many AI initiatives that overpromised and underdelivered. Why is this different?\"",
+    answer:"That skepticism is well-earned and I'm not going to try to talk you out of it. Most AI implementations fail because they're sold as transformations and deployed as tools. People are told to use a new software platform and left to figure out how it fits their work. That's not what this is.\n\nWhat we're building is a work system around a specific, defined function — not a general AI capability your team has to figure out. The Business Intelligence Agent has one job: answer business questions from your data and produce briefings for review. It doesn't try to do everything. It does that one thing consistently.\n\nAnd the human guardrails are real — not a marketing claim. Before anything consequential leaves the system, a designated person from your team reviews and approves it. The agent does not act autonomously on anything that matters. Your people are still in the decision seats.\n\nThe way we typically start is with one agent, one function, one quarter. You measure what it produces, what the error rate is, what it saves — and then you decide whether to expand. No transformation required. Just one thing working better than it did before.",
+    pivot:"\"What function in your organization has the clearest bottleneck right now — where the work is predictable, the stakes are defined, and the output could be verified against something measurable?\" — Find their specific pain and propose starting there."
+  },
+  {
+    who:"CHRO / HR",
+    title:"The Headcount Concern Objection",
+    objection:"\"If we deploy an agent that does what our analysts do, what happens to our analysts?\"",
+    answer:"This is an important question and I want to give you a direct answer rather than deflecting.\n\nThe honest answer is that agents change what analysts spend their time on, not whether analysts are needed. The Business Intelligence Agent can answer routine data questions faster than an analyst can pull a report — but it can't ask the next question, notice the anomaly that the numbers don't show, or bring judgment to an ambiguous business situation. Those are the things your analysts should be doing more of.\n\nIn practice, what most teams find is that the agent handles the report-building and data-pulling work that currently consumes 60% of an analyst's time — and the analyst's time shifts toward the interpretation, communication, and strategic work that the organization actually needs and can't get enough of.\n\nHow you position this internally is your decision. But the framing we'd suggest is: the agents handle the work that makes smart people feel like they're wasting their time. The people focus on the work only they can do.",
+    pivot:"\"What does your team tell you they wish they could spend more time on? That's usually the answer to what the agent should be handling instead.\" — Reframe the conversation from replacement to capacity."
+  }
+];
+
+// ── RENDER LAYERS ──────────────────────────────────────────────
+function renderLayers(layers, containerId) {
+  const wrap = document.getElementById(containerId);
+  layers.forEach(layer => {
+    const card = document.createElement('div');
+    card.className = 'layer-card';
+    card.innerHTML = `
+      <div class="layer-hdr" onclick="toggleLayer(this)">
+        <div class="layer-num" style="background:${layer.color}">${layer.num}</div>
+        <div class="layer-title">${layer.title}</div>
+        <span class="layer-badge" style="background:${layer.badge_bg};color:${layer.badge_color}">${layer.badge}</span>
+        <div class="layer-chevron">▼</div>
+      </div>
+      <div class="layer-body">
+        <div class="layer-body-inner">
+          <p style="font-size:11px;color:#444;line-height:1.65;margin-bottom:10px">${layer.body}</p>
+          <div class="what-hfa-box">
+            <div class="what-hfa-lbl">What HFA builds for this layer</div>
+            ${layer.hfa.map(h=>`<div class="row"><div class="dot" style="background:var(--teal)"></div><span>${h}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+    wrap.appendChild(card);
+  });
+}
+
+function toggleLayer(hdr) {
+  const body = hdr.nextElementSibling;
+  const chevron = hdr.querySelector('.layer-chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+}
+
+// ── RENDER SCRIPTS ─────────────────────────────────────────────
+function renderScripts() {
+  const wrap = document.getElementById('scripts-content');
+  SCRIPTS.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'script-card';
+    card.innerHTML = `
+      <div class="script-hdr">
+        <div class="script-who">${s.who}</div>
+        <div class="script-title">${s.title}</div>
+      </div>
+      <div class="script-body">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#712B13;margin-bottom:4px">Their objection</div>
+        <div class="objection-box">${s.objection}</div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:4px">Your answer</div>
+        <div class="answer-box">${s.answer.replace(/\n\n/g,'<br><br>')}</div>
+        <div class="pivot-box">
+          <div class="pivot-lbl">The pivot — how to move the conversation forward</div>
+          ${s.pivot}
+        </div>
+      </div>`;
+    wrap.appendChild(card);
+  });
+}
+
+function showTab(name) {
+  const names=['security','mistakes','guardrails','reframe','scripts'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
+}
+
+// Init
+renderLayers(SECURITY_LAYERS,'security-layers');
+renderLayers(MISTAKE_LAYERS,'mistake-layers');
+renderScripts();
+</script>
+</body>
+</html>
