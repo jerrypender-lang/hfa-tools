@@ -48,8 +48,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
 .v-line{width:2px;height:16px;background:var(--border)}
 
 /* ── DETAIL PANEL ── */
-.detail-panel{width:340px;border-left:1px solid var(--border);background:#fff;overflow-y:auto;flex-shrink:0;padding:16px}
+.detail-panel{width:340px;border-left:1px solid var(--border);background:#fff;overflow-y:auto;flex-shrink:0;padding:0;transition:width .2s ease}
+.detail-panel.hidden{width:0;border-left:none;overflow:hidden;padding:0}
 .detail-panel::-webkit-scrollbar{width:3px}.detail-panel::-webkit-scrollbar-thumb{background:var(--border)}
+.dp-inner{padding:16px;min-width:320px}
+.dp-close-btn{position:sticky;top:0;z-index:10;background:#fff;display:flex;justify-content:flex-end;padding:10px 14px 6px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.close-btn{background:var(--cream);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);padding:4px 10px;display:flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif}
+.close-btn:hover{background:var(--border);color:var(--text)}
 .dp-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;gap:10px}
 .dp-emoji{font-size:36px}
 .dp-hint{font-size:12px;line-height:1.5}
@@ -218,11 +223,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);
       </div>
     </div>
   </div>
-  <div class="detail-panel" id="detail-panel">
-    <div class="dp-placeholder">
-      <div class="dp-emoji">🏢</div>
-      <div class="dp-hint">Click any agent in the org chart to see where it sits, who it reports to, and how information flows through the organization</div>
+  <div class="detail-panel hidden" id="detail-panel">
+    <div class="dp-close-btn">
+      <button class="close-btn" onclick="closePanel()">✕ Close</button>
     </div>
+    <div class="dp-inner" id="dp-inner"></div>
   </div>
 </div>
 
@@ -572,12 +577,20 @@ AGENTS.forEach(a => {
   agentTier.appendChild(node);
 });
 
+function closePanel() {
+  document.querySelectorAll('.agent-node').forEach(n => n.classList.remove('selected'));
+  const dp = document.getElementById('detail-panel');
+  dp.classList.add('hidden');
+  document.getElementById('dp-inner').innerHTML = '';
+}
+
 function selectAgent(id) {
   document.querySelectorAll('.agent-node').forEach(n => n.classList.remove('selected'));
   document.getElementById('node-'+id).classList.add('selected');
   const a = AGENTS.find(x => x.id === id);
   const dp = document.getElementById('detail-panel');
-  dp.innerHTML = `
+  dp.classList.remove('hidden');
+  document.getElementById('dp-inner').innerHTML = `
     <div class="da-header">
       <div class="da-emoji">${a.emoji}</div>
       <div class="da-title">${a.name}</div>
