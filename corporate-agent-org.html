@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Corporate Agent Org Placement Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#2C5F6F;--teal-l:#4A8A9A;--gold:#D4A574;--coral:#D97757;
+  --green:#2D6A4F;--purple:#7F77DD;--amber:#D4860A;--navy:#1E3A5F;
+  --rose:#C4577A;--forest:#2D6A4F;--cream:#F5F3EE;
+  --border:#DDD9D0;--text:#1E2D32;--muted:#6B7C83;--light:#F0F6F8;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+.hdr{background:var(--teal);padding:12px 20px;border-bottom:3px solid var(--gold);flex-shrink:0}
+.hdr-eye{font-size:9px;color:#A8D4DF;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.hdr-title{font-size:18px;font-weight:500;color:#fff;margin-bottom:1px}
+.hdr-sub{font-size:11px;color:#D4EBF0}
+.tabs{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;display:flex;flex-shrink:0;overflow-x:auto}
+.tab{padding:9px 15px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.view{display:none;flex:1;overflow:hidden}
+.view.active{display:flex}
+
+/* ── ORG CHART VIEW ── */
+#view-org{flex-direction:column;overflow:hidden}
+.org-scroll{flex:1;overflow:auto;padding:20px}
+.org-scroll::-webkit-scrollbar{width:4px;height:4px}.org-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.org-wrap{min-width:1200px}
+.c-tier{display:flex;justify-content:center;gap:8px;margin-bottom:6px}
+.dept-tier{display:flex;justify-content:center;gap:8px;margin-bottom:6px}
+.agent-tier{display:flex;justify-content:center;gap:8px;margin-bottom:8px}
+.c-box{border-radius:8px;padding:8px 12px;text-align:center;border:2px solid;min-width:120px;cursor:pointer;transition:all .15s}
+.c-box .c-title{font-size:11px;font-weight:700;color:#fff;margin-bottom:1px}
+.c-box .c-sub{font-size:9px;opacity:.8;color:#fff}
+.dept-box{border-radius:7px;padding:6px 10px;text-align:center;border:1px solid;min-width:110px;font-size:10px;font-weight:500;cursor:default}
+.agent-node{border-radius:9px;padding:9px 12px;border:2px solid;min-width:130px;text-align:center;cursor:pointer;transition:all .15s;position:relative}
+.agent-node:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.agent-node.selected{box-shadow:0 0 0 3px var(--gold)}
+.agent-emoji{font-size:18px;margin-bottom:3px}
+.agent-name{font-size:10px;font-weight:600;line-height:1.3}
+.agent-reports{font-size:9px;margin-top:3px;opacity:.8}
+/* connectors */
+.connector-row{display:flex;justify-content:center;gap:8px;height:16px;position:relative}
+.conn-line{display:flex;justify-content:center;align-items:center}
+.v-line{width:2px;height:16px;background:var(--border)}
+
+/* ── DETAIL PANEL ── */
+.detail-panel{width:340px;border-left:1px solid var(--border);background:#fff;overflow-y:auto;flex-shrink:0;padding:16px}
+.detail-panel::-webkit-scrollbar{width:3px}.detail-panel::-webkit-scrollbar-thumb{background:var(--border)}
+.dp-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;gap:10px}
+.dp-emoji{font-size:36px}
+.dp-hint{font-size:12px;line-height:1.5}
+
+/* ── AGENT DETAIL ── */
+.da-header{margin-bottom:14px}
+.da-emoji{font-size:28px;margin-bottom:6px}
+.da-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:4px}
+.da-tagline{font-size:11px;color:var(--muted);font-style:italic;line-height:1.5;margin-bottom:10px}
+.da-section{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:12px 0 6px}
+.da-card{border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+.da-card-title{font-size:11px;font-weight:600;margin-bottom:3px}
+.da-card-body{font-size:11px;color:#444;line-height:1.5}
+.rel-row{display:flex;gap:7px;margin-bottom:6px;align-items:flex-start;font-size:11px;line-height:1.5}
+.rel-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.flow-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.flow-box{border-radius:8px;padding:9px 10px;border:1px solid var(--border)}
+.flow-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.flow-item{font-size:10px;color:#444;line-height:1.5;display:flex;gap:5px;margin-bottom:3px}
+
+/* ── RELATIONSHIPS VIEW ── */
+#view-relationships .main-content{flex:1;overflow-y:auto;padding:18px}
+.main-content::-webkit-scrollbar{width:4px}.main-content::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.rel-matrix{display:grid;gap:12px}
+.rel-card{background:#fff;border:1px solid var(--border);border-radius:11px;overflow:hidden}
+.rel-card-hdr{padding:11px 15px;display:flex;align-items:center;gap:10px}
+.rel-card-emoji{font-size:20px}
+.rel-card-title{font-size:13px;font-weight:500}
+.rel-card-role{font-size:10px;color:var(--muted)}
+.rel-card-body{padding:12px 15px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;border-top:1px solid var(--border)}
+.rel-col-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.rel-item{font-size:10px;color:#444;line-height:1.5;display:flex;gap:5px;margin-bottom:4px}
+
+/* ── BUYER GUIDE VIEW ── */
+#view-buyers .main-content{flex:1;overflow-y:auto;padding:18px}
+.buyer-card{background:#fff;border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:12px}
+.buyer-hdr{padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.buyer-agent{display:flex;align-items:center;gap:9px}
+.buyer-emoji{font-size:20px}
+.buyer-name{font-size:13px;font-weight:500}
+.buyer-dept{font-size:10px;color:var(--muted)}
+.budget-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px}
+.buyer-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border)}
+.buyer-col{padding:11px 13px;border-right:1px solid var(--border)}
+.buyer-col:last-child{border-right:none}
+.buyer-col-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.buyer-item{font-size:10px;color:#444;line-height:1.5;margin-bottom:3px;display:flex;gap:5px}
+.chk{color:var(--green);font-size:10px;flex-shrink:0}
+.warn{color:var(--amber);font-size:10px;flex-shrink:0}
+
+/* ── FLOW PLANS VIEW ── */
+#view-flows .main-content{flex:1;overflow-y:auto;padding:18px}
+.plan-card{background:#fff;border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:14px}
+.plan-hdr{padding:12px 16px;border-bottom:1px solid var(--border)}
+.plan-title{font-size:14px;font-weight:500;margin-bottom:2px}
+.plan-sub{font-size:11px;color:var(--muted)}
+.plan-body{padding:14px 16px}
+.flow-steps{display:flex;gap:0;align-items:stretch;overflow-x:auto;padding-bottom:4px}
+.flow-step{min-width:140px;flex-shrink:0}
+.flow-step-inner{border-radius:9px;padding:10px 11px;height:100%}
+.flow-step-num{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.flow-step-agent{font-size:10px;font-weight:600;margin-bottom:3px}
+.flow-step-work{font-size:10px;color:#444;line-height:1.4}
+.flow-arrow{display:flex;align-items:center;padding:0 4px;flex-shrink:0}
+.flow-arrow-inner{text-align:center;min-width:50px}
+.flow-arrow-symbol{font-size:16px;color:var(--muted)}
+.flow-arrow-label{font-size:9px;color:var(--muted);margin-top:2px}
+.gate-step{min-width:90px;flex-shrink:0}
+.gate-inner{background:#FAECE7;border:2px solid rgba(217,119,87,.4);border-radius:9px;padding:8px 10px;text-align:center;height:100%}
+.gate-icon{font-size:14px;margin-bottom:3px}
+.gate-label{font-size:9px;font-weight:600;color:#712B13}
+.gate-who{font-size:9px;color:#712B13;margin-top:2px}
+
+/* footer */
+.footer{background:#fff;border-top:1px solid var(--border);padding:7px 16px;flex-shrink:0}
+.footer p{font-size:10px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-eye">AI Aunties + Human First Automations · Corporate Agent Strategy</div>
+  <div class="hdr-title">Corporate Agent Org Placement Guide</div>
+  <div class="hdr-sub">Where each agent sits · Who they report to · Who they share with · Who buys them · How they chain together</div>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="showTab('org')">01 · Org Chart Placement</div>
+  <div class="tab" onclick="showTab('relationships')">02 · Lateral Relationships</div>
+  <div class="tab" onclick="showTab('buyers')">03 · Who Buys Each Agent</div>
+  <div class="tab" onclick="showTab('flows')">04 · Flow Plan Examples</div>
+</div>
+
+<!-- ══ TAB 1: ORG CHART ══════════════════════════════════════════ -->
+<div id="view-org" class="view active">
+  <div class="org-scroll">
+    <div class="org-wrap">
+
+      <!-- CEO tier -->
+      <div class="c-tier">
+        <div class="c-box" style="background:var(--navy);border-color:var(--navy);min-width:160px">
+          <div class="c-title">CEO / President</div>
+          <div class="c-sub">Strategic direction · Final authority</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-bottom:6px"><div style="width:2px;height:16px;background:var(--border)"></div></div>
+
+      <!-- C-Suite tier -->
+      <div class="c-tier">
+        <div class="c-box" style="background:#1B5E3B;border-color:#1B5E3B;min-width:108px">
+          <div class="c-title">CFO</div><div class="c-sub">Finance · Analytics</div>
+        </div>
+        <div class="c-box" style="background:var(--teal);border-color:var(--teal);min-width:108px">
+          <div class="c-title">COO</div><div class="c-sub">Operations · PMO</div>
+        </div>
+        <div class="c-box" style="background:#6B3FA0;border-color:#6B3FA0;min-width:108px">
+          <div class="c-title">CMO</div><div class="c-sub">Marketing · Comms</div>
+        </div>
+        <div class="c-box" style="background:#1565C0;border-color:#1565C0;min-width:108px">
+          <div class="c-title">CTO / CDO</div><div class="c-sub">Tech · Data</div>
+        </div>
+        <div class="c-box" style="background:var(--rose);border-color:var(--rose);min-width:108px">
+          <div class="c-title">CCO / CRO</div><div class="c-sub">Customers · Revenue</div>
+        </div>
+        <div class="c-box" style="background:var(--amber);border-color:var(--amber);min-width:108px">
+          <div class="c-title">CLO / CCO</div><div class="c-sub">Legal · Compliance</div>
+        </div>
+        <div class="c-box" style="background:var(--navy);border-color:var(--navy);opacity:.8;min-width:108px">
+          <div class="c-title">CSO</div><div class="c-sub">Strategy · Research</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:8px;margin:4px 0 4px">
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+      </div>
+
+      <!-- Department tier -->
+      <div class="dept-tier">
+        <div class="dept-box" style="background:#E8F5EE;border-color:#1B5E3B;color:#1B5E3B;min-width:108px">FP&A / Analytics</div>
+        <div class="dept-box" style="background:#E8F2F5;border-color:var(--teal);color:var(--teal);min-width:108px">PMO / Ops</div>
+        <div class="dept-box" style="background:#F3EDFC;border-color:#6B3FA0;color:#6B3FA0;min-width:108px">Corp Comms</div>
+        <div class="dept-box" style="background:#E3F2FD;border-color:#1565C0;color:#1565C0;min-width:108px">Data Platform</div>
+        <div class="dept-box" style="background:#FCE8EF;border-color:var(--rose);color:var(--rose);min-width:108px">Customer Success</div>
+        <div class="dept-box" style="background:#FEF3E2;border-color:var(--amber);color:var(--amber);min-width:108px">Legal / Risk</div>
+        <div class="dept-box" style="background:#E8ECF5;border-color:var(--navy);color:var(--navy);min-width:108px">Strategy Team</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:8px;margin:4px 0 8px">
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+        <div style="width:108px;display:flex;justify-content:center"><div style="width:2px;height:14px;background:var(--border)"></div></div>
+      </div>
+
+      <!-- Agent tier -->
+      <div class="agent-tier" id="agent-tier"></div>
+
+      <div style="text-align:center;font-size:10px;color:var(--muted);margin-top:8px">
+        ← Click any agent to see org placement, reporting lines, lateral relationships, and information flows →
+      </div>
+    </div>
+  </div>
+  <div class="detail-panel" id="detail-panel">
+    <div class="dp-placeholder">
+      <div class="dp-emoji">🏢</div>
+      <div class="dp-hint">Click any agent in the org chart to see where it sits, who it reports to, and how information flows through the organization</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 2: RELATIONSHIPS ═════════════════════════════════════ -->
+<div id="view-relationships" class="view" style="flex-direction:column">
+  <div class="main-content" id="rel-content"></div>
+</div>
+
+<!-- ══ TAB 3: BUYERS ════════════════════════════════════════════ -->
+<div id="view-buyers" class="view" style="flex-direction:column">
+  <div class="main-content" id="buyer-content"></div>
+</div>
+
+<!-- ══ TAB 4: FLOW PLANS ════════════════════════════════════════ -->
+<div id="view-flows" class="view" style="flex-direction:column">
+  <div class="main-content" id="flow-content"></div>
+</div>
+
+<div class="footer"><p>AI Aunties corporate agent positioning · HFA orchestration layer · All agent deployments require HFA integration, governance dashboard, and approval gate architecture</p></div>
+
+<script>
+const AGENTS = [
+  {
+    id:"bi", emoji:"📊", name:"Business Intelligence Agent",
+    dept:"FP&A / Analytics", reports_to:"CFO / VP Analytics / CDO",
+    color:"#1B5E3B", bg:"#E8F5EE",
+    tagline:"Answers business questions, synthesizes data into narrative summaries, produces executive briefings from live data",
+    org_position:"Sits within or directly alongside the Analytics team. In companies where analytics reports to the CFO, this agent sits in Finance. In companies with a CDO or dedicated data function, it sits there instead.",
+    what_it_receives:[
+      "Strategic questions from C-suite and VPs",
+      "KPI definitions and reporting requirements",
+      "Access to data warehouse and BI tools",
+      "Historical context from prior reports"
+    ],
+    what_it_sends_up:[
+      "Executive briefings for CEO/CFO/COO",
+      "Performance summaries for board meetings",
+      "Variance analysis and anomaly flags",
+      "Quarterly and annual reporting packages"
+    ],
+    lateral_sends:[
+      {to:"Project Manager Agent", what:"Project cost and performance data"},
+      {to:"Research & Strategy Agent", what:"Market performance data and internal benchmarks"},
+      {to:"Communications Agent", what:"Data narratives for leadership communications"},
+      {to:"Operations Agent", what:"Operational KPI summaries"},
+    ],
+    lateral_receives:[
+      {from:"Operations Agent", what:"Process performance data and SLA metrics"},
+      {from:"Client Success Agent", what:"Customer health and revenue data"},
+      {from:"Project Manager Agent", what:"Project status data for consolidated reporting"},
+    ],
+    champion:"CFO or VP of Analytics",
+    approval_chain:["CFO (budget)","CTO/IT (integration)","Legal (data access)"],
+    objections:["Who owns the data outputs?","How do we ensure accuracy?","What happens when the data changes?"],
+    hfa_builds:["Query and retrieval layer connecting to data warehouse","BI tool API integration (Tableau, Power BI, Looker)","Executive briefing delivery workflow","Governance dashboard showing briefings produced per month"]
+  },
+  {
+    id:"pm", emoji:"📋", name:"Project Manager Agent",
+    dept:"PMO / Operations", reports_to:"COO / VP Operations / Head of PMO",
+    color:"#2C5F6F", bg:"#E8F2F5",
+    tagline:"Reads live project data, flags blockers, drafts stakeholder reports, sends milestone alerts across Jira, Asana, Monday, or MS Project",
+    org_position:"Sits within the PMO (Project Management Office) or embedded within a specific department that runs large projects — Engineering, Product, or Operations. Reports up through the COO in most mid-market and enterprise companies.",
+    what_it_receives:[
+      "Project briefs and scope definitions",
+      "Strategic priorities and deadline requirements",
+      "Budget constraints and resource allocations",
+      "Escalation thresholds from senior management"
+    ],
+    what_it_sends_up:[
+      "Weekly status reports to COO and project sponsors",
+      "Blocker flags for executive attention",
+      "Milestone completion confirmations",
+      "Resource conflict alerts",
+      "Project health scores"
+    ],
+    lateral_sends:[
+      {to:"Business Intelligence Agent", what:"Project cost and timeline data for consolidated reporting"},
+      {to:"Communications Agent", what:"Project update content for stakeholder communications"},
+      {to:"Operations Agent", what:"Cross-project dependency and handoff information"},
+    ],
+    lateral_receives:[
+      {from:"Business Intelligence Agent", what:"Budget variance data and financial context"},
+      {from:"Operations Agent", what:"Process exception data affecting project timelines"},
+      {from:"Compliance Agent", what:"Regulatory timeline requirements affecting project scope"},
+    ],
+    champion:"COO or Head of PMO",
+    approval_chain:["COO or CFO (budget)","IT (integration with PM systems)"],
+    objections:["We already have a PM team","How accurate is the status data?","What if a project manager disagrees with the agent's read?"],
+    hfa_builds:["Bi-directional integration with Jira/Asana/Monday/MS Project","Stakeholder report delivery workflow","Escalation routing to appropriate manager by severity","Governance dashboard: projects active, milestones hit, blockers resolved"]
+  },
+  {
+    id:"comms", emoji:"📣", name:"Communications & Content Agent",
+    dept:"Corporate Communications", reports_to:"CMO / VP Communications / CEO (for exec comms)",
+    color:"#6B3FA0", bg:"#F3EDFC",
+    tagline:"Drafts internal communications, leadership messages, board updates, and stakeholder briefings — never sends, always for human approval",
+    org_position:"Sits within Corporate Communications, which in most companies sits under the CMO or reports directly to the CEO for executive-level content. Internal comms often has a separate home under the CHRO. This agent serves both.",
+    what_it_receives:[
+      "Key messages and corporate priorities from leadership",
+      "Event triggers: earnings, leadership changes, product launches",
+      "Audience definitions for each communication",
+      "Brand voice standards and tone guidelines",
+      "Prior communications for consistency reference"
+    ],
+    what_it_sends_up:[
+      "Draft executive messages for CEO/C-suite review",
+      "Board communication packages",
+      "Crisis communication holding statements",
+      "All-hands and town hall scripts",
+      "Leadership talking points"
+    ],
+    lateral_sends:[
+      {to:"Operations Agent", what:"Internal process change communications"},
+      {to:"Client Success Agent", what:"Customer-facing message templates"},
+      {to:"Business Intelligence Agent", what:"Requests for data to support communications"},
+    ],
+    lateral_receives:[
+      {from:"Business Intelligence Agent", what:"Performance data and metrics for data-driven messaging"},
+      {from:"Research & Strategy Agent", what:"Market context for external communications"},
+      {from:"Compliance Agent", what:"Required legal language and regulatory disclosures"},
+      {from:"Project Manager Agent", what:"Project milestone content for updates"},
+    ],
+    champion:"CMO or VP of Communications",
+    approval_chain:["CMO or CEO (budget and content authority)","Legal (for external communications)","CHRO (for internal communications)"],
+    objections:["Our communications are too sensitive for AI","The voice won't sound like our executives","What if something goes out before approval?"],
+    hfa_builds:["Integration with Slack, email, Confluence, SharePoint for delivery","Hard approval gate — nothing publishes without explicit sign-off","Context pull from prior communications for voice consistency","Delivery routing: right message to right channel to right audience"]
+  },
+  {
+    id:"cs", emoji:"🤝", name:"Client Success Agent",
+    dept:"Customer Success / Account Management", reports_to:"CCO / CRO / VP Customer Success",
+    color:"#C4577A", bg:"#FCE8EF",
+    tagline:"Tracks client relationships, flags at-risk accounts, drafts renewal communications, synthesizes interaction history from live CRM data",
+    org_position:"Sits directly within the Customer Success or Account Management team, under the CCO or CRO. In SaaS and professional services companies this is one of the highest-value agent placements because the CS team is often understaffed relative to the account volume they manage.",
+    what_it_receives:[
+      "Account assignments and ownership from CS leadership",
+      "Renewal targets and expansion goals",
+      "Product usage data and support ticket history",
+      "Health score thresholds for risk flagging"
+    ],
+    what_it_sends_up:[
+      "Account health reports to VP CS or CRO",
+      "At-risk account flags requiring executive attention",
+      "Renewal forecast updates",
+      "Customer feedback synthesis for product team",
+      "QBR preparation materials"
+    ],
+    lateral_sends:[
+      {to:"Business Intelligence Agent", what:"Customer revenue and retention data"},
+      {to:"Communications Agent", what:"Customer success stories for content"},
+      {to:"Research & Strategy Agent", what:"Customer feedback and market signal data"},
+    ],
+    lateral_receives:[
+      {from:"Business Intelligence Agent", what:"Revenue performance and churn analysis"},
+      {from:"Operations Agent", what:"Delivery and SLA performance data affecting client health"},
+      {from:"Communications Agent", what:"Approved customer-facing message templates"},
+    ],
+    champion:"VP of Customer Success or CRO",
+    approval_chain:["CRO or CCO (budget)","IT (CRM integration)","Legal (for renewal and contract language)"],
+    objections:["Our CS relationships are too personal for AI","We already use Salesforce Health Scores","What if the agent misreads a relationship?"],
+    hfa_builds:["Bi-directional CRM integration (Salesforce, HubSpot)","At-risk account alert routing","Renewal communication draft workflow","QBR preparation automation","Governance dashboard: accounts monitored, renewals drafted, flags raised"]
+  },
+  {
+    id:"ops", emoji:"⚙️", name:"Operations Agent",
+    dept:"Operations (cross-functional)", reports_to:"COO / VP Operations",
+    color:"#2C5F6F", bg:"#E8F2F5",
+    tagline:"Monitors process execution across departments, flags exceptions, coordinates handoffs between teams, tracks SLAs in real time",
+    org_position:"This is the most horizontal agent in the portfolio. It doesn't sit within one department — it sits across all of them. Think of it as the COO's operational visibility layer. It monitors what every department agreed to do and flags when anything deviates from the plan.",
+    what_it_receives:[
+      "Process standards and SLA definitions from COO",
+      "Exception thresholds from department heads",
+      "Escalation routing rules from operations leadership",
+      "Current operational data from all connected systems"
+    ],
+    what_it_sends_up:[
+      "Daily operational exception report to COO",
+      "SLA breach alerts to relevant VP and COO",
+      "Cross-department bottleneck identification",
+      "Operational health dashboard for executive review"
+    ],
+    lateral_sends:[
+      {to:"Business Intelligence Agent", what:"Operational performance data for consolidated reporting"},
+      {to:"Project Manager Agent", what:"Process exception data affecting project timelines"},
+      {to:"Compliance Agent", what:"Process deviation data relevant to regulatory requirements"},
+      {to:"Communications Agent", what:"Operational update content for internal communications"},
+    ],
+    lateral_receives:[
+      {from:"All other agents", what:"Status updates and output data for operational monitoring"},
+    ],
+    champion:"COO",
+    approval_chain:["COO (primary champion and budget owner)","CFO (budget)","IT (cross-system integration)"],
+    objections:["Too many systems to integrate","We'll lose visibility into exceptions","The agent can't understand context"],
+    hfa_builds:["Cross-system monitoring layer connecting all operational tools","Exception detection and severity classification","Escalation routing to correct manager by exception type","SLA tracking and breach alert workflows","Master operational dashboard for COO"]
+  },
+  {
+    id:"compliance", emoji:"⚖️", name:"Compliance & Policy Agent",
+    dept:"Legal / Compliance / Risk", reports_to:"CLO (General Counsel) / Chief Compliance Officer / VP Risk",
+    color:"#D4860A", bg:"#FEF3E2",
+    tagline:"Monitors regulatory deadlines, tracks policy adherence, drafts compliance documentation — with a complete audit trail that is legally required, not optional",
+    org_position:"Sits within the Legal or Compliance function, which reports to the General Counsel or a dedicated Chief Compliance Officer. In regulated industries (financial services, healthcare, legal, government contracting), this is the highest-stakes agent placement and the one with the clearest ROI — missing a compliance deadline has direct financial and legal consequences.",
+    what_it_receives:[
+      "Regulatory filing deadlines and requirements",
+      "Policy definitions from legal leadership",
+      "Audit requirements from external regulators",
+      "Changes to relevant legislation or regulation",
+      "Internal policy updates from CHRO and Legal"
+    ],
+    what_it_sends_up:[
+      "Compliance status dashboard to CCO/CLO",
+      "Regulatory deadline alerts (30/14/7 day warnings)",
+      "Draft compliance documentation for attorney review",
+      "Audit trail reports for regulatory examinations",
+      "Policy adherence summary for board reporting"
+    ],
+    lateral_sends:[
+      {to:"Communications Agent", what:"Required legal language and regulatory disclosures for all communications"},
+      {to:"Project Manager Agent", what:"Regulatory deadline requirements affecting project scope"},
+      {to:"Operations Agent", what:"Compliance-critical process requirements and standards"},
+      {to:"Business Intelligence Agent", what:"Compliance cost data for financial reporting"},
+    ],
+    lateral_receives:[
+      {from:"Operations Agent", what:"Process exception data with compliance implications"},
+      {from:"Business Intelligence Agent", what:"Financial data needed for regulatory reporting"},
+      {from:"Communications Agent", what:"Drafts requiring legal review before publication"},
+    ],
+    champion:"Chief Compliance Officer or General Counsel",
+    approval_chain:["CLO or CCO (budget)","IT (data security and access controls)","Board Audit Committee (in public companies)"],
+    objections:["Too sensitive — legal can't trust AI with compliance","What if the agent misses a deadline?","Who is liable if something goes wrong?"],
+    hfa_builds:["Regulatory deadline tracking and alert system","Document routing to correct reviewer","Audit trail logging — every action timestamped and logged","Compliance documentation workflow with attorney approval gate","Integration with regulatory calendar tools and internal policy management systems"]
+  },
+  {
+    id:"strategy", emoji:"🔭", name:"Research & Strategy Agent",
+    dept:"Strategy / C-Suite Direct", reports_to:"CEO / Chief Strategy Officer / COO",
+    color:"#1E3A5F", bg:"#E8ECF5",
+    tagline:"Ingests market research, competitive intelligence, earnings calls, and industry reports — produces synthesis briefs that help leadership make faster, better-informed strategic decisions",
+    org_position:"This agent sits closest to the top of the org chart. Strategy functions typically report directly to the CEO or COO. In companies without a dedicated CSO, this agent would be scoped to the CEO's office or executive team. It serves the people who make the biggest decisions.",
+    what_it_receives:[
+      "Strategic questions directly from CEO and C-suite",
+      "Research priorities for the quarter",
+      "Competitive landscape directives",
+      "M&A or partnership exploration briefs",
+      "Board and investor relations requirements"
+    ],
+    what_it_sends_up:[
+      "Market intelligence briefings for CEO",
+      "Competitive threat and opportunity summaries",
+      "Strategic option analyses",
+      "Board presentation research packages",
+      "Industry trend synthesis for annual planning"
+    ],
+    lateral_sends:[
+      {to:"Business Intelligence Agent", what:"External benchmark data for internal performance comparison"},
+      {to:"Communications Agent", what:"Market context for external communications and messaging"},
+      {to:"Project Manager Agent", what:"Strategic initiative priorities affecting project portfolio"},
+    ],
+    lateral_receives:[
+      {from:"Business Intelligence Agent", what:"Internal performance data for strategy-to-results comparison"},
+      {from:"Client Success Agent", what:"Customer feedback and market signal data"},
+      {from:"Compliance Agent", what:"Regulatory landscape affecting strategic options"},
+    ],
+    champion:"CEO or Chief Strategy Officer",
+    approval_chain:["CEO (champion)","CFO (budget)","IT (data ingestion security)"],
+    objections:["Strategic decisions are too sensitive for AI","How does the agent know what's confidential?","We already have a strategy consulting relationship"],
+    hfa_builds:["Document ingestion pipeline for research materials","Secure connection to market intelligence subscriptions (Bloomberg, Gartner, etc.)","Briefing delivery workflow to CEO and C-suite","Integration with board presentation tools","Context library for ongoing strategic threads"]
+  }
+];
+
+const FLOW_PLANS = [
+  {
+    title:"Q4 Annual Planning Flow",
+    trigger:"October 1st — auto-triggered by calendar",
+    audience:"CFO · COO · CEO · Board",
+    description:"The most predictable planning cycle in any company. Every department needs to contribute, coordinate, and consolidate. This flow runs all of it sequentially with defined handoffs and approval gates.",
+    color:"#1B5E3B",
+    steps:[
+      {agent:"BI Agent",emoji:"📊",work:"Pulls Q1–Q3 performance data, produces YTD Summary"},
+      {gate:"CFO Review",who:"CFO"},
+      {agent:"Strategy Agent",emoji:"🔭",work:"Receives YTD data, produces Q4 Strategic Focus Brief"},
+      {gate:"CEO/COO",who:"CEO + COO"},
+      {agent:"Ops Agent",emoji:"⚙️",work:"Maps operational capacity against strategic priorities"},
+      {gate:"COO Review",who:"COO"},
+      {agent:"PM Agent",emoji:"📋",work:"Produces Q4 Project Portfolio and Resource Plan"},
+      {gate:"COO Review",who:"COO"},
+      {agent:"Comms Agent",emoji:"📣",work:"Drafts Board Communication Package from all inputs"},
+      {gate:"CEO + Legal",who:"CEO + CLO"},
+    ]
+  },
+  {
+    title:"New Client Onboarding Flow",
+    trigger:"Contract signed — event triggered",
+    audience:"CCO · COO · PM Team · Client",
+    description:"Ensures every new client gets a consistent, high-quality onboarding experience regardless of which team member is handling it.",
+    color:"#C4577A",
+    steps:[
+      {agent:"CS Agent",emoji:"🤝",work:"Builds client profile from CRM — contacts, goals, history"},
+      {gate:"CS Lead",who:"VP CS"},
+      {agent:"Ops Agent",emoji:"⚙️",work:"Confirms delivery capacity and assigns resources"},
+      {agent:"PM Agent",emoji:"📋",work:"Creates onboarding project in PM system with milestones"},
+      {gate:"CS Lead",who:"CS Manager"},
+      {agent:"Comms Agent",emoji:"📣",work:"Drafts welcome communications and kickoff materials"},
+      {gate:"CS Lead",who:"CS Manager"},
+      {agent:"Compliance Agent",emoji:"⚖️",work:"Confirms all data handling agreements in place"},
+    ]
+  },
+  {
+    title:"Monthly Executive Reporting Flow",
+    trigger:"Last business day of month — auto-triggered",
+    audience:"CEO · CFO · Board (quarterly)",
+    description:"Consolidates data from all departments into one executive briefing package — without anyone having to chase down updates manually.",
+    color:"#1E3A5F",
+    steps:[
+      {agent:"Ops Agent",emoji:"⚙️",work:"Produces operational performance summary by department"},
+      {agent:"BI Agent",emoji:"📊",work:"Produces financial and KPI performance narrative"},
+      {agent:"CS Agent",emoji:"🤝",work:"Produces customer health and revenue summary"},
+      {agent:"PM Agent",emoji:"📋",work:"Produces project portfolio status across all active work"},
+      {gate:"COO + CFO",who:"COO + CFO"},
+      {agent:"Comms Agent",emoji:"📣",work:"Assembles all inputs into Executive Monthly Briefing"},
+      {gate:"CEO Review",who:"CEO"},
+    ]
+  },
+  {
+    title:"Regulatory Filing Flow",
+    trigger:"Filing deadline minus 30 days — calendar triggered",
+    audience:"CLO · CFO · Board Audit Committee",
+    description:"Ensures no regulatory deadline is missed and every filing has a complete audit trail. In regulated industries this is the highest-stakes flow plan.",
+    color:"#D4860A",
+    steps:[
+      {agent:"Compliance Agent",emoji:"⚖️",work:"Pulls all required filing data and identifies gaps"},
+      {gate:"CLO Review",who:"General Counsel"},
+      {agent:"BI Agent",emoji:"📊",work:"Produces financial data packages required for filing"},
+      {gate:"CFO Review",who:"CFO"},
+      {agent:"Compliance Agent",emoji:"⚖️",work:"Assembles draft filing document with all required data"},
+      {gate:"CLO + External Counsel",who:"CLO + Attorneys"},
+      {agent:"Comms Agent",emoji:"📣",work:"Drafts board notification of filing status"},
+      {gate:"CEO + CLO",who:"Final sign-off"},
+    ]
+  }
+];
+
+// Render agent nodes
+const agentTier = document.getElementById('agent-tier');
+AGENTS.forEach(a => {
+  const node = document.createElement('div');
+  node.className = 'agent-node';
+  node.id = 'node-'+a.id;
+  node.style.cssText = `border-color:${a.color};background:${a.bg};min-width:130px`;
+  node.innerHTML = `<div class="agent-emoji">${a.emoji}</div><div class="agent-name" style="color:${a.color}">${a.name}</div><div class="agent-reports" style="color:${a.color}">${a.reports_to.split('/')[0].trim()}</div>`;
+  node.onclick = () => selectAgent(a.id);
+  agentTier.appendChild(node);
+});
+
+function selectAgent(id) {
+  document.querySelectorAll('.agent-node').forEach(n => n.classList.remove('selected'));
+  document.getElementById('node-'+id).classList.add('selected');
+  const a = AGENTS.find(x => x.id === id);
+  const dp = document.getElementById('detail-panel');
+  dp.innerHTML = `
+    <div class="da-header">
+      <div class="da-emoji">${a.emoji}</div>
+      <div class="da-title">${a.name}</div>
+      <div class="da-tagline">${a.tagline}</div>
+      <span style="font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;background:${a.bg};color:${a.color}">${a.dept}</span>
+    </div>
+
+    <div class="da-section">Where it sits</div>
+    <div class="da-card" style="background:${a.bg};border-color:${a.color}">
+      <div class="da-card-body">${a.org_position}</div>
+    </div>
+
+    <div class="da-section">Reports to</div>
+    <div class="da-card" style="background:#F8F7F4;border-color:var(--border)">
+      <div class="da-card-title" style="color:${a.color}">${a.reports_to}</div>
+    </div>
+
+    <div class="da-section">Information flows</div>
+    <div class="flow-grid">
+      <div class="flow-box" style="border-color:${a.color}33">
+        <div class="flow-label" style="color:${a.color}">Receives from above</div>
+        ${a.what_it_receives.map(r=>`<div class="flow-item"><span style="color:${a.color}">↓</span>${r}</div>`).join('')}
+      </div>
+      <div class="flow-box" style="border-color:var(--teal)33">
+        <div class="flow-label" style="color:var(--teal)">Sends upward</div>
+        ${a.what_it_sends_up.map(r=>`<div class="flow-item"><span style="color:var(--teal)">↑</span>${r}</div>`).join('')}
+      </div>
+    </div>
+
+    <div class="da-section">Lateral relationships</div>
+    ${a.lateral_sends.map(r=>`<div class="rel-row"><div class="rel-dot" style="background:${a.color}"></div><span><strong>→ ${r.to}:</strong> ${r.what}</span></div>`).join('')}
+    ${a.lateral_receives.map(r=>`<div class="rel-row"><div class="rel-dot" style="background:var(--muted)"></div><span><strong>← ${r.from}:</strong> ${r.what}</span></div>`).join('')}
+
+    <div class="da-section">What HFA builds</div>
+    ${a.hfa_builds.map(b=>`<div class="rel-row"><div class="rel-dot" style="background:var(--teal)"></div><span>${b}</span></div>`).join('')}
+  `;
+}
+
+// Render relationships tab
+const relContent = document.getElementById('rel-content');
+relContent.innerHTML = `
+  <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px">Cross-Agent Lateral Relationships</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.5">How agents share information with each other — the horizontal information layer that makes the Flow Plan possible.</div>
+  <div class="rel-matrix">
+  ${AGENTS.map(a=>`
+    <div class="rel-card">
+      <div class="rel-card-hdr" style="background:${a.bg}">
+        <div class="rel-card-emoji">${a.emoji}</div>
+        <div>
+          <div class="rel-card-title" style="color:${a.color}">${a.name}</div>
+          <div class="rel-card-role">Reports to: ${a.reports_to.split('/')[0].trim()}</div>
+        </div>
+      </div>
+      <div class="rel-card-body">
+        <div>
+          <div class="rel-col-hdr" style="color:${a.color}">Sends information to</div>
+          ${a.lateral_sends.map(r=>`<div class="rel-item"><span style="color:${a.color}">→</span><span><strong>${r.to.split(' ').slice(0,2).join(' ')}:</strong> ${r.what}</span></div>`).join('')}
+        </div>
+        <div>
+          <div class="rel-col-hdr" style="color:var(--muted)">Receives from</div>
+          ${a.lateral_receives.map(r=>`<div class="rel-item"><span style="color:var(--muted)">←</span><span><strong>${r.from.split(' ').slice(0,2).join(' ')}:</strong> ${r.what}</span></div>`).join('')}
+        </div>
+        <div>
+          <div class="rel-col-hdr" style="color:var(--teal)">HFA integration role</div>
+          ${a.hfa_builds.slice(0,3).map(b=>`<div class="rel-item"><span style="color:var(--teal)">⚙</span><span>${b}</span></div>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('')}
+  </div>
+`;
+
+// Render buyers tab
+const buyerContent = document.getElementById('buyer-content');
+buyerContent.innerHTML = `
+  <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px">Who Buys Each Agent — The Corporate Decision Map</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.5">Who champions the purchase, who approves the budget, who uses it daily, and which objection needs answering first.</div>
+  ${AGENTS.map(a=>`
+    <div class="buyer-card">
+      <div class="buyer-hdr" style="background:${a.bg}">
+        <div class="buyer-agent">
+          <div class="buyer-emoji">${a.emoji}</div>
+          <div>
+            <div class="buyer-name" style="color:${a.color}">${a.name}</div>
+            <div class="buyer-dept">${a.dept}</div>
+          </div>
+        </div>
+        <span class="budget-badge" style="background:${a.color};color:#fff">${a.champion}</span>
+      </div>
+      <div class="buyer-grid">
+        <div class="buyer-col">
+          <div class="buyer-col-hdr" style="color:${a.color}">Champion (makes the case)</div>
+          <div class="buyer-item"><span class="chk">★</span><span>${a.champion}</span></div>
+          <div style="margin-top:8px;font-size:10px;color:var(--muted)">This person has the most to gain and the organizational credibility to push the decision through.</div>
+        </div>
+        <div class="buyer-col">
+          <div class="buyer-col-hdr" style="color:var(--navy)">Approval chain</div>
+          ${a.approval_chain.map(c=>`<div class="buyer-item"><span class="chk">✓</span><span>${c}</span></div>`).join('')}
+        </div>
+        <div class="buyer-col">
+          <div class="buyer-col-hdr" style="color:var(--amber)">Top objections to prepare for</div>
+          ${a.objections.map(o=>`<div class="buyer-item"><span class="warn">?</span><span>${o}</span></div>`).join('')}
+        </div>
+        <div class="buyer-col">
+          <div class="buyer-col-hdr" style="color:var(--teal)">HFA's role in closing</div>
+          <div class="buyer-item"><span class="chk">⚙</span><span>Integration architecture answers IT objections</span></div>
+          <div class="buyer-item"><span class="chk">⚙</span><span>Governance dashboard answers CFO's "what did we pay for" question</span></div>
+          <div class="buyer-item"><span class="chk">⚙</span><span>Approval gates answer "what if it makes a mistake" concern</span></div>
+        </div>
+      </div>
+    </div>
+  `).join('')}
+`;
+
+// Render flow plans
+const flowContent = document.getElementById('flow-content');
+flowContent.innerHTML = `
+  <div style="font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px">Pre-Built Flow Plan Examples</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.5">How agents chain together sequentially. Each step receives the prior agent's output. Approval gates hold the sequence until a human releases it. The arrows show what passes between steps.</div>
+  ${FLOW_PLANS.map(plan=>`
+    <div class="plan-card">
+      <div class="plan-hdr">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="plan-title" style="color:${plan.color}">${plan.title}</div>
+            <div class="plan-sub">${plan.description}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;margin-left:16px">
+            <div style="font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Trigger</div>
+            <div style="font-size:11px;font-weight:500;color:${plan.color}">${plan.trigger}</div>
+            <div style="font-size:9px;color:var(--muted);margin-top:3px">Audience: ${plan.audience}</div>
+          </div>
+        </div>
+      </div>
+      <div class="plan-body">
+        <div class="flow-steps">
+          ${plan.steps.map((s,i)=>{
+            if(s.gate) return `
+              <div class="flow-arrow"><div class="flow-arrow-inner"><div class="flow-arrow-symbol">→</div><div class="flow-arrow-label">output</div></div></div>
+              <div class="gate-step"><div class="gate-inner"><div class="gate-icon">🔐</div><div class="gate-label">APPROVAL GATE</div><div class="gate-who">${s.gate}<br>${s.who}</div></div></div>
+              <div class="flow-arrow"><div class="flow-arrow-inner"><div class="flow-arrow-symbol">→</div><div class="flow-arrow-label">approved</div></div></div>
+            `;
+            return `${i>0&&!plan.steps[i-1].gate?`<div class="flow-arrow"><div class="flow-arrow-inner"><div class="flow-arrow-symbol">→</div><div class="flow-arrow-label">passes output</div></div></div>`:''}
+              <div class="flow-step">
+                <div class="flow-step-inner" style="background:${AGENTS.find(a=>a.emoji===s.emoji)?.bg||'#F5F3EE'};border:1px solid ${AGENTS.find(a=>a.emoji===s.emoji)?.color||'#DDD9D0'}33">
+                  <div class="flow-step-num" style="color:${AGENTS.find(a=>a.emoji===s.emoji)?.color||'#888'}">Step ${i+1} ${s.emoji}</div>
+                  <div class="flow-step-agent" style="color:${AGENTS.find(a=>a.emoji===s.emoji)?.color||'#333'}">${s.agent}</div>
+                  <div class="flow-step-work">${s.work}</div>
+                </div>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('')}
+`;
+
+function showTab(name) {
+  const names=['org','relationships','buyers','flows'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
+}
+</script>
+</body>
+</html>
