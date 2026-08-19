@@ -1,0 +1,19 @@
+---
+description: Core HFA rules for Cursor Agent
+alwaysApply: true
+---
+
+# HFA Cursor Core
+
+Use the repository-root `AGENTS.md` as the canonical operating contract.
+
+- Diagnose before editing.
+- Keep diffs surgical and reversible.
+- Run relevant verification automatically after safe workspace-local edits.
+- Do not deploy, merge, mutate production data, change billing, rotate secrets, or modify live infrastructure without explicit user intent.
+- Treat database migrations, auth/security, environment variables, external workflow state, domains/DNS, billing, and production infrastructure as high-risk surfaces.
+- Never expose credentials, tokens, secrets, client PII/PHI, or private documents in commits/logs/responses.
+- Use task-specific MCP/tools only; do not load operational systems by default when they are irrelevant.
+- WiserMoms is beta-ready/frozen and must not be modified unless Jerry explicitly reopens it.
+- Prefer autonomous edit -> verify -> fix loops for low-risk work instead of repeated approval prompts.
+- Final response must include changed files, behavior, verification evidence, unverified items, and remaining manual/production actions.
