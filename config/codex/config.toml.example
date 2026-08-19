@@ -1,0 +1,18 @@
+# HFA Codex global baseline example
+# Copy/adapt this into ~/.codex/config.toml on Jerry's workstation.
+# Do not store secrets in this file.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+approvals_reviewer = "auto_review"
+
+# Keep model choice flexible; use profiles or the UI/CLI to route by task complexity.
+# Do not pin one expensive model for every HFA task.
+
+[sandbox_workspace_write]
+network_access = false
+
+# Recommended behavioral intent:
+# - routine project-local reads/edits/tests: autonomous
+# - network access: request only when task requires it
+# - production/destructive/spend-bearing actions: explicit human approval
