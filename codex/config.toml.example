@@ -26,6 +26,12 @@ memories = true
 # Multi-agent collaboration is stable/on by default; pin it explicitly for HFA.
 multi_agent = true
 
+[features.context_management]
+# Pro supports the experimental notes + searchable-history context system. This is
+# intentionally enabled for HFA because long multi-repository work has repeatedly
+# suffered when important state is compressed into a single summary.
+experimental_mode = true
+
 # Do not hard-code MCP credentials, API keys, or secrets in this file.
 # Add MCP/plugin configuration only after the corresponding service and permission
 # boundary is defined for the specific machine/workspace.
