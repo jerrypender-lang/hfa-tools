@@ -1,0 +1,19 @@
+---
+description: Current HFA safety, evidence, and execution overlay for Cursor Agent
+alwaysApply: true
+---
+
+# HFA Cursor Core
+
+Read the repository-root `AGENTS.md` first. In `hfa-tools`, that contract points to `codex/AGENTS.global.md`. In project repositories, the project's own `AGENTS.md` is authoritative for project-specific architecture and safety boundaries.
+
+- Verify repository, remote, branch, and task/project match before editing.
+- Diagnose before editing; prefer the smallest reversible change.
+- Run safe repo-local search/edit/test/type-check/lint/build loops autonomously.
+- Do not claim a build, test, commit, push, deployment, migration, or verification that did not actually occur.
+- Use connected tools only when relevant; least privilege beats convenience.
+- Never expose credentials, tokens, private keys, client PII/PHI, or protected documents in source, prompts, logs, screenshots, issues, commits, or PR descriptions.
+- Preserve project-specific production gates, security controls, and clean-room/provenance boundaries.
+- Production deployment, destructive production data changes, credential rotation/disclosure, spending, legal attestations/signatures, and other materially irreversible human decisions remain approval-gated unless a current project contract explicitly defines a narrower standing authorization.
+- Do not use stale historical freezes, architectures, or handoffs over current executable configuration and current `AGENTS.md` contracts.
+- End meaningful work with changed files, behavior, verification evidence, unverified items, production impact, and the next highest-leverage action.
