@@ -1,0 +1,31 @@
+# HFA Codex baseline
+# Verified against the OpenAI Codex configuration reference on 2026-09-04.
+# Copy/merge into ~/.codex/config.toml after reviewing any existing local settings.
+
+# Keep GPT-5.6 Sol as the default until GPT-6 Astra is actually available in Codex
+# for this ChatGPT account. When it is available, change only this line first and
+# evaluate the same representative tasks before changing other knobs.
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+model_reasoning_summary = "auto"
+model_verbosity = "medium"
+
+# Reversible-by-default execution posture.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+# Keep project instruction files bounded and predictable.
+project_doc_max_bytes = 32768
+
+[features]
+# Persist goals across long-running work.
+goals = true
+# HFA benefits from continuity across long project threads; this is off by default
+# in Codex, so enable it deliberately.
+memories = true
+# Multi-agent collaboration is stable/on by default; pin it explicitly for HFA.
+multi_agent = true
+
+# Do not hard-code MCP credentials, API keys, or secrets in this file.
+# Add MCP/plugin configuration only after the corresponding service and permission
+# boundary is defined for the specific machine/workspace.
