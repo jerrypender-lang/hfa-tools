@@ -1,11 +1,9 @@
 # HFA Codex baseline
-# Verified against the OpenAI Codex configuration reference on 2026-09-04.
+# Verified against current Codex configuration behavior and OpenAI model guidance on 2026-09-05.
 # Copy/merge into ~/.codex/config.toml after reviewing any existing local settings.
 
-# Keep GPT-5.6 Sol as the default until GPT-6 Astra is actually available in Codex
-# for this ChatGPT account. When it is available, change only this line first and
-# evaluate the same representative tasks before changing other knobs.
-model = "gpt-5.6-sol"
+# Astra is the HFA commander model for the hardest end-to-end technical work.
+model = "gpt-6-astra"
 model_reasoning_effort = "high"
 model_reasoning_summary = "auto"
 model_verbosity = "medium"
@@ -20,18 +18,22 @@ project_doc_max_bytes = 32768
 [features]
 # Persist goals across long-running work.
 goals = true
-# HFA benefits from continuity across long project threads; this is off by default
-# in Codex, so enable it deliberately.
+# Preserve durable project context across long sessions.
 memories = true
-# Multi-agent collaboration is stable/on by default; pin it explicitly for HFA.
+# Multi-agent collaboration is part of the HFA commander/worker architecture.
 multi_agent = true
 
 [features.context_management]
-# Pro supports the experimental notes + searchable-history context system. This is
-# intentionally enabled for HFA because long multi-repository work has repeatedly
-# suffered when important state is compressed into a single summary.
+# Preserve notes + searchable prior context rather than relying only on repeated compaction.
 experimental_mode = true
 
+[agents]
+# Start deliberately below swarm scale. Increase only when a task truly has more independent workstreams.
+max_concurrent_threads_per_session = 4
+# Spawn ordinary workers on the price/performance model unless the root explicitly selects another model.
+default_subagent_model = "gpt-5.6-terra"
+default_subagent_reasoning_effort = "medium"
+
 # Do not hard-code MCP credentials, API keys, or secrets in this file.
-# Add MCP/plugin configuration only after the corresponding service and permission
-# boundary is defined for the specific machine/workspace.
+# Preserve existing machine-specific MCP servers, plugins, providers, trusted projects,
+# authentication settings, hooks, and desktop configuration when merging locally.
