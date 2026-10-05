@@ -1,0 +1,20 @@
+/* Shared motion layer — Making Health Make Sense */
+:root{--ink:#0B1F33;--ink-2:#13304C;--gold:#F5B700;--teal:#0E5A54;--sage:#EDF2EF;--purple:#4E2A84;--muted:#4A5568;--ease:cubic-bezier(.2,.7,.2,1)}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+
+/* Scroll reveals: hidden only when JS is running; a fallback timer un-hides everything */
+.js [data-reveal]{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.js [data-reveal="left"]{transform:translateX(-40px)}
+.js [data-reveal="right"]{transform:translateX(40px)}
+.js [data-reveal="zoom"]{transform:scale(.94)}
+.js [data-reveal].in,.reveal-fallback [data-reveal]{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.js [data-reveal]{opacity:1;transform:none;transition:none}}
+
+/* Image hover lift for cards */
+.lift{transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.lift:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(11,31,51,.16)}
+@media (prefers-reduced-motion: reduce){.lift,.lift:hover{transition:none;transform:none}}
+
+.skip{position:absolute;left:-999px;top:8px;z-index:200;background:var(--gold);color:var(--ink);padding:12px 18px;border-radius:999px;font-weight:700}
+.skip:focus{left:16px}
