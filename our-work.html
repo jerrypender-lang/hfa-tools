@@ -61,7 +61,7 @@
 .panel{display:grid;grid-template-columns:70px minmax(0,1fr) minmax(0,.9fr);gap:24px;padding:0 0 36px;align-items:start}
 .panel[hidden]{display:none}
 .panel p{grid-column:2;margin:0;font-size:20px;color:#2D3B4A;max-width:620px}
-.panel img{grid-column:3;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:18px}
+.panel img{grid-column:3;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:18px}
 .panel .btn{margin-top:22px}
 .peek{position:fixed;left:0;top:0;width:300px;aspect-ratio:4/5;border-radius:20px;overflow:hidden;pointer-events:none;z-index:30;opacity:0;transform:translate(-50%,-50%) scale(.85);transition:opacity .3s,transform .3s var(--ease);box-shadow:0 30px 60px rgba(11,31,51,.3)}
 .peek.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
@@ -238,14 +238,14 @@
 
   /* Programs */
   var P = [
-    { t: 'Dr. Bell Says', where: 'Online & on air · Statewide', k: ['education', 'media'], img: 'bell-tv-interview.jpg', d: 'Short, plain-language video tips that give you one thing you can do today, plus the question to bring to your doctor.', a: 'dr-bell-says.html', l: 'Watch the tips' },
-    { t: 'Barbershop Briefings', where: 'Barbershops & beauty shops', k: ['community', 'education'], img: 'bell-outdoors.jpg', d: 'Health talks in the trusted places where people already gather. Blood pressure, explained between haircuts.', a: 'invite.html', l: 'Host a briefing' },
-    { t: 'Closing the Gap LIVE', where: 'Churches, panels & civic events', k: ['community'], img: 'bell-painting.jpg', d: 'Panels, church health ministry events and recorded community outreach that bring the conversation into the room.', a: 'invite.html', l: 'Bring it to your church' },
-    { t: 'Radio Tips & PSAs', where: 'Local radio & television', k: ['media', 'education'], img: 'bell-portrait-suit.jpg', d: 'Decades of on-air health tips and public service announcements heard across South Carolina.', a: 'dr-bell-says.html#news-title', l: 'See him on air' },
-    { t: 'MUSC Scholarships', where: 'Medical University of South Carolina', k: ['scholarships'], img: 'bell-medals.jpg', d: 'Scholarships for students in any of MUSC’s six colleges: the next generation of doctors, nurses, pharmacists and health professionals.', a: 'jazz-festival.html#jobs', l: 'How scholarships are funded' },
-    { t: 'Lowcountry Jazz Festival', where: 'Charleston Gaillard Center · Labor Day weekend', k: ['scholarships', 'community'], img: 'bell-jazz-festival.jpg', d: 'The festival Dr. Bell founded in 2009 with his daughter Tonisha, and the main source of funding for Closing the Gap.', a: 'jazz-festival.html', l: 'Read the story' },
-    { t: 'Signature Talks', where: 'Keynotes, summits & conferences', k: ['education', 'community'], img: 'bell-portrait.jpg', d: 'Know Your Numbers, Save Your Life. The Doctor’s Office Doesn’t Have to Be a Mystery. What the Symptom Is Trying to Tell You. The Knowledge Gap.', a: 'invite.html#talks', l: 'Book a talk' },
-    { t: 'Health Literacy Toolkit', where: 'Schools, churches & nonprofits', k: ['education'], soon: true, img: 'bell-reading.jpg', d: 'A toolkit so trusted community leaders can carry Dr. Bell’s plain-language approach forward. In development.', a: 'index.html#newsletter', l: 'Get notified' }
+    { t: 'Dr. Bell Says', where: 'Online & on air · Statewide', k: ['education', 'media'], img: 'bell-tv-interview.jpg', pos: '50% 40%', d: 'Short, plain-language video tips that give you one thing you can do today, plus the question to bring to your doctor.', a: 'dr-bell-says.html', l: 'Watch the tips' },
+    { t: 'Barbershop Briefings', where: 'Barbershops & beauty shops', k: ['community', 'education'], img: 'bell-outdoors.jpg', pos: '45% 6%', d: 'Health talks in the trusted places where people already gather. Blood pressure, explained between haircuts.', a: 'invite.html', l: 'Host a briefing' },
+    { t: 'Closing the Gap LIVE', where: 'Churches, panels & civic events', k: ['community'], img: 'bell-painting.jpg', pos: '50% 18%', d: 'Panels, church health ministry events and recorded community outreach that bring the conversation into the room.', a: 'invite.html', l: 'Bring it to your church' },
+    { t: 'Radio Tips & PSAs', where: 'Local radio & television', k: ['media', 'education'], img: 'bell-portrait-suit.jpg', pos: '50% 8%', d: 'Decades of on-air health tips and public service announcements heard across South Carolina.', a: 'dr-bell-says.html#news-title', l: 'See him on air' },
+    { t: 'MUSC Scholarships', where: 'Medical University of South Carolina', k: ['scholarships'], img: 'bell-medals.jpg', pos: '62% 35%', d: 'Scholarships for students in any of MUSC’s six colleges: the next generation of doctors, nurses, pharmacists and health professionals.', a: 'jazz-festival.html#jobs', l: 'How scholarships are funded' },
+    { t: 'Lowcountry Jazz Festival', where: 'Charleston Gaillard Center · Labor Day weekend', k: ['scholarships', 'community'], img: 'bell-jazz-festival.jpg', pos: '50% 6%', d: 'The festival Dr. Bell founded in 2009 with his daughter Tonisha, and the main source of funding for Closing the Gap.', a: 'jazz-festival.html', l: 'Read the story' },
+    { t: 'Signature Talks', where: 'Keynotes, summits & conferences', k: ['education', 'community'], img: 'bell-portrait.jpg', pos: '50% 10%', d: 'Know Your Numbers, Save Your Life. The Doctor’s Office Doesn’t Have to Be a Mystery. What the Symptom Is Trying to Tell You. The Knowledge Gap.', a: 'invite.html#talks', l: 'Book a talk' },
+    { t: 'Health Literacy Toolkit', where: 'Schools, churches & nonprofits', k: ['education'], soon: true, img: 'bell-reading.jpg', pos: '50% 30%', d: 'A toolkit so trusted community leaders can carry Dr. Bell’s plain-language approach forward. In development.', a: 'index.html#newsletter', l: 'Get notified' }
   ];
   var NAMES = { education: 'Education', community: 'Community', media: 'Media', scholarships: 'Scholarships' };
   var list = document.getElementById('plist'), peek = document.getElementById('peek');
@@ -254,7 +254,7 @@
     var tags = p.k.map(function (k) { return '<span class="t-' + k + '">' + NAMES[k] + '</span>'; }).join('') + (p.soon ? '<span class="soon">Coming soon</span>' : '');
     var li = document.createElement('li'); li.className = 'prog'; li.setAttribute('data-k', p.k.join(' ')); li.setAttribute('data-reveal', '');
     li.innerHTML = '<button class="row" type="button" aria-expanded="false" aria-controls="pp-' + i + '" data-i="' + i + '"><span class="n">' + n + '</span><h3>' + p.t + '</h3><span class="where">' + p.where + '<span class="tags">' + tags + '</span></span><span class="plus" aria-hidden="true">+</span></button>' +
-      '<div class="panel" id="pp-' + i + '" hidden><span></span><p>' + p.d + '<br><a class="btn btn-ink" href="' + p.a + '">' + p.l + ' →</a></p><img src="/img/' + p.img + '" alt="" loading="lazy"></div>';
+      '<div class="panel" id="pp-' + i + '" hidden><span></span><p>' + p.d + '<br><a class="btn btn-ink" href="' + p.a + '">' + p.l + ' →</a></p><img src="/img/' + p.img + '" alt="" loading="lazy" style="object-position:' + p.pos + '"></div>';
     list.appendChild(li);
     var im = document.createElement('img'); im.src = '/img/' + p.img; im.alt = ''; peek.appendChild(im);
   });
