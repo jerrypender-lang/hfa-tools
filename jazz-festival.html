@@ -3,247 +3,488 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Lowcountry Jazz Festival Story — Making Health Make Sense</title>
-<meta name="description" content="The Lowcountry Jazz Festival story — how Dr. Bell and his daughter Tonisha turned jazz into scholarships for future healthcare workers.">
-<meta property="og:title" content="The Lowcountry Jazz Festival Story — Making Health Make Sense">
-<meta property="og:description" content="The Lowcountry Jazz Festival story — how Dr. Bell and his daughter Tonisha turned jazz into scholarships for future healthcare workers.">
-<meta property="og:image" content="/img/bell-portrait.jpg">
+<title>The Lowcountry Jazz Festival · Making Health Make Sense</title>
+<meta name="description" content="How Dr. Thaddeus Bell and his daughter Tonisha turned a Labor Day weekend of jazz in Charleston into scholarships for future healthcare workers and the main source of funding for Closing the Gap in Healthcare.">
+<meta property="og:title" content="The Lowcountry Jazz Festival — Culture and care, hand in hand">
+<meta property="og:description" content="Every ticket funds scholarships for MUSC students and plain-language health education across South Carolina.">
+<meta property="og:image" content="/img/bell-jazz-festival.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='8' height='24' rx='2' fill='%230B1F33'/%3E%3Crect x='18' y='4' width='8' height='24' rx='2' fill='%23F5B700'/%3E%3C/svg%3E">
 <script>document.documentElement.classList.add('js');setTimeout(function(){document.documentElement.classList.add('reveal-fallback')},3500);</script>
-<link rel="stylesheet" href="/assets/site.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
 <style>
-body{margin:0;background:#FFFFFF}
-a{color:#0E5A54}a:hover{color:#0B1F33}
-.ph{background-color:#DCE5E0;background-image:repeating-linear-gradient(135deg,rgba(11,31,51,.05) 0 12px,transparent 12px 24px)}
-.phd{background-color:#16304A;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 12px,transparent 12px 24px)}
-a:focus-visible{outline:3px solid #F5B700;outline-offset:3px}
-</style>
-<style>img{max-width:100%}*{box-sizing:border-box}</style>
-</head>
-<body>
-<div style="font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; color: #0B1F33; font-size: 19px; line-height: 1.6; background: #FFFFFF">
+:root{--night:#071526;--brass:#E8A317}
 
-<header style="background: #FFFFFF; border-bottom: 1px solid #E1E7E4">
-<nav aria-label="Main" style="max-width: 1200px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px">
-<a href="index.html" style="display: flex; align-items: center; gap: 14px; text-decoration: none; color: #0B1F33">
-<span aria-hidden="true" style="display: flex; align-items: center; gap: 5px"><span style="width: 14px; height: 38px; background: #0B1F33; border-radius: 3px"></span><span style="width: 14px; height: 38px; background: #F5B700; border-radius: 3px"></span></span>
-<span style="display: flex; flex-direction: column; line-height: 1.05"><span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.01em">Making Health Make Sense</span><span style="font-size: 13px; color: #4A5568; letter-spacing: 0.06em; text-transform: uppercase">Closing the Gap in Healthcare</span></span>
-</a>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 28px; font-size: 17px; font-weight: 700">
-<a href="our-work.html" style="color: #0B1F33; text-decoration: none; padding: 10px 0">Our Work</a>
-<a href="dr-bell-says.html" style="color: #0B1F33; text-decoration: none; padding: 10px 0">Dr. Bell Says</a>
-<a href="knowledge-gap.html" style="color: #0B1F33; text-decoration: none; padding: 10px 0">The Knowledge Gap</a>
-<a href="jazz-festival.html" aria-current="page" style="color: #0B1F33; text-decoration: none; padding: 10px 0; box-shadow: inset 0 -3px 0 #F5B700">Jazz Festival</a>
-<a href="about.html" style="color: #0B1F33; text-decoration: none; padding: 10px 0">About</a>
-<a href="invite.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: #0B1F33; color: #FFFFFF; border-radius: 999px; text-decoration: none">Invite Dr. Bell</a>
-</div>
-</nav>
+/* ===== 1. Hero: the album ===== */
+.hero{position:relative;background:var(--night);color:#fff;padding:140px 0 0;overflow:hidden;--mx:70%;--my:30%}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(600px circle at var(--mx) var(--my),rgba(245,183,0,.16),transparent 60%);pointer-events:none;transition:background .2s}
+.hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:center;min-height:calc(100vh - 220px)}
+.hero h1{margin:22px 0 0;font-size:clamp(50px,6.6vw,108px);font-stretch:88%}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .lede{margin:26px 0 0;font-size:21px;line-height:1.55;color:#C9D3DE;max-width:560px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.facts{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:34px;font-size:16px;color:#9FB0C2}
+.facts b{color:#fff}
+.album{position:relative;width:min(100%,560px);aspect-ratio:1.45/1;margin-left:auto}
+.sleeve{position:absolute;left:0;top:0;width:69%;aspect-ratio:1;border-radius:6px;overflow:hidden;z-index:2;box-shadow:0 40px 80px rgba(0,0,0,.55)}
+.sleeve img{width:100%;height:100%;object-fit:cover;object-position:50% 14%}
+.sleeve::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(7,21,38,.85))}
+.sleeve span{position:absolute;left:18px;bottom:16px;z-index:1;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:115%;font-size:13px;letter-spacing:.18em;text-transform:uppercase}
+.record{position:absolute;top:2%;left:4%;width:65%;aspect-ratio:1;z-index:1;transition:transform 1.4s cubic-bezier(.2,.8,.2,1) .3s}
+.js .record{transform:translateX(0)}
+.opened .record,.reveal-fallback .record,html:not(.js) .record{transform:translateX(50%)}
+.scrub{width:100%;height:100%}
+.disc{width:100%;height:100%;border-radius:50%;animation:spin 9s linear infinite;background:
+  radial-gradient(circle,transparent 0 29%,rgba(255,255,255,.05) 29.5%,transparent 30%),
+  repeating-radial-gradient(circle,#0d0d0f 0 2px,#18181b 2px 4px);
+  box-shadow:0 30px 60px rgba(0,0,0,.6),inset 0 0 0 6px #050505;position:relative}
+.disc::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 12%,rgba(255,255,255,.12) 16%,transparent 22% 58%,rgba(255,255,255,.09) 63%,transparent 70%)}
+.disc img{position:absolute;left:50%;top:50%;width:40%;height:40%;transform:translate(-50%,-50%);border-radius:50%;background:#fff}
+.disc i{position:absolute;left:50%;top:50%;width:3%;height:3%;transform:translate(-50%,-50%);border-radius:50%;background:var(--night)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ticker{position:relative;margin-top:70px;border-top:1px solid #1E3248;border-bottom:1px solid #1E3248;overflow:hidden;background:#06111F}
+.ticker div{display:flex;width:max-content;animation:drift 40s linear infinite}
+.ticker span{padding:20px 0;font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:15px;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;color:#DCE4EC}
+.ticker span::after{content:"✦";color:var(--gold);margin:0 28px}
+@keyframes drift{to{transform:translateX(-50%)}}
+@media (max-width:900px){
+  .hero{padding:110px 0 0}
+  .hero-grid{grid-template-columns:1fr;gap:30px;min-height:0}
+  .album{margin:10px auto 0;width:min(100%,420px)}
+  .hero .lede{font-size:19px}
+  .ticker{margin-top:50px}
+}
+@media (prefers-reduced-motion: reduce){.disc,.ticker div{animation:none}.record{transition:none}}
+
+/* ===== Now-playing bar ===== */
+.np{position:fixed;left:20px;bottom:20px;z-index:40;display:flex;align-items:center;gap:14px;background:rgba(7,21,38,.94);color:#fff;border:1px solid #23415F;border-radius:999px;padding:10px 20px 10px 12px;box-shadow:0 18px 40px rgba(0,0,0,.3);transform:translateY(140%);opacity:0;transition:transform .5s var(--ease),opacity .5s;pointer-events:none;max-width:calc(100vw - 40px)}
+.np.on{transform:none;opacity:1}
+.np .eq{display:flex;gap:3px;align-items:flex-end;height:22px;width:34px;justify-content:center;background:var(--gold);border-radius:50%;padding:8px;box-sizing:content-box;height:18px;width:18px}
+.np .eq i{display:block;width:3px;background:var(--ink);border-radius:2px;animation:eq 1s ease-in-out infinite}
+.np .eq i:nth-child(2){animation-delay:-.3s}.np .eq i:nth-child(3){animation-delay:-.6s}.np .eq i:nth-child(4){animation-delay:-.15s}
+@keyframes eq{0%,100%{height:30%}50%{height:100%}}
+.np small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.np b{display:block;font-family:'Archivo',sans-serif;font-size:16px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (prefers-reduced-motion: reduce){.np .eq i{animation:none;height:70%}}
+@media (max-width:760px){.np{display:none}}
+
+/* ===== Story tracks ===== */
+.track-label{display:inline-flex;align-items:center;gap:14px;font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:14px;letter-spacing:.18em;text-transform:uppercase}
+.track-label b{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;border:2px solid currentColor;font-size:14px;letter-spacing:0}
+.why{padding:150px 0 140px;background:#fff}
+.why-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:80px;align-items:start}
+.why h2,.bells h2,.tl h2,.jobs h2,.lineup h2,.scholars h2,.next h2{margin:22px 0 0;font-size:clamp(42px,5.2vw,82px);font-stretch:90%}
+.why .track-label{color:var(--teal)}
+.why p{font-size:20px;color:#2D3B4A;margin:24px 0 0;max-width:620px}
+.why aside{position:sticky;top:130px;border-left:3px solid var(--gold);padding-left:28px}
+.why aside p{margin:0;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(34px,3.6vw,56px);line-height:1.02;letter-spacing:-.02em;color:var(--ink)}
+.why aside p em{font-style:normal;color:var(--teal)}
+.why aside small{display:block;margin-top:18px;font-size:16px;color:var(--muted)}
+.why-photo{margin:40px 0 0;position:relative}
+.why-photo img{width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;border-radius:20px}
+.why-photo::before{content:"";position:absolute;left:-16px;top:-16px;width:40%;height:40%;border-radius:20px;background:var(--gold);z-index:-1}
+.why-photo{z-index:0}
+.why-photo figcaption{margin-top:12px;font-size:15px;color:var(--muted)}
+@media (max-width:900px){.why{padding:90px 0}.why-grid{grid-template-columns:1fr;gap:40px}.why aside{position:static}}
+
+.bells{background:var(--purple);color:#fff;padding:150px 0;position:relative;overflow:hidden}
+.bells .track-label{color:var(--gold)}
+.bells-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:70px;align-items:center}
+.two{display:flex;gap:22px;justify-content:center;align-items:flex-end;height:min(56vw,420px)}
+.two i{display:block;width:clamp(70px,9vw,120px);border-radius:16px;background:#fff;height:100%;transform-origin:bottom;transform:scaleY(.04);transition:transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.two i+i{background:var(--gold);height:82%;transition-delay:.25s}
+.two.in i,.reveal-fallback .two i,html:not(.js) .two i{transform:none}
+.bells p{font-size:21px;color:#E4DBF2;margin:24px 0 0;max-width:640px}
+.memory{margin-top:40px;display:inline-flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:12px 24px 12px 14px;font-size:17px}
+.memory::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 6px rgba(245,183,0,.2)}
+@media (max-width:900px){.bells{padding:90px 0}.bells-grid{grid-template-columns:1fr;gap:40px}.two{height:220px}}
+@media (prefers-reduced-motion: reduce){.two i{transform:none;transition:none}}
+
+/* ===== 3. Timeline: horizontal on wide screens ===== */
+.tl{position:relative;background:var(--night);color:#fff}
+.tl-sticky{padding:120px 0 80px}
+.tl .track-label{color:var(--gold)}
+.tl-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px}
+.tl-head p{margin:0;color:#9FB0C2;font-size:17px}
+.tl-rail{position:relative;margin-top:60px}
+.tl-line{position:absolute;left:0;right:0;top:34px;height:3px;background:#1E3248}
+.tl-line i{position:absolute;inset:0;background:var(--gold);transform-origin:left;transform:scaleX(var(--tp,0))}
+.tl-track{display:flex;gap:28px;padding:0 28px;will-change:transform}
+.stop{flex:0 0 min(380px,78vw);position:relative;padding-top:74px}
+.stop::before{content:"";position:absolute;left:0;top:24px;width:24px;height:24px;border-radius:50%;background:var(--night);border:3px solid var(--gold)}
+.stop.now::before{background:var(--gold);box-shadow:0 0 0 8px rgba(245,183,0,.2)}
+.stop .yr{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(56px,6vw,92px);line-height:.9;letter-spacing:-.03em;color:var(--gold)}
+.stop h3{margin:14px 0 0;font-family:'Archivo',sans-serif;font-weight:800;font-size:26px;line-height:1.15}
+.stop p{margin:10px 0 0;color:#C9D3DE;font-size:18px;line-height:1.5}
+.stop .names{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.stop .names span{border:1px solid #2D4A68;border-radius:999px;padding:5px 12px;font-size:14px;color:#DCE4EC}
+.tl-hint{margin-top:30px;color:#6F8399;font-size:15px}
+@media (min-width:901px){
+  .js .tl.pinned .tl-sticky{position:sticky;top:0;height:100vh;padding:110px 0 0;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column}
+  .js .tl.pinned .tl-track{padding-left:max(28px,calc((100vw - 1280px)/2 + 28px));padding-right:12vw}
+}
+@media (max-width:900px){
+  .tl-sticky{padding:90px 0 70px}
+  .tl-line{display:none}
+  .tl-track{flex-direction:column;gap:10px}
+  .stop{flex:none;padding:0 0 30px 44px;border-left:3px solid #1E3248;margin-left:10px}
+  .stop::before{left:-14px;top:6px}
+  .tl-hint{display:none}
+}
+
+/* ===== 4. Tickets ===== */
+.jobs{padding:150px 0;background:var(--sage)}
+.jobs .track-label{color:var(--teal)}
+.jobs-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:40px;align-items:end}
+.jobs-head p{margin:0;font-size:20px;color:#2D3B4A}
+.tickets{margin-top:64px;display:flex;flex-direction:column;gap:28px}
+.ticket{--r:-1.4deg;display:grid;grid-template-columns:minmax(0,1fr) 170px;background:#fff;border-radius:18px;position:relative;box-shadow:0 20px 40px rgba(11,31,51,.1);transform:rotate(var(--r));transition:transform .5s var(--ease),box-shadow .5s;max-width:1060px}
+.ticket:nth-child(2){--r:1.2deg;margin-left:auto}
+.ticket:nth-child(3){--r:-.8deg;margin-left:6%}
+.ticket:hover{transform:rotate(0) translateY(-4px);box-shadow:0 30px 60px rgba(11,31,51,.16)}
+.t-main{padding:34px 40px;display:grid;grid-template-columns:72px minmax(0,1fr);gap:22px;align-items:start}
+.t-main b{font-family:'Archivo',sans-serif;font-weight:800;font-size:44px;line-height:1;color:var(--teal)}
+.t-main h3{margin:0;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(26px,2.6vw,36px);line-height:1.08}
+.t-main p{margin:10px 0 0;font-size:18px;color:#2D3B4A}
+.t-stub{border-left:3px dashed #C5D2CB;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;text-align:center;font-family:'Archivo',sans-serif;border-radius:0 18px 18px 0;background:var(--ink);color:#fff}
+.ticket:nth-child(2) .t-stub{background:var(--teal)}
+.ticket:nth-child(3) .t-stub{background:var(--purple)}
+.t-stub small{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.t-stub strong{font-size:22px;line-height:1.05;font-weight:800}
+.ticket::before,.ticket::after{content:"";position:absolute;right:155px;width:30px;height:30px;border-radius:50%;background:var(--sage)}
+.ticket::before{top:-15px}.ticket::after{bottom:-15px}
+@media (max-width:760px){
+  .jobs{padding:90px 0}.jobs-head{grid-template-columns:1fr}.tickets{margin-top:40px;gap:22px}
+  .ticket,.ticket:nth-child(n){grid-template-columns:1fr;margin-left:0;--r:0deg}
+  .ticket::before,.ticket::after{display:none}
+  .t-main{padding:26px 22px;grid-template-columns:1fr;gap:10px}
+  .t-stub{border-left:0;border-top:3px dashed #C5D2CB;border-radius:0 0 18px 18px;flex-direction:row;justify-content:space-between;padding:14px 22px}
+}
+@media (prefers-reduced-motion: reduce){.ticket{transform:none;transition:none}}
+
+/* ===== 5. Lineup marquee ===== */
+.lineup{background:var(--night);color:#fff;padding:130px 0 120px;overflow:hidden}
+.lineup .eyebrow{color:var(--gold)}
+.lineup-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px}
+.lineup-head p{margin:0;max-width:440px;color:#C9D3DE;font-size:18px}
+.marq{margin-top:60px;display:flex;flex-direction:column;gap:6px}
+.marq div{display:flex;width:max-content;animation:drift 55s linear infinite}
+.marq div:nth-child(2){animation-direction:reverse;animation-duration:65s}
+.marq:hover div{animation-play-state:paused}
+.marq span{font-family:'Archivo',sans-serif;font-weight:900;font-stretch:80%;font-size:clamp(54px,8vw,128px);line-height:1.05;letter-spacing:-.02em;text-transform:uppercase;white-space:nowrap;padding-right:48px;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.55)}
+.marq span:nth-child(3n+1){color:var(--gold);-webkit-text-stroke:0}
+.lineup .src{margin-top:40px;font-size:15px;color:#6F8399}
+.lineup .src a{color:#9FB0C2}
+.white{margin-top:56px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:30px;align-items:center;max-width:900px}
+.white img{width:150px;height:150px;border-radius:50%;object-fit:cover;object-position:50% 12%;border:3px solid #fff}
+.white p{margin:0;font-size:20px;color:#DCE4EC}
+.white p b{color:#fff}
+@media (max-width:760px){.lineup{padding:90px 0}.white{grid-template-columns:1fr;gap:20px}.white img{width:110px;height:110px}.marq span{-webkit-text-stroke-width:1.5px}}
+@media (prefers-reduced-motion: reduce){.marq div{animation:none}}
+
+/* ===== 6. Scholars ===== */
+.scholars{padding:140px 0;background:#fff}
+.scholars-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:70px;align-items:center}
+.scholars .eyebrow{color:var(--teal)}
+.scholars p{font-size:20px;color:#2D3B4A;margin:22px 0 0}
+.frames{position:relative;height:420px}
+.frame{position:absolute;width:56%;aspect-ratio:4/5;border-radius:18px;border:2px dashed #B9C7BF;background:var(--sage);display:flex;flex-direction:column;justify-content:flex-end;padding:22px;font-size:15px;color:var(--muted)}
+.frame b{font-family:'Archivo',sans-serif;font-size:20px;color:var(--ink)}
+.frame:nth-child(1){left:0;top:30px;transform:rotate(-5deg)}
+.frame:nth-child(2){left:22%;top:0;transform:rotate(2deg);background:#fff;z-index:1}
+.frame:nth-child(3){right:0;top:50px;transform:rotate(6deg)}
+.frame .cap{display:inline-block;align-self:flex-start;background:var(--gold);color:var(--ink);font-weight:700;border-radius:999px;padding:4px 12px;font-size:13px;margin-bottom:auto}
+@media (max-width:900px){.scholars{padding:90px 0}.scholars-grid{grid-template-columns:1fr;gap:30px}.frames{height:320px}}
+
+/* ===== 7. Next chapter ===== */
+.next{background:var(--ink);color:#fff;padding:140px 0 150px;overflow:hidden;position:relative}
+.next .eyebrow{color:var(--gold)}
+.count{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 22px;margin-top:34px}
+.count strong{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(90px,14vw,210px);line-height:.85;letter-spacing:-.04em;color:var(--gold)}
+.count span{font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(20px,2vw,28px);max-width:360px;line-height:1.2}
+.count small{display:block;margin-top:8px;font-family:'Atkinson Hyperlegible',sans-serif;font-weight:400;font-size:15px;color:#9FB0C2}
+.ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:70px}
+.way{background:#13304C;border-radius:22px;padding:32px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:#fff;transition:transform .35s var(--ease),background .35s}
+.way:hover{transform:translateY(-6px);background:#18395A}
+.way small{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.way h3{margin:0;font-family:'Archivo',sans-serif;font-weight:800;font-size:30px;line-height:1.05}
+.way p{margin:0;color:#C9D3DE;font-size:17px;line-height:1.5}
+.way em{margin-top:auto;padding-top:12px;font-style:normal;font-weight:700;color:#fff}
+.way.gold{background:var(--gold);color:var(--ink)}
+.way.gold small{color:var(--ink)}.way.gold p{color:#2D3B4A}.way.gold em{color:var(--ink)}
+.way.gold:hover{background:#FFC72E}
+@media (max-width:900px){.next{padding:90px 0 100px}.ways{grid-template-columns:1fr;margin-top:44px}}
+</style>
+</head>
+<body data-handbuilt>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header" data-header>
+  <div class="nav">
+    <a class="brand" href="index.html" aria-label="Making Health Make Sense home">
+      <span class="brand-bars" aria-hidden="true"><i></i><i></i></span>
+      <span><b>Making Health Make Sense</b><small>Closing the Gap in Healthcare</small></span>
+    </a>
+    <button class="menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-menu">Menu</button>
+    <nav class="links" id="site-menu" aria-label="Main">
+      <a href="our-work.html">Our Work</a>
+      <a href="dr-bell-says.html">Dr. Bell Says</a>
+      <a href="knowledge-gap.html">The Knowledge Gap</a>
+      <a href="jazz-festival.html" aria-current="page">Jazz Festival</a>
+      <a href="about.html">About</a>
+      <a class="btn" href="invite.html">Invite Dr. Bell</a>
+    </nav>
+  </div>
 </header>
 
-<!-- Hero -->
-<section style="background: #0B1F33; color: #FFFFFF">
-<div style="max-width: 1200px; margin: 0 auto; padding: 88px 24px 96px; display: flex; flex-wrap: wrap; gap: 48px 64px; align-items: center">
-<div style="flex: 1 1 540px; min-width: 0">
-<img src="/img/lcf-logo.png" alt="The Lowcountry Jazz Festival, Charleston, SC logo" style="display: block; width: 112px; height: 112px; margin: 0 0 28px">
-<p style="margin: 0 0 18px; display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: #F5B700"><span aria-hidden="true" style="width: 28px; height: 4px; background: #F5B700; border-radius: 2px"></span>The Lowcountry Jazz Festival · Since 2009</p>
-<h1 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 90%; font-size: clamp(46px, 6vw, 88px); line-height: 0.98; letter-spacing: -0.03em">Culture and care go together.</h1>
-<p style="margin: 28px 0 0; font-size: 21px; color: #C9D3DE; max-width: 600px">How a family physician and his daughter turned a Labor Day weekend of world-class jazz into a scholarship engine for future healthcare workers—and the main source of funding for Closing the Gap in Healthcare.</p>
-<div style="margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px">
-<a href="#tickets" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 28px; background: #F5B700; color: #0B1F33; border-radius: 999px; font-weight: 700; font-size: 18px; text-decoration: none">Get festival tickets</a>
-<a href="#impact" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 26px; border: 2px solid #FFFFFF; color: #FFFFFF; border-radius: 999px; font-weight: 700; font-size: 18px; text-decoration: none">Where the money goes</a>
-</div>
-</div>
-<figure style="flex: 1 1 420px; min-width: 0; margin: 0"><img src="/img/bell-jazz-festival.jpg" alt="Dr. Bell in a white hat and white overalls at the Lowcountry Jazz Festival step-and-repeat at the Charleston Gaillard Center" style="display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 20%; border-radius: 28px"><figcaption style="margin-top: 12px; font-size: 16px; color: #C9D3DE">Dr. Bell at the Lowcountry Jazz Festival, Charleston Gaillard Center.</figcaption></figure>
-</div>
+<main id="main">
+
+<!-- 1. Hero -->
+<section class="hero" id="hero" aria-labelledby="jf-title">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" style="color:var(--gold)" data-reveal>The Lowcountry Jazz Festival · Since 2009</span>
+      <h1 id="jf-title" class="display" data-reveal>Culture and care go <em>hand in hand.</em></h1>
+      <p class="lede" data-reveal>A family doctor and his daughter turned a Labor Day weekend of jazz into scholarships for future healthcare workers. Today it’s a Charleston tradition, and the main source of funding for Closing the Gap in Healthcare.</p>
+      <div class="ctas" data-reveal>
+        <a class="btn btn-gold" href="https://www.lowcountryjazzfest.com/" target="_blank" rel="noopener">Festival tickets &amp; news ↗</a>
+        <a class="btn btn-ghost" href="#jobs">Where the money goes</a>
+      </div>
+      <div class="facts" data-reveal><span><b>Labor Day weekend</b></span><span><b>Charleston Gaillard Center</b></span><span>Founded by <b>Dr. Thaddeus Bell</b> &amp; <b>Tonisha Bell-Alston</b></span></div>
+    </div>
+    <div class="album" aria-hidden="true">
+      <div class="record"><div class="scrub" id="scrub"><div class="disc"><img src="/img/lcf-logo.png" alt=""><i></i></div></div></div>
+      <div class="sleeve"><img src="/img/bell-jazz-festival.jpg" alt=""><span>Dr. Bell · Gaillard Center</span></div>
+    </div>
+  </div>
+  <div class="ticker" aria-hidden="true"><div id="ticker"></div></div>
 </section>
 
-<!-- Chapter 1 -->
-<section style="background: #FFFFFF">
-<div style="max-width: 1200px; margin: 0 auto; padding: 96px 24px; display: flex; flex-wrap: wrap; gap: 40px 80px">
-<div style="flex: 1 1 320px; min-width: 0">
-<p style="margin: 0 0 12px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; color: #0E5A54">01 · The why</p>
-<h2 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 92%; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -0.02em">Not enough doctors who looked like the patients.</h2>
-</div>
-<div style="flex: 2 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px; font-size: 20px; color: #2D3B4A">
-<p style="margin: 0">Dr. Thaddeus Bell was one of the first African American graduates of the Medical University of South Carolina. Decades into his career as a family physician, he kept seeing the same problem: there weren’t enough Black physicians serving rural and underserved communities—and for many talented students, the barrier was money.</p>
-<p style="margin: 0">He had already spent years teaching people how to understand their own health. Now he wanted to help the next generation of caregivers get through school. The question was how to raise the money, year after year, in a way the whole community would show up for.</p>
-<p style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.35; color: #0B1F33">The answer was music.</p>
-</div>
-</div>
+<!-- Track 01 -->
+<section class="why" data-track="The why" data-num="01" aria-labelledby="why-title">
+  <div class="wrap why-grid">
+    <div>
+      <span class="track-label" data-reveal><b>01</b>The why</span>
+      <h2 id="why-title" class="display" data-reveal>Not enough doctors who looked like the patients.</h2>
+      <p data-reveal>Dr. Thaddeus Bell was one of the first African American graduates of the Medical University of South Carolina. Decades into his career as a family physician, he kept seeing the same problem: there weren’t enough Black physicians serving rural and underserved communities, and for many talented students, the barrier was money.</p>
+      <p data-reveal>He had already spent years teaching people how to understand their own health. Now he wanted to help the next generation of caregivers get through school, and he needed a way to raise the money year after year that the whole community would show up for.</p>
+    </div>
+    <aside data-reveal="right">
+      <p>The answer was <em>music.</em></p>
+      <small>A weekend of world-class jazz, every Labor Day, in Charleston.</small>
+      <figure class="why-photo"><img src="/img/bell-medals.jpg" alt="Dr. Bell standing in front of a framed display of his medals and awards" loading="lazy" width="1600" height="1280"><figcaption>Dr. Thaddeus Bell, family physician and festival founder.</figcaption></figure>
+    </aside>
+  </div>
 </section>
 
-<!-- Chapter 2 -->
-<section style="background: #EDF2EF">
-<div style="max-width: 1200px; margin: 0 auto; padding: 96px 24px; display: flex; flex-wrap: wrap; gap: 48px 72px; align-items: center">
-<div class="ph" role="img" aria-label="Photo placeholder: Dr. Bell with his daughter Tonisha" style="flex: 1 1 380px; min-width: 0; aspect-ratio: 1 / 1; border-radius: 28px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; color: #3E5266; font-weight: 700; font-size: 17px">[Photo: Dr. Bell and Tonisha — family-approved]</div>
-<div style="flex: 1 1 520px; min-width: 0">
-<p style="margin: 0 0 12px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; color: #0E5A54">02 · A father and daughter</p>
-<h2 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 92%; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -0.02em">Built by two Bells.</h2>
-<div style="margin-top: 22px; display: flex; flex-direction: column; gap: 18px; font-size: 20px; color: #2D3B4A">
-<p style="margin: 0">Dr. Bell founded the Lowcountry Jazz Festival in 2009 with his daughter, Tonisha Bell-Alston. Tonisha was also instrumental in building Closing the Gap in Healthcare—it was her idea to take her father’s health tips online through the Health-E-Newsletter.</p>
-<p style="margin: 0">Tonisha passed away from cancer in 2015. The festival carries her name in its story and her purpose in every scholarship it funds.</p>
-</div>
-</div>
-</div>
+<!-- Track 02 -->
+<section class="bells" data-track="Built by two Bells" data-num="02" aria-labelledby="bells-title">
+  <div class="wrap bells-grid">
+    <div class="two" data-reveal aria-hidden="true"><i></i><i></i></div>
+    <div>
+      <span class="track-label" data-reveal><b>02</b>A father and daughter</span>
+      <h2 id="bells-title" class="display" data-reveal>Built by two Bells.</h2>
+      <p data-reveal>Dr. Bell founded the Lowcountry Jazz Festival in 2009 with his daughter, Tonisha Bell-Alston. Tonisha was also instrumental in building Closing the Gap in Healthcare. It was her idea to take her father’s health tips online through the Health-E-Newsletter.</p>
+      <p data-reveal>Tonisha passed away from cancer in 2015. Her purpose lives on in every scholarship the festival funds.</p>
+      <div class="memory" data-reveal>In loving memory of Tonisha Bell-Alston</div>
+    </div>
+  </div>
 </section>
 
-<!-- Timeline -->
-<section style="background: #FFFFFF">
-<div style="max-width: 1200px; margin: 0 auto; padding: 96px 24px">
-<p style="margin: 0 0 12px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; color: #0E5A54">03 · How it grew</p>
-<h2 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 92%; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -0.02em">From a fundraiser to a Charleston tradition.</h2>
-<ol style="margin: 48px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 28px">
-
-<li style="padding: 22px 0 28px; border-top: 3px solid #0B1F33">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 32px; line-height: 1; color: #0E5A54">2009</div>
-<div style="margin-top: 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.25">The first festival</div>
-<div style="margin-top: 6px; font-size: 17px; color: #4A5568">Dr. Bell and Tonisha launch a Labor Day weekend jazz fundraiser for scholarships for African American students at MUSC.</div>
-</li>
-
-<li style="padding: 22px 0 28px; border-top: 3px solid #0B1F33">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 32px; line-height: 1; color: #0E5A54">2015</div>
-<div style="margin-top: 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.25">Losing Tonisha</div>
-<div style="margin-top: 6px; font-size: 17px; color: #4A5568">Tonisha passes away from cancer. The festival continues in her honor.</div>
-</li>
-
-<li style="padding: 22px 0 28px; border-top: 3px solid #0B1F33">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 32px; line-height: 1; color: #0E5A54">2016</div>
-<div style="margin-top: 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.25">A producer joins</div>
-<div style="margin-top: 6px; font-size: 17px; color: #4A5568">Tony Clarke, a veteran artist manager and concert presenter, becomes producer and artistic director.</div>
-</li>
-
-<li style="padding: 22px 0 28px; border-top: 3px solid #0B1F33">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 32px; line-height: 1; color: #0E5A54">2018</div>
-<div style="margin-top: 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.25">10th festival, new home</div>
-<div style="margin-top: 6px; font-size: 17px; color: #4A5568">The festival moves from the North Charleston Performing Arts Center to the Charleston Gaillard Center, and adds a community health summit with Black Health Matters.</div>
-</li>
-
-<li style="padding: 22px 0 28px; border-top: 3px solid #0B1F33">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 32px; line-height: 1; color: #0E5A54">2021</div>
-<div style="margin-top: 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.25">Back on stage</div>
-<div style="margin-top: 6px; font-size: 17px; color: #4A5568">The 12th festival returns for Labor Day weekend.</div>
-</li>
-
-<li style="padding: 22px 0 28px; border-top: 3px solid #0B1F33">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 32px; line-height: 1; color: #0E5A54">Today</div>
-<div style="margin-top: 10px; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 21px; line-height: 1.25">A Charleston tradition</div>
-<div style="margin-top: 6px; font-size: 17px; color: #4A5568">Scholarships now reach students in any of MUSC’s six colleges.</div>
-</li>
-
-</ol>
-</div>
+<!-- Track 03: timeline -->
+<section class="tl" id="timeline" data-track="How it grew" data-num="03" aria-labelledby="tl-title">
+  <div class="tl-sticky">
+    <div class="wrap tl-head">
+      <div>
+        <span class="track-label" data-reveal><b>03</b>How it grew</span>
+        <h2 id="tl-title" class="display" data-reveal>From fundraiser to Charleston tradition.</h2>
+      </div>
+      <p class="tl-hint" data-reveal>Keep scrolling to move through the years →</p>
+    </div>
+    <div class="tl-rail">
+      <div class="tl-line" aria-hidden="true"><i></i></div>
+      <ol class="tl-track" id="tl-track" style="list-style:none;margin:0">
+        <li class="stop"><div class="yr">2009</div><h3>The first festival</h3><p>Dr. Bell and Tonisha launch a Labor Day weekend jazz fundraiser for scholarships for African American students at MUSC.</p></li>
+        <li class="stop"><div class="yr">2015</div><h3>Losing Tonisha</h3><p>Tonisha passes away from cancer. The festival continues in her honor.</p></li>
+        <li class="stop"><div class="yr">2016</div><h3>A producer joins</h3><p>Tony Clarke, a veteran artist manager and concert presenter, becomes producer and artistic director.</p></li>
+        <li class="stop"><div class="yr">2018</div><h3>The 10th festival, a new home</h3><p>The festival moves from the North Charleston Performing Arts Center to the Charleston Gaillard Center and adds a community health summit with Black Health Matters.</p></li>
+        <li class="stop"><div class="yr">2021</div><h3>Back on stage</h3><p>The 12th festival returns for Labor Day weekend.</p></li>
+        <li class="stop"><div class="yr">2026</div><h3>September 4–6</h3><p>The White Party opens the weekend, followed by two days on the Gaillard stage.</p><div class="names"><span>Anthony Hamilton</span><span>Lakecia Benjamin</span><span>Keiko Matsui</span><span>+ more</span></div></li>
+        <li class="stop now"><div class="yr">Next</div><h3>Labor Day weekend 2027</h3><p>Scholarships now reach students in any of MUSC’s six colleges. The next chapter is being planned.</p></li>
+      </ol>
+    </div>
+  </div>
 </section>
 
-<!-- Impact -->
-<section id="impact" style="background: #F5B700; color: #0B1F33">
-<div style="max-width: 1200px; margin: 0 auto; padding: 96px 24px">
-<p style="margin: 0 0 12px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px">04 · Where the money goes</p>
-<h2 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 92%; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.05; letter-spacing: -0.02em; max-width: 860px">Every ticket does three jobs.</h2>
-<div style="margin-top: 44px; display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px">
-
-<div style="background: #FFFFFF; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 12px">
-<span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #0E5A54">01</span>
-<h3 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 25px; line-height: 1.2">Scholarships for future caregivers</h3>
-<p style="margin: 0; font-size: 18px; color: #2D3B4A">The festival began by funding scholarships for African American students at MUSC. Today, scholarships support students in any of MUSC’s six colleges—the next generation of doctors, nurses, and health professionals.</p>
-</div>
-
-<div style="background: #FFFFFF; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 12px">
-<span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #0E5A54">02</span>
-<h3 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 25px; line-height: 1.2">Health education that makes sense</h3>
-<p style="margin: 0; font-size: 18px; color: #2D3B4A">The festival is the primary source of funding for Closing the Gap in Healthcare—paying for Dr. Bell Says videos, barbershop health talks, radio tips, and community events across South Carolina.</p>
-</div>
-
-<div style="background: #FFFFFF; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 12px">
-<span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #0E5A54">03</span>
-<h3 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 25px; line-height: 1.2">Health on the festival stage</h3>
-<p style="margin: 0; font-size: 18px; color: #2D3B4A">The festival weekend has also brought health to the crowd, including a community health summit with national experts hosted with Black Health Matters.</p>
-</div>
-
-</div>
-</div>
+<!-- Track 04: tickets -->
+<section class="jobs" id="jobs" data-track="Where the money goes" data-num="04" aria-labelledby="jobs-title">
+  <div class="wrap">
+    <div class="jobs-head">
+      <div>
+        <span class="track-label" data-reveal><b>04</b>Where the money goes</span>
+        <h2 id="jobs-title" class="display" data-reveal>Every ticket does three jobs.</h2>
+      </div>
+      <p data-reveal>Buy a seat for the music, and you’re also paying for a student’s tuition and a health talk in someone’s neighborhood.</p>
+    </div>
+    <div class="tickets">
+      <article class="ticket" data-reveal>
+        <div class="t-main"><b>01</b><div><h3>Scholarships for future caregivers</h3><p>The festival began by funding scholarships for African American students at MUSC. Today it supports students in any of MUSC’s six colleges: future doctors, nurses, pharmacists and health professionals.</p></div></div>
+        <div class="t-stub"><small>Admit one</small><strong>Future caregiver</strong></div>
+      </article>
+      <article class="ticket" data-reveal>
+        <div class="t-main"><b>02</b><div><h3>Health education that makes sense</h3><p>The festival is the main source of funding for Closing the Gap in Healthcare. It pays for Dr. Bell Says videos, barbershop health talks, radio tips and community events across South Carolina.</p></div></div>
+        <div class="t-stub"><small>Admit one</small><strong>Plain-language health</strong></div>
+      </article>
+      <article class="ticket" data-reveal>
+        <div class="t-main"><b>03</b><div><h3>Health on the festival stage</h3><p>The weekend brings health to the crowd too, including a community health summit with national experts, hosted with Black Health Matters.</p></div></div>
+        <div class="t-stub"><small>Admit one</small><strong>Community health</strong></div>
+      </article>
+    </div>
+  </div>
 </section>
 
-<!-- Quote -->
-<section style="background: #0B1F33; color: #FFFFFF">
-<div style="max-width: 960px; margin: 0 auto; padding: 104px 24px; text-align: center">
-<blockquote style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 50px); line-height: 1.15; letter-spacing: -0.015em">“Culture and care go together. Both require community.”</blockquote>
-<p style="margin: 24px 0 0; font-size: 18px; color: #C9D3DE">— Dr. Thaddeus J. Bell, Founder, Lowcountry Jazz Festival</p>
-<p style="margin: 40px auto 0; font-size: 20px; color: #C9D3DE; max-width: 720px">Both great music and great medicine require the same thing: showing up for your community with excellence, year after year.</p>
-</div>
+<!-- Lineup -->
+<section class="lineup" aria-labelledby="lineup-title">
+  <div class="wrap lineup-head">
+    <div>
+      <span class="eyebrow" data-reveal>On the Gaillard stage</span>
+      <h2 id="lineup-title" class="display" data-reveal style="margin:22px 0 0;font-size:clamp(42px,5.2vw,82px);font-stretch:90%">The 2026 lineup.</h2>
+    </div>
+    <p data-reveal>Smooth jazz, contemporary jazz, soul and R&amp;B, every Labor Day weekend in downtown Charleston.</p>
+  </div>
+  <div class="marq" aria-hidden="true" id="marq"></div>
+  <ul class="wrap" style="position:absolute;left:-9999px" aria-label="2026 performers">
+    <li>Anthony Hamilton</li><li>Lakecia Benjamin</li><li>Keiko Matsui</li><li>Jonathan Butler</li><li>Peter White</li><li>Vincent Ingala</li><li>Rick Braun and Richard Elliot (RnR)</li>
+  </ul>
+  <div class="wrap">
+    <div class="white" data-reveal>
+      <img src="/img/bell-jazz-festival.jpg" alt="Dr. Bell dressed in white at the festival" loading="lazy" width="1100" height="1467">
+      <p><b>It starts with the White Party.</b> The festival weekend opens Friday night with its signature White Party, then two full days of music.</p>
+    </div>
+    <p class="src">Lineup as announced for September 4–6, 2026. Source: <a href="https://www.wclk.com/2026-07-06/experience-the-magic-of-the-2026-lowcountry-jazz-festival-this-labor-day-weekend" target="_blank" rel="noopener">WCLK</a>.</p>
+  </div>
 </section>
 
 <!-- Scholars -->
-<section style="background: #EDF2EF">
-<div style="max-width: 1200px; margin: 0 auto; padding: 96px 24px">
-<p style="margin: 0 0 12px; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; color: #0E5A54">05 · The people it serves</p>
-<h2 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 92%; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -0.02em">Meet the scholars.</h2>
-<p style="margin: 18px 0 0; font-size: 20px; color: #2D3B4A; max-width: 720px">Ask Dr. Bell about success and he’ll tell you about the medical student who got their scholarship check.</p>
-<div style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
-
-<div style="background: #FFFFFF; border-radius: 22px; overflow: hidden">
-<div class="ph" role="img" aria-label="Photo placeholder: scholarship recipient" style="aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; color: #3E5266; font-weight: 700; font-size: 16px">[Recipient photo]</div>
-<div style="padding: 24px 26px">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px">[Recipient name]</div>
-<div style="font-size: 16px; color: #4A5568">MUSC College of Medicine · [Year]</div>
-<p style="margin: 12px 0 0; font-size: 17px; color: #2D3B4A">[A sentence in their own words about what the scholarship made possible.]</p>
-</div>
-</div>
-
-<div style="background: #FFFFFF; border-radius: 22px; overflow: hidden">
-<div class="ph" role="img" aria-label="Photo placeholder: scholarship recipient" style="aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; color: #3E5266; font-weight: 700; font-size: 16px">[Recipient photo]</div>
-<div style="padding: 24px 26px">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px">[Recipient name]</div>
-<div style="font-size: 16px; color: #4A5568">MUSC College of Nursing · [Year]</div>
-<p style="margin: 12px 0 0; font-size: 17px; color: #2D3B4A">[A sentence in their own words about what the scholarship made possible.]</p>
-</div>
-</div>
-
-<div style="background: #FFFFFF; border-radius: 22px; overflow: hidden">
-<div class="ph" role="img" aria-label="Photo placeholder: scholarship recipient" style="aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; color: #3E5266; font-weight: 700; font-size: 16px">[Recipient photo]</div>
-<div style="padding: 24px 26px">
-<div style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px">[Recipient name]</div>
-<div style="font-size: 16px; color: #4A5568">[MUSC college] · [Year]</div>
-<p style="margin: 12px 0 0; font-size: 17px; color: #2D3B4A">[A sentence in their own words about what the scholarship made possible.]</p>
-</div>
-</div>
-
-</div>
-</div>
+<section class="scholars" aria-labelledby="sch-title">
+  <div class="wrap scholars-grid">
+    <div class="frames" aria-hidden="true" data-reveal>
+      <div class="frame"><span class="cap">College of Nursing</span><b>Scholar story</b>Coming soon</div>
+      <div class="frame"><span class="cap">College of Medicine</span><b>Scholar story</b>Coming soon</div>
+      <div class="frame"><span class="cap">College of Pharmacy</span><b>Scholar story</b>Coming soon</div>
+    </div>
+    <div>
+      <span class="eyebrow" data-reveal>The people it serves</span>
+      <h2 id="sch-title" class="display" data-reveal>Meet the scholars.</h2>
+      <p data-reveal>Ask Dr. Bell about success and he’ll tell you about the student who got their scholarship check. We’re gathering those stories now: who they are, where they studied, and where they’re caring for patients today.</p>
+      <p data-reveal>Were you a Lowcountry Jazz Festival scholar? We’d love to hear from you.</p>
+      <div style="margin-top:30px" data-reveal><a class="btn btn-ink" href="invite.html">Share your story</a></div>
+    </div>
+  </div>
 </section>
 
-<!-- Support -->
-<section id="tickets" style="background: #FFFFFF">
-<div style="max-width: 1200px; margin: 0 auto; padding: 96px 24px">
-<h2 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-stretch: 92%; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -0.02em">Be part of the next chapter.</h2>
-<div style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px">
-<div style="border: 2px solid #0B1F33; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 12px">
-<h3 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 25px">Come to the festival</h3>
-<p style="margin: 0; font-size: 18px; color: #2D3B4A; flex: 1">Labor Day weekend at the Charleston Gaillard Center. Your ticket is a donation you can dance to.</p>
-<a href="#tickets" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #F5B700; color: #0B1F33; border-radius: 999px; font-weight: 700; font-size: 17px; text-decoration: none">[Tickets link]</a>
-</div>
-<div style="border: 2px solid #0B1F33; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 12px">
-<h3 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 25px">Sponsor a scholarship</h3>
-<p style="margin: 0; font-size: 18px; color: #2D3B4A; flex: 1">Put a future nurse, pharmacist, or physician through school—with your name on the program.</p>
-<a href="index.html#partner" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #0B1F33; color: #FFFFFF; border-radius: 999px; font-weight: 700; font-size: 17px; text-decoration: none">Become a sponsor</a>
-</div>
-<div style="border: 2px solid #0B1F33; border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 12px">
-<h3 style="margin: 0; font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 25px">Give directly</h3>
-<p style="margin: 0; font-size: 18px; color: #2D3B4A; flex: 1">Can’t make it to Charleston? A gift to Closing the Gap in Health Care, Inc., a 501(c)(3), supports the same work.</p>
-<a href="#tickets" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; border: 2px solid #0B1F33; color: #0B1F33; border-radius: 999px; font-weight: 700; font-size: 17px; text-decoration: none">[Donate link]</a>
-</div>
-</div>
-</div>
+<!-- Next chapter -->
+<section class="next" aria-labelledby="next-title">
+  <div class="wrap">
+    <span class="eyebrow" data-reveal>Be part of the next chapter</span>
+    <h2 id="next-title" class="display" data-reveal>See you on Labor Day weekend.</h2>
+    <div class="count" data-reveal><strong id="days">—</strong><span>days until Labor Day weekend 2027<small>Festival dates are announced on the official site.</small></span></div>
+    <div class="ways">
+      <a class="way gold" href="https://www.lowcountryjazzfest.com/" target="_blank" rel="noopener" data-reveal><small>Come to the festival</small><h3>Get your tickets</h3><p>A weekend at the Charleston Gaillard Center. Every seat helps fund scholarships and health education.</p><em>lowcountryjazzfest.com ↗</em></a>
+      <a class="way" href="invite.html" data-reveal style="--d:.1s"><small>Sponsor a scholarship</small><h3>Put your name on it</h3><p>Help put a future nurse, pharmacist or physician through school.</p><em>Talk to us →</em></a>
+      <a class="way" href="invite.html" data-reveal style="--d:.2s"><small>Give directly</small><h3>Can’t make it to Charleston?</h3><p>A gift to Closing the Gap in Health Care, Inc., a 501(c)(3), supports the same work.</p><em>Ask about giving →</em></a>
+    </div>
+  </div>
 </section>
 
-<footer style="background: #07121F; color: #C9D3DE; font-size: 16px">
-<div style="max-width: 1200px; margin: 0 auto; padding: 48px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px">
-<span><strong style="color: #FFFFFF; font-family: 'Archivo', sans-serif; font-size: 20px">Making Health Make Sense</strong> · Closing the Gap in Health Care, Inc., a 501(c)(3) nonprofit</span>
-<span style="display: flex; gap: 24px; flex-wrap: wrap"><a href="index.html" style="color: #C9D3DE">Home</a><a href="about.html" style="color: #C9D3DE">About</a><a href="invite.html" style="color: #C9D3DE">Invite Dr. Bell</a></span>
-</div>
+</main>
+
+<div class="np" id="np" aria-hidden="true"><span class="eq"><i></i><i></i><i></i><i></i></span><span><small id="np-num">Now playing · 01</small><b id="np-title">The why</b></span></div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div style="max-width:420px"><b>Making Health Make Sense</b><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#9FB0C2">Closing the Gap in Healthcare</div><p>A nonprofit founded by Dr. Thaddeus Bell. We help people understand their health before it becomes a crisis.</p></div>
+      <nav aria-label="Footer">
+        <div><span>Learn</span><a href="dr-bell-says.html">Dr. Bell Says</a><a href="knowledge-gap.html">The Knowledge Gap</a><a href="our-work.html">Our Work</a></div>
+        <div><span>Get involved</span><a href="invite.html">Invite Dr. Bell</a><a href="our-work.html">Sponsor a program</a><a href="jazz-festival.html">Lowcountry Jazz Festival</a></div>
+      </nav>
+    </div>
+    <p class="legal">The information on this site is for education and is not a substitute for care from your own doctor. In an emergency, call 911. · © Closing the Gap in Health Care, Inc., a 501(c)(3) nonprofit.</p>
+  </div>
 </footer>
-</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Ticker + lineup marquee */
+  var tick = ['Labor Day weekend', 'Charleston Gaillard Center', 'Since 2009', 'Scholarships for MUSC students', 'Funding plain-language health education', 'Culture and care'];
+  var t = tick.map(function (x) { return '<span>' + x + '</span>'; }).join('');
+  document.getElementById('ticker').innerHTML = t + t;
+  var A = ['Anthony Hamilton', 'Lakecia Benjamin', 'Keiko Matsui', 'Jonathan Butler'], B = ['Peter White', 'Vincent Ingala', 'Rick Braun', 'Richard Elliot'];
+  function row(list) { var h = list.map(function (n) { return '<span>' + n + '</span>'; }).join(''); return '<div>' + h + h + '</div>'; }
+  document.getElementById('marq').innerHTML = row(A) + row(B);
+
+  /* Spotlight follows the pointer in the hero */
+  var hero = document.getElementById('hero');
+  if (!reduce && window.matchMedia('(pointer:fine)').matches) {
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+      hero.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+    });
+  }
+
+  /* Now-playing bar: shows the track you're reading */
+  var np = document.getElementById('np'), npNum = document.getElementById('np-num'), npTitle = document.getElementById('np-title');
+  var tracks = document.querySelectorAll('[data-track]');
+  function updateNP() {
+    var mid = window.innerHeight * 0.5, cur = null;
+    tracks.forEach(function (s) { var r = s.getBoundingClientRect(); if (r.top < mid && r.bottom > mid) cur = s; });
+    if (cur) { npNum.textContent = 'Now playing · Track ' + cur.getAttribute('data-num'); npTitle.textContent = cur.getAttribute('data-track'); }
+    np.classList.toggle('on', !!cur);
+  }
+
+  /* Horizontal timeline, pinned on wide screens */
+  var tl = document.getElementById('timeline'), track = document.getElementById('tl-track'), line = tl.querySelector('.tl-line');
+  var dist = 0;
+  function layoutTL() {
+    var wide = window.innerWidth > 900 && !reduce;
+    tl.classList.toggle('pinned', wide);
+    if (!wide) { tl.style.height = ''; track.style.transform = ''; line.style.setProperty('--tp', 1); return; }
+    dist = Math.max(0, track.scrollWidth - window.innerWidth);
+    tl.style.height = (window.innerHeight + dist) + 'px';
+  }
+  function scrollTL() {
+    if (!tl.classList.contains('pinned')) return;
+    var r = tl.getBoundingClientRect();
+    var p = Math.max(0, Math.min(1, -r.top / Math.max(1, dist)));
+    track.style.transform = 'translate3d(' + (-p * dist).toFixed(1) + 'px,0,0)';
+    line.style.setProperty('--tp', p.toFixed(3));
+  }
+
+  /* Record spins a little faster while you scroll */
+  var scrub = document.getElementById('scrub'), extra = 0, lastY = window.scrollY;
+
+  var ticking = false;
+  function frame() {
+    updateNP(); scrollTL();
+    if (!reduce) { extra += (window.scrollY - lastY) * 0.25; lastY = window.scrollY; scrub.style.transform = 'rotate(' + extra.toFixed(1) + 'deg)'; }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+  window.addEventListener('resize', function () { layoutTL(); frame(); });
+  window.addEventListener('load', function () { layoutTL(); frame(); });
+  layoutTL(); frame();
+
+  /* Countdown to Friday of Labor Day weekend 2027 (Labor Day is Mon Sept 6, 2027) */
+  var target = new Date(2027, 8, 3), now = new Date();
+  var days = Math.ceil((target - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
+  document.getElementById('days').textContent = days > 0 ? days : '0';
+})();
+</script>
 <script src="/assets/site.js" defer></script>
 </body>
 </html>
