@@ -133,7 +133,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 .numbers::before{content:"";position:absolute;right:-12vw;top:-18vw;width:46vw;height:46vw;border-radius:50%;border:2px solid rgba(255,255,255,.12)}
 .numbers h2{margin:20px 0 0;font-size:clamp(46px,6vw,96px)}
 .numbers-intro{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px}
-.numbers-intro p{max-width:420px;color:#D6EAE6;margin:0;font-size:20px}
+.numbers-intro p{max-width:440px;color:#D6EAE6;margin:0;font-size:20px}
 .tabs{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .tab{appearance:none;border:2px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:22px;padding:22px 26px;text-align:left;cursor:pointer;font:inherit;transition:background .3s,border-color .3s,transform .3s var(--ease);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px}
 .tab:hover{border-color:#fff;transform:translateY(-3px)}
@@ -142,66 +142,81 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 .tab svg{width:46px;height:46px;opacity:.8}
 .tab[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink)}
 .tab[aria-selected="true"] small{color:#3a3a1a}
-.tab[aria-selected="true"] svg{opacity:1}
-.panel{margin-top:18px;background:#fff;color:var(--ink);border-radius:28px;padding:clamp(22px,3vw,36px);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,3vw,44px);align-items:stretch}
+.panel{margin-top:18px;background:#fff;color:var(--ink);border-radius:28px;padding:clamp(20px,2.6vw,32px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(22px,2.6vw,36px);align-items:stretch}
 .panel[hidden]{display:none}
 .panel:not([hidden]){animation:panelIn .5s var(--ease)}
 @keyframes panelIn{from{opacity:0;transform:translateY(12px)}}
-.panel h3{margin:0 0 8px;font-family:'Archivo',sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
-.panel .copy{display:flex;flex-direction:column;gap:22px;justify-content:center}
-.panel .copy p{margin:0;font-size:18px;line-height:1.55}
-.panel .ask{font-family:'Archivo',sans-serif;font-weight:700;font-size:22px;line-height:1.25;border-left:4px solid var(--gold);padding-left:16px}
-.inst{background:var(--ink);color:#fff;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:16px;min-height:380px;position:relative;overflow:hidden}
+/* instrument (left) */
+.inst{background:var(--ink);color:#fff;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden}
 .inst .lbl{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9FB0C2}
 .inst .lbl em{font-style:normal;color:var(--gold)}
-.inst .say{margin:0;min-height:52px;font-size:17px;line-height:1.45;color:#DCE4EC}
-.inst .say b{color:#fff}
-.ibtn{appearance:none;align-self:flex-start;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;background:var(--gold);color:var(--ink);border-radius:999px;min-height:48px;padding:0 22px}
+.inst .what{margin:0;font-size:16px;line-height:1.5;color:#C9D3DE}
+.ibtn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;background:var(--gold);color:var(--ink);border-radius:999px;min-height:48px;padding:0 22px}
 .ibtn.ghost{background:none;color:#fff;border:2px solid #3C5874}
-/* BP monitor */
-.lcd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:10px;background:#C9D9C2;color:#1C2A22;border-radius:14px;padding:16px 18px;box-shadow:inset 0 3px 10px rgba(0,0,0,.25)}
-.lcd button{appearance:none;border:2px dashed transparent;background:none;cursor:pointer;text-align:left;color:inherit;font:inherit;border-radius:10px;padding:4px 8px}
-.lcd button:hover,.lcd button[aria-pressed="true"]{border-color:#1C2A22}
+.irow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.lcd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:10px;background:#C9D9C2;color:#1C2A22;border-radius:14px;padding:14px 18px;box-shadow:inset 0 3px 10px rgba(0,0,0,.25)}
 .lcd small{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.14em}
-.lcd b{display:block;font-family:'Courier New',ui-monospace,monospace;font-weight:700;font-size:clamp(46px,5vw,70px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.lcd .pulse{align-self:end;text-align:right;font-family:'Courier New',ui-monospace,monospace;font-weight:700;font-size:22px}
-.lcd .pulse i{display:block;font-style:normal;color:#B3261E;font-size:22px;animation:beat 1s ease-in-out infinite}
+.lcd b{display:block;font-family:'Courier New',ui-monospace,monospace;font-weight:700;font-size:clamp(44px,4.6vw,66px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.lcd .pulse{align-self:end;text-align:right;font-family:'Courier New',ui-monospace,monospace;font-weight:700;font-size:20px}
+.lcd .pulse i{display:block;font-style:normal;color:#B3261E;font-size:20px;animation:beat 1s ease-in-out infinite}
 @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.3)}30%{transform:scale(1)}}
-.cuff{height:10px;border-radius:5px;background:#13304C;overflow:hidden}
-.cuff i{display:block;height:100%;width:var(--cuff,0%);background:linear-gradient(90deg,var(--gold),#FF8A3D);transition:width .12s linear}
-.ecg{height:70px;overflow:hidden;position:relative;border-top:1px solid #1E3248;border-bottom:1px solid #1E3248;background:repeating-linear-gradient(90deg,transparent 0 19px,rgba(255,255,255,.05) 19px 20px)}
+.cuff{height:8px;border-radius:4px;background:#13304C;overflow:hidden}
+.cuff i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#FF8A3D)}
+.ecg{height:56px;overflow:hidden;position:relative;border-top:1px solid #1E3248;border-bottom:1px solid #1E3248}
 .ecg svg{position:absolute;left:0;top:0;height:100%;width:200%;animation:ecg 3.2s linear infinite}
 @keyframes ecg{to{transform:translateX(-50%)}}
-/* A1C bars */
-.days{display:flex;align-items:flex-end;gap:2px;height:170px;padding:0 2px;position:relative;border-bottom:1px solid #3C5874}
-.days i{flex:1;min-width:0;border-radius:2px 2px 0 0;background:#2BB3A7;height:var(--h);transition:height .9s cubic-bezier(.2,.8,.2,1),background .6s;transition-delay:calc(var(--n) * 6ms)}
+.sl{display:flex;flex-direction:column;gap:6px}
+.sl label{display:flex;justify-content:space-between;font-weight:700;font-size:15px;color:#DCE4EC}
+.sl label output{font-family:'Archivo',sans-serif;font-weight:800;color:var(--gold)}
+.sl input{width:100%;accent-color:var(--gold);height:26px}
+.days{display:flex;align-items:flex-end;gap:2px;height:150px;padding:0 2px;position:relative;border-bottom:1px solid #3C5874}
+.days i{flex:1;min-width:0;border-radius:2px 2px 0 0;background:#2BB3A7;height:var(--h);transition:height .7s cubic-bezier(.2,.8,.2,1),background .5s;transition-delay:calc(var(--n) * 4ms)}
 .days.avg i{height:var(--avg);background:var(--gold)}
-.days .line{position:absolute;left:0;right:0;bottom:var(--avg);border-top:2px dashed #fff;opacity:0;transition:opacity .5s .6s;z-index:1}
-.days .line span{position:absolute;right:0;bottom:6px;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:#fff;color:var(--ink);border-radius:4px;padding:3px 7px}
-.days.avg .line{opacity:1}
-.axis{display:flex;justify-content:space-between;font-size:13px;color:#9FB0C2;margin-top:-6px}
-/* Artery */
-.artery{position:relative;height:150px;border-radius:75px;background:#3A0D12;overflow:hidden;box-shadow:inset 0 0 0 10px #E07A7F,inset 0 0 0 14px #B8474D}
+.days .line{position:absolute;left:0;right:0;bottom:var(--avg);border-top:2px dashed #fff;z-index:1;transition:bottom .5s}
+.days .line span{position:absolute;right:0;bottom:6px;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;background:#fff;color:var(--ink);border-radius:4px;padding:3px 7px;white-space:nowrap}
+.axis{display:flex;justify-content:space-between;font-size:13px;color:#9FB0C2;margin-top:-8px}
+.artery{position:relative;height:130px;border-radius:65px;background:#3A0D12;overflow:hidden;box-shadow:inset 0 0 0 10px #E07A7F,inset 0 0 0 14px #B8474D}
 .artery .flow{position:absolute;inset:14px 0;overflow:hidden;border-radius:60px}
-.artery .cell{position:absolute;left:-30px;width:22px;height:14px;border-radius:50%;background:#E5484D;box-shadow:inset -3px -2px 0 rgba(0,0,0,.25);top:var(--y);animation:flow var(--dur,2.6s) linear infinite;animation-delay:var(--dl)}
+.artery .cell{position:absolute;left:-30px;width:22px;height:14px;border-radius:50%;background:#E5484D;box-shadow:inset -3px -2px 0 rgba(0,0,0,.25);top:var(--y);animation:flow 2.6s linear infinite;animation-delay:var(--dl)}
 @keyframes flow{to{transform:translateX(calc(100vw))}}
-.plaque{position:absolute;left:18%;width:64%;height:calc(var(--p,0) * 0.55px);background:radial-gradient(ellipse at 50% 0,#F6D58B,#E0B04E 70%);border-radius:0 0 50% 50%/0 0 100% 100%;top:14px;transition:height .2s;z-index:1}
+.plaque{position:absolute;left:18%;width:64%;height:calc(var(--p,0) * 0.48px);background:radial-gradient(ellipse at 50% 0,#F6D58B,#E0B04E 70%);border-radius:0 0 50% 50%/0 0 100% 100%;top:14px;transition:height .25s;z-index:1}
 .plaque.b{top:auto;bottom:14px;border-radius:50% 50% 0 0/100% 100% 0 0;left:28%;width:50%;background:radial-gradient(ellipse at 50% 100%,#F6D58B,#E0B04E 70%)}
-.yrs{display:flex;flex-direction:column;gap:6px}
-.yrs label{font-weight:700;font-size:15px;color:#DCE4EC;display:flex;justify-content:space-between}
-.yrs input{width:100%;accent-color:var(--gold)}
-/* My numbers */
-.mynums{margin-top:18px;display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:14px;align-items:end;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:22px;padding:20px 24px}
-.mynums h3{margin:0;font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;line-height:1.15;max-width:170px}
-.mynums label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:#D6EAE6;min-width:0}
-.mynums input{width:100%;min-width:0;min-height:48px;border-radius:12px;border:2px solid transparent;padding:0 14px;font:inherit;font-size:18px;color:var(--ink);background:#fff}
-.mynums input:focus{outline:3px solid var(--gold);outline-offset:1px}
-.mynums button{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;background:var(--gold);color:var(--ink);border-radius:999px;min-height:48px;padding:0 22px;white-space:nowrap}
-.numbers-note{margin-top:22px;font-size:15px;color:#D6EAE6}
-@media (max-width:900px){.tabs{grid-template-columns:1fr}.panel{grid-template-columns:1fr;gap:22px}.numbers{padding:84px 0}.inst{min-height:0}.mynums{grid-template-columns:1fr;padding:20px}.mynums h3{max-width:none}}
-@media (max-width:600px){.inst{padding:20px}.lcd{padding:12px;gap:4px}.lcd button{padding:4px}.lcd b{font-size:40px}.lcd .pulse{font-size:16px}.inst .lbl{flex-direction:column;align-items:flex-start}}
+/* result (right) */
+.res{display:flex;flex-direction:column;gap:16px}
+.res .k{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.zone{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px}
+.zone b{font-family:'Archivo',sans-serif;font-weight:900;font-stretch:90%;font-size:clamp(30px,3.2vw,44px);line-height:1;letter-spacing:-.02em;color:var(--zc,var(--ink))}
+.zone span{font-family:'Courier New',ui-monospace,monospace;font-weight:700;font-size:18px;color:#2D3B4A}
+.scale{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px}
+.scale div{position:relative;padding:10px 6px 8px;border-radius:8px;background:var(--bg);opacity:.35;transition:opacity .3s,transform .3s var(--ease);text-align:center;min-width:0}
+.scale div.on{opacity:1;transform:translateY(-4px);box-shadow:0 8px 16px rgba(11,31,51,.18)}
+.scale div.on::after{content:"";position:absolute;left:50%;bottom:-9px;margin-left:-7px;border:7px solid transparent;border-top-color:var(--bg);border-bottom:0}
+.scale b{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;line-height:1.15;color:var(--fg,#fff)}
+.scale small{display:block;margin-top:3px;font-size:11px;line-height:1.2;color:var(--fg,#fff);opacity:.9}
+.say{margin:0;font-size:17px;line-height:1.55;color:#1F2D3B}
+.say.alert{background:#FDECEC;border:2px solid #E5484D;border-radius:14px;padding:14px 16px;color:#5A1114}
+.stat{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;background:var(--sage);border-radius:16px;padding:14px 18px}
+.stat strong{font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(30px,3vw,40px);line-height:1;color:var(--teal)}
+.stat p{margin:0;font-size:15px;line-height:1.45;color:#2D3B4A}
+.res .ask{margin:0;font-family:'Archivo',sans-serif;font-weight:700;font-size:20px;line-height:1.3;border-left:4px solid var(--gold);padding-left:14px}
+/* conversation */
+.convo{margin-top:18px;display:grid;grid-template-columns:minmax(0,.7fr) repeat(3,minmax(0,1fr)) auto;gap:14px;align-items:stretch;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:22px;padding:18px}
+.convo h3{margin:0;align-self:center;font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;line-height:1.15}
+.convo h3 small{display:block;margin-top:4px;font-family:'Atkinson Hyperlegible',sans-serif;font-weight:400;font-size:14px;color:#D6EAE6}
+.slot{background:rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;border:1px dashed rgba(255,255,255,.35)}
+.slot.set{background:#fff;color:var(--ink);border:0}
+.slot small{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+.slot b{display:block;margin-top:4px;font-family:'Archivo',sans-serif;font-size:19px;line-height:1.15}
+.slot span{display:block;margin-top:2px;font-size:14px}
+.convo .acts{display:flex;flex-direction:column;gap:8px;justify-content:center}
+.convo .acts a,.convo .acts button{appearance:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;white-space:nowrap;border:2px solid #fff;background:none;color:#fff}
+.convo .acts a:first-child{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.numbers-note{margin-top:22px;font-size:15px;color:#D6EAE6;max-width:980px}
+.numbers-note a{color:#fff}
+@media (max-width:1100px){.convo{grid-template-columns:repeat(3,minmax(0,1fr))}.convo h3{grid-column:1/-1}.convo .acts{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}}
+@media (max-width:900px){.tabs{grid-template-columns:1fr}.panel{grid-template-columns:1fr;gap:22px}.numbers{padding:84px 0}.convo{grid-template-columns:1fr}}
+@media (max-width:600px){.inst{padding:18px}.lcd{padding:12px;gap:4px}.lcd b{font-size:40px}.lcd .pulse{font-size:16px}.inst .lbl{flex-direction:column;align-items:flex-start}.scale small{display:none}.scale b{font-size:11px}}
 @media (prefers-reduced-motion: reduce){.lcd .pulse i,.ecg svg,.artery .cell{animation:none}.days i{transition:none}}
-@media print{body *{visibility:hidden}#mynums,#mynums *{visibility:visible}#mynums{position:absolute;left:0;top:0;width:100%;color:#000;border:1px solid #000;background:#fff}#mynums button{display:none}#mynums label{color:#000}}
 
 /* ---------- Meet Dr. Bell (offset collage) ---------- */
 .meet{background:var(--sage);padding:140px 0;overflow:hidden}
@@ -250,14 +265,40 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 
 /* ---------- Jazz scene ---------- */
 .jazz{background:#120B1F;color:#fff;padding:140px 0;position:relative;overflow:hidden}
-.jazz-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px;align-items:center}
-.jazz h2{margin:22px 0 0;font-size:clamp(52px,7vw,116px);font-stretch:88%}
-.jazz p{font-size:20px;color:#CFC6DE;max-width:560px}
-.jazz-photo{position:relative}
-.jazz-photo img.main{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 18%;border-radius:28px}
-.jazz-photo .logo{position:absolute;left:-56px;bottom:-40px;width:170px;height:170px;filter:drop-shadow(0 18px 30px rgba(0,0,0,.4))}
-.jazz-big{position:absolute;right:-2vw;top:40px;font-family:'Archivo',sans-serif;font-weight:900;font-stretch:125%;font-size:22vw;line-height:.8;color:rgba(255,255,255,.04);pointer-events:none;letter-spacing:-.05em}
-@media (max-width:900px){.jazz{padding:90px 0}.jazz-grid{grid-template-columns:1fr;gap:56px}.jazz-photo .logo{left:auto;right:-8px;width:120px;height:120px;bottom:-30px}}
+.jazz::before{content:"";position:absolute;inset:0;background:radial-gradient(700px circle at 72% 50%,rgba(245,183,0,.10),transparent 60%);pointer-events:none}
+.jazz-grid{position:relative;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:60px;align-items:center}
+.jazz h2{margin:22px 0 0;font-size:clamp(40px,4.6vw,72px);font-stretch:88%}
+.jazz h2 em{font-style:normal;color:var(--gold)}
+.jazz p{font-size:19px;color:#CFC6DE;max-width:520px}
+.tracks{list-style:none;margin:26px 0 0;padding:18px 0 0;border-top:1px solid #3A2C55;max-width:520px;counter-reset:t}
+.tracks li{counter-increment:t;display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px dashed #3A2C55;font-size:17px;color:#E4DBF2}
+.tracks li::before{content:counter(t,decimal-leading-zero);font-family:'Archivo',sans-serif;font-weight:800;font-size:13px;color:var(--gold)}
+.tracks li span{font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9C8DB8}
+.tracks-h{display:block;margin-top:26px;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:115%;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#9C8DB8}
+/* the album */
+.lp{position:relative;width:min(100%,600px);aspect-ratio:1;margin:0 0 0 auto;--mx:0;--my:0}
+.lp-rec{position:absolute;top:3%;left:3%;width:94%;aspect-ratio:1;z-index:1;transition:transform 1.4s cubic-bezier(.2,.8,.2,1) .2s}
+.lp.in .lp-rec,.reveal-fallback .lp-rec,html:not(.js) .lp-rec{transform:translateX(42%)}
+.lp:hover .lp-rec{transform:translateX(50%)}
+.lp-disc{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle,transparent 0 31%,rgba(255,255,255,.06) 31.5%,transparent 32%),repeating-radial-gradient(circle,#0d0d0f 0 2px,#19191c 2px 4px);box-shadow:0 30px 70px rgba(0,0,0,.6),inset 0 0 0 6px #050505;animation:lpspin 7s linear infinite;position:relative}
+.lp-disc::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 12%,rgba(255,255,255,.13) 16%,transparent 22% 58%,rgba(255,255,255,.09) 63%,transparent 70%)}
+.lp-disc img{position:absolute;left:50%;top:50%;width:36%;height:36%;transform:translate(-50%,-50%);border-radius:50%;background:#fff}
+@keyframes lpspin{to{transform:rotate(360deg)}}
+.lp-cover{position:absolute;inset:0;z-index:2;border-radius:6px;overflow:hidden;background:#4E2A84;box-shadow:0 40px 90px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.08);transform:perspective(1200px) rotateY(calc(var(--mx) * 6deg)) rotateX(calc(var(--my) * -6deg));transition:transform .3s ease-out}
+.lp-cover::before{content:"";position:absolute;left:50%;top:58%;width:170%;aspect-ratio:1;transform:translate(-50%,-50%);background:repeating-conic-gradient(from 0deg,rgba(245,183,0,.22) 0 6deg,transparent 6deg 14deg);animation:lpspin 120s linear infinite}
+.lp-cover::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,transparent 30%,rgba(18,11,31,.55) 85%),radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.4px) 0 0/6px 6px;pointer-events:none}
+.lp-word{position:absolute;left:0;right:0;text-align:center;font-family:'Archivo',sans-serif;font-weight:900;font-stretch:72%;line-height:.8;letter-spacing:-.03em;text-transform:uppercase;pointer-events:none;transform:translate(calc(var(--mx) * -10px),calc(var(--my) * -10px));transition:transform .3s ease-out}
+.lp-word b{display:inline-block;font-weight:inherit;white-space:nowrap}
+.lp-word.w1{top:8%;font-size:120px;color:var(--gold);z-index:1}
+.lp-word.w2{bottom:4%;font-size:160px;color:transparent;-webkit-text-stroke:3px #fff;z-index:3}
+.lp-amp{position:absolute;right:9%;top:38%;z-index:4;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:700;font-size:clamp(70px,12vw,160px);line-height:1;color:#fff;text-shadow:0 10px 30px rgba(0,0,0,.35);transform:translate(calc(var(--mx) * 14px),calc(var(--my) * 14px));transition:transform .3s ease-out}
+.lp-man{position:absolute;left:50%;bottom:0;height:88%;width:auto;z-index:2;transform:translate(calc(-50% + var(--mx) * 6px),calc(var(--my) * 4px));transition:transform .3s ease-out;filter:drop-shadow(0 20px 30px rgba(0,0,0,.35))}
+.lp-tl,.lp-tr,.lp-bl{position:absolute;z-index:5;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:115%;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff}
+.lp-tl{left:5%;top:4%}.lp-tr{right:5%;top:4%;color:var(--gold)}.lp-bl{left:5%;bottom:4%;opacity:.85}
+.lp-sticker{position:absolute;left:5%;top:31%;z-index:5;width:clamp(70px,15%,110px);aspect-ratio:1;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;text-align:center;font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(9px,.85vw,11px);line-height:1.1;letter-spacing:.02em;text-transform:uppercase;transform:rotate(-14deg);box-shadow:0 10px 20px rgba(0,0,0,.3);padding:12px}
+@media (max-width:900px){.jazz{padding:90px 0}.jazz-grid{grid-template-columns:1fr;gap:40px}.lp{order:-1;width:min(84%,460px);margin:0}.lp.in .lp-rec{transform:translateX(18%)}.lp-word.w2{-webkit-text-stroke-width:2px}}
+@media (max-width:600px){.lp-tr{display:none}.lp-tl,.lp-bl{font-size:8px;letter-spacing:.14em}.lp-word.w1{top:11%}.lp-sticker{font-size:8px;padding:6px}}
+@media (prefers-reduced-motion: reduce){.lp-disc,.lp-cover::before{animation:none}.lp-rec{transition:none}}
 
 /* ---------- Dr. Bell Says ---------- */
 .says{padding:130px 0;background:#fff}
@@ -386,7 +427,7 @@ footer{background:#07121F;color:#C9D3DE;font-size:16px;padding:70px 0 34px}
         <span class="eyebrow" data-reveal>Know your numbers, save your life</span>
         <h2 id="numbers-title" class="display" data-reveal>Three numbers.<br>One conversation.</h2>
       </div>
-      <p data-reveal>Pick a number and try it out: see what it measures, why it matters, and the one question to bring to your next checkup.</p>
+      <p data-reveal>Try a reading, or move the slider to your own number. See which range it falls in by the official guidelines, what the national statistics say, and what to ask your doctor.</p>
     </div>
     <div class="tabs" role="tablist" aria-label="Know your numbers" data-reveal>
       <button class="tab" role="tab" id="t-bp" aria-selected="true" aria-controls="p-bp" tabindex="0"><span><b>Blood pressure</b><small>The silent one</small></span><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 26h9l4-10 6 20 5-14 3 4h13"/></svg></button>
@@ -394,63 +435,73 @@ footer{background:#07121F;color:#C9D3DE;font-size:16px;padding:70px 0 34px}
       <button class="tab" role="tab" id="t-chol" aria-selected="false" aria-controls="p-chol" tabindex="-1"><span><b>Cholesterol</b><small>Your heart’s early warning</small></span><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M4 14h40M4 34h40"/><path d="M16 14c2 5 10 5 12 0M20 34c2-4 8-4 10 0"/><circle cx="10" cy="24" r="2.5"/><circle cx="24" cy="24" r="2.5"/><circle cx="38" cy="24" r="2.5"/></svg></button>
     </div>
 
+    <!-- Blood pressure -->
     <div class="panel" role="tabpanel" id="p-bp" aria-labelledby="t-bp">
       <div class="inst">
-        <div class="lbl"><span>Home blood pressure monitor</span><em>Example reading</em></div>
-        <div class="lcd">
-          <button type="button" data-bp="sys" aria-pressed="false"><small>SYS · top</small><b id="bp-sys">---</b></button>
-          <button type="button" data-bp="dia" aria-pressed="false"><small>DIA · bottom</small><b id="bp-dia">---</b></button>
-          <div class="pulse"><i aria-hidden="true">♥</i><span id="bp-pul">--</span></div>
-        </div>
+        <div class="lbl"><span>Home blood pressure monitor</span><em id="bp-tag">Example reading</em></div>
+        <div class="lcd" aria-live="polite"><div><small>SYS · top</small><b id="bp-sys">---</b></div><div><small>DIA · bottom</small><b id="bp-dia">---</b></div><div class="pulse"><i aria-hidden="true">♥</i><span id="bp-pul">--</span></div></div>
         <div class="cuff" aria-hidden="true"><i id="cuff"></i></div>
-        <div class="ecg" aria-hidden="true"><svg viewBox="0 0 400 70" preserveAspectRatio="none"><path d="M0 40h30l6-6 6 6h10l4-22 6 44 6-30 4 8h28l6-6 6 6h10l4-22 6 44 6-30 4 8h28l6-6 6 6h10l4-22 6 44 6-30 4 8h28l6-6 6 6h10l4-22 6 44 6-30 4 8h18" stroke="#2BB3A7" stroke-width="2.5" fill="none"/></svg></div>
-        <p class="say" id="bp-say" aria-live="polite">Press <b>Take a reading</b>, then tap each number to see what it means.</p>
-        <button class="ibtn" type="button" id="bp-go">Take a reading</button>
+        <div class="ecg" aria-hidden="true"><svg viewBox="0 0 400 56" preserveAspectRatio="none"><path d="M0 32h30l6-5 6 5h10l4-18 6 36 6-24 4 6h28l6-5 6 5h10l4-18 6 36 6-24 4 6h28l6-5 6 5h10l4-18 6 36 6-24 4 6h28l6-5 6 5h10l4-18 6 36 6-24 4 6h18" stroke="#2BB3A7" stroke-width="2.5" fill="none"/></svg></div>
+        <div class="sl"><label for="bp-s">Top number (systolic)<output id="bp-so">—</output></label><input type="range" id="bp-s" min="80" max="200" value="118"></div>
+        <div class="sl"><label for="bp-d">Bottom number (diastolic)<output id="bp-do">—</output></label><input type="range" id="bp-d" min="50" max="130" value="76"></div>
+        <div class="irow"><button class="ibtn" type="button" id="bp-go">Take a reading</button><span class="what" style="font-size:14px">Or slide to your own numbers.</span></div>
       </div>
-      <div class="copy">
-        <div><h3>What it is</h3><p>The force of your blood pushing against your artery walls. It’s written as two numbers, one over the other.</p></div>
-        <div><h3>Why it matters</h3><p>High blood pressure often has no symptoms at all. You can feel fine and still be at risk. The only way to know is to check.</p></div>
+      <div class="res">
+        <span class="k">This reading is in the range called</span>
+        <div class="zone"><b id="bp-zone">—</b><span id="bp-val"></span></div>
+        <div class="scale" id="bp-scale"></div>
+        <p class="say" id="bp-say"></p>
+        <div class="stat"><strong id="bp-stat-n"></strong><p id="bp-stat"></p></div>
         <p class="ask">“What’s my blood pressure today, and what should it be for me?”</p>
       </div>
     </div>
 
+    <!-- A1C -->
     <div class="panel" role="tabpanel" id="p-a1c" aria-labelledby="t-a1c" hidden>
       <div class="inst">
-        <div class="lbl"><span>Your blood sugar, day by day</span><em>About 90 days</em></div>
-        <div class="days" id="days"><div class="line"><span>Your A1C</span></div></div>
+        <div class="lbl"><span>Your blood sugar, day by day</span><em>About 3 months</em></div>
+        <div class="days" id="days"><div class="line"><span id="a1c-line">A1C</span></div></div>
         <div class="axis" aria-hidden="true"><span>3 months ago</span><span>Today</span></div>
-        <p class="say" id="a1c-say" aria-live="polite">Blood sugar goes up and down every day. A finger-stick shows <b>one moment</b>.</p>
-        <button class="ibtn" type="button" id="a1c-go" aria-pressed="false">Average it out</button>
+        <p class="what">A finger-stick shows one moment. The A1C blood test shows your <b>average</b> over about three months.</p>
+        <div class="sl"><label for="a1c-v">A1C result<output id="a1c-o">5.4%</output></label><input type="range" id="a1c-v" min="4" max="12" step="0.1" value="5.4"></div>
+        <div class="irow"><button class="ibtn" type="button" id="a1c-go" aria-pressed="false">Average it out</button></div>
       </div>
-      <div class="copy">
-        <div><h3>What it is</h3><p>A blood test that shows your average blood sugar over the past two to three months.</p></div>
-        <div><h3>Why it matters</h3><p>It’s one of the main ways doctors find and track diabetes and prediabetes, often before you notice anything.</p></div>
+      <div class="res">
+        <span class="k">An A1C of this level is in the</span>
+        <div class="zone"><b id="a1c-zone">—</b><span id="a1c-val"></span></div>
+        <div class="scale" id="a1c-scale"></div>
+        <p class="say" id="a1c-say"></p>
+        <div class="stat"><strong id="a1c-stat-n"></strong><p id="a1c-stat"></p></div>
         <p class="ask">“What’s my A1C, and has it changed since my last test?”</p>
       </div>
     </div>
 
+    <!-- Cholesterol -->
     <div class="panel" role="tabpanel" id="p-chol" aria-labelledby="t-chol" hidden>
       <div class="inst">
-        <div class="lbl"><span>Inside an artery</span><em>Drag the slider</em></div>
+        <div class="lbl"><span>Inside an artery</span><em>Illustration</em></div>
         <div class="artery" id="artery" aria-hidden="true"><div class="plaque"></div><div class="plaque b"></div><div class="flow" id="flow"></div></div>
-        <div class="yrs"><label for="chol-yrs"><span>Years without checking</span><span id="chol-n">0</span></label><input type="range" id="chol-yrs" min="0" max="20" value="0"></div>
-        <p class="say" id="chol-say" aria-live="polite">A clear artery: blood moves freely.</p>
+        <p class="what">Cholesterol is fat in your blood. Over years, too much of the wrong kind can build up as plaque on artery walls, usually with no symptoms.</p>
+        <div class="sl"><label for="chol-v">Total cholesterol<output id="chol-o">180 mg/dL</output></label><input type="range" id="chol-v" min="120" max="320" value="180"></div>
       </div>
-      <div class="copy">
-        <div><h3>What it is</h3><p>Fats in your blood. Some kinds can build up in your arteries over time.</p></div>
-        <div><h3>Why it matters</h3><p>High cholesterol usually has no symptoms, but it raises your risk of heart attack and stroke. A simple blood test lets you catch it early.</p></div>
-        <p class="ask">“What are my cholesterol numbers, and what do they mean for my heart?”</p>
+      <div class="res">
+        <span class="k">A total cholesterol of this level is</span>
+        <div class="zone"><b id="chol-zone">—</b><span id="chol-val"></span></div>
+        <div class="scale" id="chol-scale"></div>
+        <p class="say" id="chol-say"></p>
+        <div class="stat"><strong id="chol-stat-n"></strong><p id="chol-stat"></p></div>
+        <p class="ask">“What are my LDL and HDL numbers, and what do they mean for my heart?”</p>
       </div>
     </div>
 
-    <div class="mynums" id="mynums" data-reveal>
-      <h3>Write down your numbers</h3>
-      <label>Blood pressure<input type="text" inputmode="numeric" placeholder="___ / ___" aria-label="My blood pressure"></label>
-      <label>A1C<input type="text" inputmode="decimal" placeholder="___ %" aria-label="My A1C"></label>
-      <label>Cholesterol<input type="text" inputmode="numeric" placeholder="___" aria-label="My cholesterol"></label>
-      <button type="button" id="mynums-print">Print for my next visit</button>
+    <div class="convo" aria-live="polite">
+      <h3>Your one conversation<small>Try all three. Your list builds here.</small></h3>
+      <div class="slot" id="slot-bp"><small>Blood pressure</small><b>Not tried yet</b></div>
+      <div class="slot" id="slot-a1c"><small>A1C</small><b>Not tried yet</b></div>
+      <div class="slot" id="slot-chol"><small>Cholesterol</small><b>Not tried yet</b></div>
+      <div class="acts"><a id="cv-sms" href="#">Text it to myself</a><a id="cv-mail" href="#">Email it to myself</a></div>
     </div>
-    <p class="numbers-note">General health education, not medical advice. The visuals above are illustrations, not your results. Only your doctor can tell you what your numbers mean for you. Nothing you type here is saved or sent.</p>
+    <p class="numbers-note">These are general ranges for adults from national guidelines, not a diagnosis. Your doctor also looks at your age, history and other tests. Nothing you enter here is saved or sent. Sources: <a href="https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings" target="_blank" rel="noopener">American Heart Association</a> and the <a href="https://newsroom.heart.org/news/new-high-blood-pressure-guideline-emphasizes-prevention-early-treatment-to-reduce-cvd-risk" target="_blank" rel="noopener">2025 AHA/ACC guideline</a>; CDC on <a href="https://www.cdc.gov/high-blood-pressure/data-research/facts-stats/" target="_blank" rel="noopener">blood pressure</a>, <a href="https://www.cdc.gov/diabetes/diabetes-testing/prediabetes-a1c-test.html" target="_blank" rel="noopener">A1C</a>, <a href="https://www.cdc.gov/diabetes/communication-resources/prediabetes-statistics.html" target="_blank" rel="noopener">prediabetes</a>, <a href="https://www.cdc.gov/diabetes/php/data-research/index.html" target="_blank" rel="noopener">diabetes</a> and <a href="https://www.cdc.gov/cholesterol/data-research/facts-stats/index.html" target="_blank" rel="noopener">cholesterol</a>; <a href="https://www.nhlbi.nih.gov/health/low-blood-pressure" target="_blank" rel="noopener">NHLBI</a>; <a href="https://medlineplus.gov/cholesterollevelswhatyouneedtoknow.html" target="_blank" rel="noopener">MedlinePlus</a>; <a href="https://my.clevelandclinic.org/health/articles/11920-cholesterol-numbers-what-do-they-mean" target="_blank" rel="noopener">Cleveland Clinic</a>.</p>
   </div>
 </section>
 
@@ -508,20 +559,29 @@ footer{background:#07121F;color:#C9D3DE;font-size:16px;padding:70px 0 34px}
 
 <!-- Jazz scene -->
 <section class="jazz" aria-labelledby="jazz-title">
-  <div class="jazz-big" aria-hidden="true">JAZZ</div>
   <div class="wrap jazz-grid">
     <div>
-      <span class="eyebrow" style="color:var(--gold)" data-reveal>The Lowcountry Jazz Festival · Since 2009</span>
-      <h2 id="jazz-title" class="display" data-reveal>Culture and care go together.</h2>
-      <p data-reveal>Dr. Bell founded the festival with his daughter, Tonisha. Every Labor Day weekend at the Charleston Gaillard Center, world-class jazz funds scholarships for future healthcare workers—and keeps Closing the Gap’s health education going.</p>
-      <div style="margin-top:34px;display:flex;flex-wrap:wrap;gap:14px" data-reveal>
+      <span class="eyebrow" style="color:var(--gold)" data-reveal>Now playing · Since 2009</span>
+      <h2 id="jazz-title" class="display" data-reveal>Culture and care <em>go together.</em></h2>
+      <p data-reveal>Dr. Bell founded the Lowcountry Jazz Festival with his daughter, Tonisha. Every Labor Day weekend at the Charleston Gaillard Center, world-class jazz funds scholarships for future healthcare workers, and keeps Closing the Gap’s health education going.</p>
+      <span class="tracks-h" data-reveal>Side A · What every ticket plays for</span>
+      <ol class="tracks" data-reveal><li>Scholarships for MUSC students<span>All 6 colleges</span></li><li>Plain-language health education<span>Statewide</span></li><li>A community health summit<span>With Black Health Matters</span></li></ol>
+      <div style="margin-top:32px;display:flex;flex-wrap:wrap;gap:14px" data-reveal>
         <a class="btn btn-gold" href="jazz-festival.html">Read the festival story</a>
-        <a class="btn btn-ghost" href="our-work.html">Sponsor a scholarship</a>
+        <a class="btn btn-ghost" href="our-work.html#sponsor">Sponsor a scholarship</a>
       </div>
     </div>
-    <div class="jazz-photo" data-reveal="zoom">
-      <img class="main" src="/img/bell-jazz-festival.jpg" alt="Dr. Bell in a white hat and white overalls at the Lowcountry Jazz Festival at the Charleston Gaillard Center" loading="lazy">
-      <img class="logo" src="/img/lcf-logo.png" alt="The Lowcountry Jazz Festival, Charleston, SC" loading="lazy">
+    <div class="lp" id="lp" aria-hidden="true">
+      <div class="lp-rec"><div class="lp-disc"><img src="/img/lcf-logo.png" alt=""></div></div>
+      <div class="lp-cover">
+        <span class="lp-word w1"><b>Culture</b></span>
+        <img class="lp-man" src="/img/bell-jazz-cutout.webp" alt="" width="440" height="1300">
+        <span class="lp-amp">&amp;</span>
+        <span class="lp-word w2"><b>Care</b></span>
+        <span class="lp-tl">The Lowcountry Jazz Festival · Charleston</span>
+        <span class="lp-tr">Since 2009</span>
+        <span class="lp-sticker">Funds<br>scholar&shy;ships</span>
+      </div>
     </div>
   </div>
 </section>
@@ -576,61 +636,161 @@ footer{background:#07121F;color:#C9D3DE;font-size:16px;padding:70px 0 34px}
 <script>
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* Blood pressure: simulated cuff reading */
-  var sys = document.getElementById('bp-sys'), dia = document.getElementById('bp-dia'), pul = document.getElementById('bp-pul'), cuff = document.getElementById('cuff'), say = document.getElementById('bp-say'), go = document.getElementById('bp-go');
-  var MEAN = { sys: '<b>Top number (systolic):</b> the pressure in your arteries when your heart beats.', dia: '<b>Bottom number (diastolic):</b> the pressure when your heart rests between beats.' };
-  var busy = false;
-  function show(a, b, c) { sys.textContent = a; dia.textContent = b; pul.textContent = c; }
-  go.addEventListener('click', function () {
-    if (busy) return; busy = true; go.textContent = 'Measuring…';
-    if (reduce) { show('120', '80', '72'); cuff.parentNode.style.setProperty('--cuff', '60%'); done(); return; }
-    var t0 = null, UP = 1400, DOWN = 1800;
-    function step(t) {
-      if (!t0) t0 = t; var e = t - t0, v;
-      if (e < UP) { v = Math.round(160 * e / UP); show(String(v), '---', '--'); }
-      else if (e < UP + DOWN) { v = Math.round(160 - (160 - 80) * (e - UP) / DOWN); show(String(v), '---', '--'); }
-      else { show('120', '80', '72'); done(); return; }
-      cuff.style.width = (v / 1.8) + '%';
-      requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  });
-  function done() { busy = false; go.textContent = 'Take another reading'; cuff.style.width = '44%'; say.innerHTML = 'This one reads <b>120 over 80</b>. Tap the top or bottom number to learn what each one means.'; }
-  document.querySelectorAll('[data-bp]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      document.querySelectorAll('[data-bp]').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
-      if (sys.textContent === '---') show('120', '80', '72');
-      say.innerHTML = MEAN[b.getAttribute('data-bp')];
-    });
-  });
+  function $(id) { return document.getElementById(id); }
+  var picked = {};
+  function scale(box, zones, on) { box.innerHTML = zones.map(function (z, i) { return '<div class="' + (i === on ? 'on' : '') + '" style="--bg:' + z.c + ';--fg:' + (z.fg || '#fff') + '"><b>' + z.n + '</b><small>' + z.r + '</small></div>'; }).join(''); }
 
-  /* A1C: 90 days of ups and downs, averaged */
-  var days = document.getElementById('days'), seed = 7, vals = [];
-  function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
-  for (var i = 0; i < 90; i++) { var v = 38 + 26 * Math.sin(i / 3.1) * rnd() + 30 * rnd(); vals.push(Math.max(14, Math.min(96, v))); }
-  var avg = vals.reduce(function (a, b) { return a + b; }, 0) / vals.length;
-  days.style.setProperty('--avg', avg.toFixed(1) + '%');
-  vals.forEach(function (v, n) { var b = document.createElement('i'); b.style.setProperty('--h', v.toFixed(1) + '%'); b.style.setProperty('--n', n); days.insertBefore(b, days.querySelector('.line')); });
-  var ag = document.getElementById('a1c-go'), asay = document.getElementById('a1c-say');
-  ag.addEventListener('click', function () {
-    var on = !days.classList.contains('avg'); days.classList.toggle('avg', on); ag.setAttribute('aria-pressed', on);
-    ag.textContent = on ? 'Show the daily ups and downs' : 'Average it out';
-    asay.innerHTML = on ? 'That’s what <b>A1C</b> captures: your <b>average</b> over about three months, not just today.' : 'Blood sugar goes up and down every day. A finger-stick shows <b>one moment</b>.';
-  });
-
-  /* Cholesterol: plaque builds with the years */
-  var flow = document.getElementById('flow'), art = document.getElementById('artery'), yrs = document.getElementById('chol-yrs'), csay = document.getElementById('chol-say'), cn = document.getElementById('chol-n');
-  for (var c = 0; c < 16; c++) { var cell = document.createElement('span'); cell.className = 'cell'; cell.style.setProperty('--y', (12 + (c * 37) % 80) + 'px'); cell.style.setProperty('--dl', (-c * 0.33).toFixed(2) + 's'); flow.appendChild(cell); }
-  function chol() {
-    var y = +yrs.value; cn.textContent = y === 20 ? '20+' : y;
-    art.style.setProperty('--p', y * 5);
-    flow.style.setProperty('--dur', (2.6 + y * 0.18).toFixed(2) + 's');
-    flow.querySelectorAll('.cell').forEach(function (el) { el.style.animationDuration = (2.6 + y * 0.18).toFixed(2) + 's'; });
-    csay.innerHTML = y === 0 ? 'A clear artery: blood moves freely.' : y < 8 ? 'Plaque can start building quietly. <b>You won’t feel it.</b>' : y < 15 ? 'The path gets narrower and blood has to work harder, often <b>with no warning signs</b>.' : 'This is why checking matters: a simple blood test lets you and your doctor <b>catch it years earlier</b>.';
+  /* ---------- Blood pressure (AHA/ACC 2025 categories; NHLBI for low) ---------- */
+  var BPZ = [
+    { n: 'Low', r: 'under 90/60', c: '#7BA7D9', fg: '#0B1F33' },
+    { n: 'Normal', r: 'under 120/80', c: '#2E9E6B' },
+    { n: 'Elevated', r: '120–129 / under 80', c: '#F5B700', fg: '#0B1F33' },
+    { n: 'Stage 1 high', r: '130–139 or 80–89', c: '#F08A24', fg: '#0B1F33' },
+    { n: 'Stage 2 high', r: '140+ or 90+', c: '#D9503F' },
+    { n: 'Severe', r: 'over 180 / over 120', c: '#8E1B1B' }
+  ];
+  function bpZone(s, d) { if (s > 180 || d > 120) return 5; if (s >= 140 || d >= 90) return 4; if (s >= 130 || d >= 80) return 3; if (s >= 120) return 2; if (s < 90 || d < 60) return 0; return 1; }
+  var BPSAY = [
+    'Readings lower than 90/60 are generally considered low blood pressure. Many people run low without trouble; it matters most if you feel dizzy, lightheaded, weak or faint.',
+    'Under 120/80 is the normal range. Keep checking it at your regular visits so you know if it starts to change.',
+    'Elevated isn’t high blood pressure yet, but without changes it often keeps climbing. This is the easiest time to turn it around.',
+    'This is the range the guidelines call Stage 1 high blood pressure. Doctors usually start with lifestyle changes and may add medicine, depending on your overall heart risk.',
+    'This is the range the guidelines call Stage 2 high blood pressure. Doctors usually recommend lifestyle changes along with medicine.',
+    '<b>Wait a minute and check again.</b> If it’s still above 180/120 and you have chest pain, shortness of breath, back pain, numbness, weakness, vision changes or trouble speaking, <b>call 911</b>. With no symptoms, call your doctor right away.'
+  ];
+  var BPSTAT = [
+    ['48%', 'Nearly half of U.S. adults have high blood pressure (130/80 or higher). It usually has no symptoms, which is why checking matters.'],
+    ['48%', 'Nearly half of U.S. adults have high blood pressure (130/80 or higher). It usually has no symptoms, which is why checking matters.'],
+    ['48%', 'Nearly half of U.S. adults have high blood pressure (130/80 or higher). Elevated readings are the step right before it.'],
+    ['1 in 4', 'Only about 1 in 4 U.S. adults with high blood pressure has it under control.'],
+    ['60%', 'Among Black adults in the U.S., about 6 in 10 (59.6%) have high blood pressure, higher than any other group.'],
+    ['680k', 'High blood pressure was a primary or contributing cause of 680,179 U.S. deaths in 2024.']
+  ];
+  var bs = $('bp-s'), bd = $('bp-d');
+  function bpShow(s, d, p) { $('bp-sys').textContent = s; $('bp-dia').textContent = d; $('bp-pul').textContent = p; }
+  function bpUpdate(fromUser) {
+    var s = +bs.value, d = +bd.value, z = bpZone(s, d);
+    $('bp-so').textContent = s; $('bp-do').textContent = d;
+    $('bp-zone').textContent = BPZ[z].n === 'Severe' ? 'Severe high' : BPZ[z].n === 'Low' ? 'Low' : BPZ[z].n; $('bp-zone').style.setProperty('--zc', z === 2 ? '#B58600' : BPZ[z].c);
+    $('bp-val').textContent = s + '/' + d + ' mm Hg';
+    scale($('bp-scale'), BPZ, z);
+    var say = $('bp-say'); say.innerHTML = BPSAY[z]; say.classList.toggle('alert', z === 5);
+    $('bp-stat-n').textContent = BPSTAT[z][0]; $('bp-stat').textContent = BPSTAT[z][1];
+    $('cuff').style.width = Math.min(100, s / 2) + '%';
+    if (fromUser) { bpShow(s, d, $('bp-pul').textContent === '--' ? 72 : $('bp-pul').textContent); $('bp-tag').textContent = 'Your numbers'; slot('bp', s + '/' + d, BPZ[z].n + ' range'); }
   }
-  yrs.addEventListener('input', chol); chol();
+  bs.addEventListener('input', function () { bpUpdate(true); }); bd.addEventListener('input', function () { bpUpdate(true); });
+  /* realistic readings spread across the ranges */
+  var SAMPLES = [[108, 70], [116, 76], [124, 78], [127, 74], [134, 84], [138, 86], [131, 79], [146, 92], [152, 96], [162, 100], [118, 82], [86, 56], [184, 118], [122, 79], [142, 88]];
+  var last = -1, busy = false;
+  $('bp-go').addEventListener('click', function () {
+    if (busy) return; busy = true;
+    var k; do { k = Math.floor(Math.random() * SAMPLES.length); } while (k === last); last = k;
+    var S = SAMPLES[k][0], D = SAMPLES[k][1], P = 60 + Math.floor(Math.random() * 30), top = S + 30;
+    $('bp-go').textContent = 'Measuring…';
+    function finish() { bs.value = S; bd.value = D; bpShow(S, D, P); $('bp-tag').textContent = 'Example reading'; bpUpdate(false); slot('bp', S + '/' + D, BPZ[bpZone(S, D)].n + ' range'); busy = false; $('bp-go').textContent = 'Take another reading'; }
+    if (reduce) return finish();
+    var t0 = null, UP = 1100, DOWN = 1500;
+    (function step(t) {
+      if (!t0) t0 = t; var e = t - t0, v;
+      if (e < UP) v = Math.round(top * e / UP); else if (e < UP + DOWN) v = Math.round(top - (top - S) * (e - UP) / DOWN); else return finish();
+      $('bp-sys').textContent = v; $('bp-dia').textContent = '---'; $('bp-pul').textContent = '--'; $('cuff').style.width = Math.min(100, v / 2) + '%';
+      requestAnimationFrame(step);
+    })(performance.now());
+  });
+  bpUpdate(false);
 
-  document.getElementById('mynums-print').addEventListener('click', function () { window.print(); });
+  /* ---------- A1C (CDC ranges; ADA estimated average glucose) ---------- */
+  var AZ = [{ n: 'Normal', r: 'below 5.7%', c: '#2E9E6B' }, { n: 'Prediabetes', r: '5.7% – 6.4%', c: '#F08A24', fg: '#0B1F33' }, { n: 'Diabetes range', r: '6.5% or higher', c: '#D9503F' }];
+  var ASAY = [
+    'Below 5.7% is the normal range. If diabetes runs in your family, your doctor may still check it over time.',
+    '5.7% to 6.4% is the prediabetes range. The good news: for people with prediabetes, healthier eating and more activity can cut the risk of type 2 diabetes in half.',
+    '6.5% or higher is in the diabetes range. One test isn’t a diagnosis on its own; doctors usually confirm it with a second test.'
+  ];
+  var ASTAT = [['8 in 10', 'More than 115 million U.S. adults have prediabetes, and 8 in 10 of them don’t know it.'], ['115M', '115.2 million U.S. adults have prediabetes. 8 in 10 of them don’t know they have it.'], ['11M', '40.1 million Americans have diabetes, and about 11 million of them haven’t been diagnosed yet.']];
+  var days = $('days'), seed = 11;
+  function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+  for (var i = 0; i < 90; i++) { var b = document.createElement('i'); b.style.setProperty('--n', i); days.insertBefore(b, days.querySelector('.line')); }
+  var bars = days.querySelectorAll('i');
+  function pct(a) { return Math.max(8, Math.min(96, (a - 4) / 8 * 88 + 8)); }
+  function a1cUpdate(fromUser) {
+    var a = +$('a1c-v').value, z = a < 5.7 ? 0 : a < 6.5 ? 1 : 2, eag = Math.round(28.7 * a - 46.7);
+    $('a1c-o').textContent = a.toFixed(1) + '%';
+    var avg = pct(a); days.style.setProperty('--avg', avg + '%');
+    seed = 11; bars.forEach(function (b) { b.style.setProperty('--h', Math.max(4, Math.min(100, avg + (rnd() - .5) * 46 + Math.sin(rnd() * 6) * 8)).toFixed(1) + '%'); });
+    $('a1c-line').textContent = 'A1C ' + a.toFixed(1) + '% ≈ ' + eag + ' mg/dL average';
+    $('a1c-zone').textContent = AZ[z].n; $('a1c-zone').style.setProperty('--zc', AZ[z].c);
+    $('a1c-val').textContent = a.toFixed(1) + '% · about ' + eag + ' mg/dL average blood sugar';
+    scale($('a1c-scale'), AZ, z); $('a1c-say').textContent = ASAY[z];
+    $('a1c-stat-n').textContent = ASTAT[z][0]; $('a1c-stat').textContent = ASTAT[z][1];
+    if (fromUser) slot('a1c', a.toFixed(1) + '%', AZ[z].n + (z === 2 ? '' : ' range'));
+  }
+  $('a1c-v').addEventListener('input', function () { a1cUpdate(true); });
+  $('a1c-go').addEventListener('click', function () {
+    var on = !days.classList.contains('avg'); days.classList.toggle('avg', on); this.setAttribute('aria-pressed', on);
+    this.textContent = on ? 'Show the daily ups and downs' : 'Average it out';
+  });
+  a1cUpdate(false);
+
+  /* ---------- Cholesterol (MedlinePlus / Cleveland Clinic ranges; CDC stats) ---------- */
+  var CZ = [{ n: 'Healthy', r: 'under 200', c: '#2E9E6B' }, { n: 'Borderline high', r: '200 – 239', c: '#F08A24', fg: '#0B1F33' }, { n: 'High', r: '240 or higher', c: '#D9503F' }];
+  var CSAY = [
+    'Under 200 mg/dL is the healthy range for total cholesterol in adults. Your doctor also looks at the parts: LDL (“bad”) under 100 and HDL (“good”) of 60 or more is best.',
+    '200 to 239 mg/dL is considered borderline high. Your doctor will look at your LDL and HDL numbers and your other risks to decide what’s next.',
+    '240 mg/dL or higher is considered high. High cholesterol has no symptoms, but it raises your risk of heart attack and stroke.'
+  ];
+  var CSTAT = [['4–6 yrs', 'Healthy adults should have cholesterol checked every 4 to 6 years, more often with heart disease, diabetes or a family history.'], ['86M', 'About 86 million U.S. adults have total cholesterol above 200 mg/dL.'], ['25M', 'About 25 million U.S. adults (1 in 10) have total cholesterol above 240 mg/dL.']];
+  var flow = $('flow'), art = $('artery');
+  for (var c = 0; c < 16; c++) { var cell = document.createElement('span'); cell.className = 'cell'; cell.style.setProperty('--y', (10 + (c * 37) % 76) + 'px'); cell.style.setProperty('--dl', (-c * 0.33).toFixed(2) + 's'); flow.appendChild(cell); }
+  function cholUpdate(fromUser) {
+    var v = +$('chol-v').value, z = v < 200 ? 0 : v < 240 ? 1 : 2;
+    $('chol-o').textContent = v + ' mg/dL';
+    art.style.setProperty('--p', Math.max(0, Math.min(100, (v - 150) / 170 * 100)).toFixed(0));
+    var dur = (2.4 + Math.max(0, v - 150) / 40).toFixed(2) + 's'; flow.querySelectorAll('.cell').forEach(function (el) { el.style.animationDuration = dur; });
+    $('chol-zone').textContent = CZ[z].n; $('chol-zone').style.setProperty('--zc', CZ[z].c);
+    $('chol-val').textContent = v + ' mg/dL total';
+    scale($('chol-scale'), CZ, z); $('chol-say').textContent = CSAY[z];
+    $('chol-stat-n').textContent = CSTAT[z][0]; $('chol-stat').textContent = CSTAT[z][1];
+    if (fromUser) slot('chol', v + ' mg/dL', CZ[z].n);
+  }
+  $('chol-v').addEventListener('input', function () { cholUpdate(true); });
+  cholUpdate(false);
+
+  /* ---------- Your one conversation ---------- */
+  var Q = { bp: 'What’s my blood pressure today, and what should it be for me?', a1c: 'What’s my A1C, and has it changed since my last test?', chol: 'What are my LDL and HDL numbers, and what do they mean for my heart?' };
+  var NAME = { bp: 'Blood pressure', a1c: 'A1C', chol: 'Cholesterol' };
+  function slot(k, val, zone) {
+    picked[k] = { val: val, zone: zone };
+    var el = $('slot-' + k); el.classList.add('set'); el.innerHTML = '<small>' + NAME[k] + '</small><b>' + val + '</b><span>' + zone + '</span>';
+    links();
+  }
+  function links() {
+    var lines = ['My numbers to talk about with my doctor:'];
+    ['bp', 'a1c', 'chol'].forEach(function (k) { lines.push('• ' + NAME[k] + ': ' + (picked[k] ? picked[k].val + ' (' + picked[k].zone + ')' : 'ask to check') + '. Ask: “' + Q[k] + '”'); });
+    lines.push('From Dr. Bell’s Making Health Make Sense: ' + location.origin + '/#numbers');
+    var body = lines.join('\n');
+    $('cv-sms').href = 'sms:?&body=' + encodeURIComponent(body);
+    $('cv-mail').href = 'mailto:?subject=' + encodeURIComponent('My numbers for my next checkup') + '&body=' + encodeURIComponent(body);
+  }
+  links();
+})();
+</script>
+<script>
+(function () {
+  var lp = document.getElementById('lp'); if (!lp) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* size each cover word to span the cover */
+  function fit() {
+    var w = lp.querySelector('.lp-cover').clientWidth;
+    lp.querySelectorAll('.lp-word').forEach(function (el) { var b = el.querySelector('b'); el.style.fontSize = '100px'; var bw = b.getBoundingClientRect().width || 1; el.style.fontSize = (100 * w * (el.classList.contains('w1') ? .9 : .94) / bw).toFixed(1) + 'px'; });
+  }
+  fit(); window.addEventListener('resize', fit); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { es.forEach(function (e) { if (e.isIntersecting) { lp.classList.add('in'); o.disconnect(); } }); }, { threshold: .35 }).observe(lp);
+  else lp.classList.add('in');
+  if (!reduce && window.matchMedia('(pointer:fine)').matches) {
+    lp.addEventListener('pointermove', function (e) { var r = lp.getBoundingClientRect(); lp.style.setProperty('--mx', ((e.clientX - r.left) / r.width - .5).toFixed(3)); lp.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5).toFixed(3)); });
+    lp.addEventListener('pointerleave', function () { lp.style.setProperty('--mx', 0); lp.style.setProperty('--my', 0); });
+  }
 })();
 </script>
 <script src="/assets/site.js" defer></script>
