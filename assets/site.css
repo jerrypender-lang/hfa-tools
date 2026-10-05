@@ -61,6 +61,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 .links a:hover{background-size:100% 3px}
 .links .btn{padding:0 22px;min-height:46px;background:var(--gold);color:var(--ink)}
 .menu-btn{display:none;background:none;border:2px solid currentColor;color:inherit;border-radius:999px;min-height:46px;padding:0 18px;font:inherit;font-weight:700;cursor:pointer;line-height:1;font-size:16px}
+@media (max-width:1240px) and (min-width:1021px){.links{gap:18px;font-size:15px}.links a{white-space:nowrap}.brand small{display:none}.nav{gap:16px}}
 @media (max-width:1020px){
   .menu-btn{display:inline-flex;align-items:center}
   .site-header{background:rgba(11,31,51,.94)}
