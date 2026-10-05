@@ -8,7 +8,7 @@
 <meta property="og:title" content="Invite Dr. Bell — Bring plain-language health to your people">
 <meta property="og:description" content="Keynotes, health talks, panels and interviews across South Carolina.">
 <meta property="og:image" content="/img/bell-outdoors.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='8' height='24' rx='2' fill='%230B1F33'/%3E%3Crect x='18' y='4' width='8' height='24' rx='2' fill='%23F5B700'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='8' height='24' rx='2' fill='%231D1838'/%3E%3Crect x='18' y='4' width='8' height='24' rx='2' fill='%23F2B33D'/%3E%3C/svg%3E">
 <script>document.documentElement.classList.add('js');setTimeout(function(){document.documentElement.classList.add('reveal-fallback')},3500);</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
@@ -19,7 +19,7 @@
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:60px;align-items:center}
 .hero h1{margin:22px 0 0;font-size:clamp(52px,6.8vw,112px);font-stretch:88%}
 .hero h1 em{font-style:normal;color:var(--gold)}
-.hero .lede{margin:26px 0 0;font-size:21px;line-height:1.55;color:#C9D3DE;max-width:600px}
+.hero .lede{margin:26px 0 0;font-size:21px;line-height:1.55;color:#D3CCE3;max-width:600px}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
 .stage{position:relative}
 .stage img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 25%;border-radius:24px}
@@ -41,21 +41,21 @@
 @media (prefers-reduced-motion: reduce){.where div{animation:none}}
 
 /* ===== 3. Pick a talk ===== */
-.talks{padding:140px 0;background:#fff}
+.talks{padding:140px 0;background:var(--cream)}
 .talks .eyebrow,.req .eyebrow,.kit .eyebrow{color:var(--teal)}
 .talks h2,.req h2,.kit h2{margin:20px 0 0;font-size:clamp(42px,5.2vw,82px);font-stretch:90%}
 .talks-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px}
-.talks-head p{margin:0;max-width:420px;font-size:19px;color:#2D3B4A}
+.talks-head p{margin:0;max-width:420px;font-size:19px;color:#3B3552}
 .tgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:56px;align-items:start}
 .talk{appearance:none;font:inherit;text-align:left;cursor:pointer;position:relative;border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:24px;padding:34px 34px 30px;display:flex;flex-direction:column;gap:12px;min-height:260px;transition:background .3s,color .3s,transform .3s var(--ease),box-shadow .3s}
-.talk:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(11,31,51,.1)}
+.talk:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(29,24,56,.1)}
 .talk .n{font-family:'Archivo',sans-serif;font-weight:800;font-size:16px;color:var(--teal)}
 .talk h3{margin:0;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:92%;font-size:clamp(28px,2.8vw,40px);line-height:1.02;letter-spacing:-.015em}
-.talk p{margin:0;font-size:18px;color:#2D3B4A;line-height:1.5}
+.talk p{margin:0;font-size:18px;color:#3B3552;line-height:1.5}
 .talk .pick{margin-top:auto;display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:16px}
 .talk .pick::before{content:"";width:22px;height:22px;border-radius:50%;border:2px solid currentColor;transition:background .25s,box-shadow .25s}
 .talk[aria-pressed="true"]{background:var(--ink);color:#fff}
-.talk[aria-pressed="true"] p{color:#C9D3DE}
+.talk[aria-pressed="true"] p{color:#D3CCE3}
 .talk[aria-pressed="true"] .n{color:var(--gold)}
 .talk[aria-pressed="true"] .pick::before{background:var(--gold);border-color:var(--gold);box-shadow:inset 0 0 0 4px var(--ink)}
 .talk:nth-child(2){margin-top:40px}.talk:nth-child(4){margin-top:40px}
@@ -67,16 +67,16 @@
 .req-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:40px;margin-top:50px;align-items:start}
 .form{background:var(--ink);color:#fff;border-radius:28px;padding:clamp(26px,4vw,44px)}
 .steps{display:flex;gap:10px;margin:0 0 30px;padding:0;list-style:none}
-.steps li{flex:1;display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:700;color:#6F8399}
-.steps li::before{content:"";height:5px;border-radius:3px;background:#23415F;transition:background .4s}
+.steps li{flex:1;display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:700;color:#8B83AB}
+.steps li::before{content:"";height:5px;border-radius:3px;background:#3A3266;transition:background .4s}
 .steps li.on{color:#fff}.steps li.on::before,.steps li.done::before{background:var(--gold)}
-.steps li.done{color:#C9D3DE}
+.steps li.done{color:#D3CCE3}
 .pane[hidden]{display:none}
 .pane h3{margin:0 0 20px;font-family:'Archivo',sans-serif;font-weight:800;font-size:28px}
 .row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
 .fld{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
 .fld label,.fld legend{font-weight:700;font-size:16px;padding:0}
-.fld input,.fld select,.fld textarea{min-height:54px;padding:0 16px;border-radius:12px;border:2px solid #3C5874;background:#fff;color:var(--ink);font:inherit;font-size:18px}
+.fld input,.fld select,.fld textarea{min-height:54px;padding:0 16px;border-radius:12px;border:2px solid #4A4278;background:#fff;color:var(--ink);font:inherit;font-size:18px}
 .fld textarea{padding:14px 16px;min-height:110px;resize:vertical}
 .fld input:focus,.fld select:focus,.fld textarea:focus{outline:3px solid var(--gold);outline-offset:1px}
 .fld .err{display:none;color:#FFB4B4;font-size:15px}
@@ -85,27 +85,27 @@ fieldset.fld{border:0;margin:0 0 18px;padding:0}
 .opts{display:flex;flex-wrap:wrap;gap:10px}
 .opts label{position:relative;cursor:pointer}
 .opts input{position:absolute;opacity:0;width:1px;height:1px}
-.opts span{display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;border:2px solid #3C5874;font-weight:700;font-size:16px;transition:background .2s,border-color .2s,color .2s}
+.opts span{display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;border:2px solid #4A4278;font-weight:700;font-size:16px;transition:background .2s,border-color .2s,color .2s}
 .opts input:checked+span{background:var(--gold);border-color:var(--gold);color:var(--ink)}
 .opts input:focus-visible+span{outline:3px solid var(--gold);outline-offset:3px}
 .nav-btns{display:flex;justify-content:space-between;gap:12px;margin-top:10px}
 .nav-btns button{border:0;cursor:pointer;font-family:inherit}
-.btn-line{background:none;border:2px solid #3C5874!important;color:#fff}
+.btn-line{background:none;border:2px solid #4A4278!important;color:#fff}
 .done-msg{text-align:center;padding:30px 10px}
 .done-msg b{display:block;font-family:'Archivo',sans-serif;font-size:32px;line-height:1.1}
-.done-msg p{color:#C9D3DE;font-size:18px;max-width:440px;margin:14px auto 0}
-.summary{position:sticky;top:110px;background:#fff;border-radius:24px;padding:30px;box-shadow:0 20px 40px rgba(11,31,51,.08)}
+.done-msg p{color:#D3CCE3;font-size:18px;max-width:440px;margin:14px auto 0}
+.summary{position:sticky;top:110px;background:#fff;border-radius:24px;padding:30px;box-shadow:0 20px 40px rgba(29,24,56,.08)}
 .summary small{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
 .summary p{margin:14px 0 0;font-family:'Archivo',sans-serif;font-weight:700;font-size:23px;line-height:1.35;color:var(--ink)}
 .summary p mark{background:linear-gradient(transparent 60%,var(--gold) 60%);color:inherit;padding:0 2px}
-.summary p .blank{color:#9FB2A9;border-bottom:2px dashed #C5D2CB}
-.summary .note{margin-top:20px;padding-top:18px;border-top:1px solid #E1E7E4;font-size:15px;color:var(--muted)}
+.summary p .blank{color:#B4A78A;border-bottom:2px dashed #DCCFB4}
+.summary .note{margin-top:20px;padding-top:18px;border-top:1px solid #E8DDC6;font-size:15px;color:var(--muted)}
 @media (max-width:900px){.req{padding:90px 0}.req-grid{grid-template-columns:1fr}.summary{position:static;order:-1}.row2{grid-template-columns:1fr;gap:0}}
 
 /* ===== 5. Host toolkit ===== */
-.kit{padding:140px 0;background:#fff}
+.kit{padding:140px 0;background:var(--cream)}
 .kit-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px}
-.kit-head p{margin:0;max-width:440px;font-size:19px;color:#2D3B4A}
+.kit-head p{margin:0;max-width:440px;font-size:19px;color:#3B3552}
 .kit-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;margin-top:50px;align-items:start}
 .biotabs{display:flex;flex-wrap:wrap;gap:8px}
 .biotabs button{appearance:none;border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:999px;min-height:46px;padding:0 18px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
@@ -113,7 +113,7 @@ fieldset.fld{border:0;margin:0 0 18px;padding:0}
 .biopanel{margin-top:20px;background:var(--sage);border-radius:22px;padding:30px}
 .biopanel[hidden]{display:none}
 .biopanel .use{font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal)}
-.biopanel p{margin:12px 0 0;font-size:18px;line-height:1.6;color:#1F2D3B}
+.biopanel p{margin:12px 0 0;font-size:18px;line-height:1.6;color:#1D1838}
 .biopanel .bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
 .biopanel .wc{font-size:14px;color:var(--muted)}
 .copy{appearance:none;border:0;cursor:pointer;font-family:inherit;background:var(--ink);color:#fff;border-radius:999px;min-height:46px;padding:0 22px;font-weight:700;font-size:15px}
@@ -126,7 +126,7 @@ fieldset.fld{border:0;margin:0 0 18px;padding:0}
 .kit h3{margin:0 0 16px;font-family:'Archivo',sans-serif;font-weight:800;font-size:24px}
 .pulls{list-style:none;margin:30px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
 .pulls li{border-left:3px solid var(--gold);padding:6px 0 6px 16px;font-family:'Archivo',sans-serif;font-weight:700;font-size:18px;line-height:1.3}
-.contact{margin-top:30px;padding:22px 24px;border:2px dashed #C5D2CB;border-radius:18px;font-size:16px;color:var(--muted)}
+.contact{margin-top:30px;padding:22px 24px;border:2px dashed #DCCFB4;border-radius:18px;font-size:16px;color:var(--muted)}
 .contact b{color:var(--ink)}
 @media (max-width:900px){.kit{padding:90px 0}.kit-grid{grid-template-columns:1fr}}
 </style>
@@ -298,12 +298,17 @@ fieldset.fld{border:0;margin:0 0 18px;padding:0}
 </main>
 
 <footer>
+  <div class="pulse-line" aria-hidden="true"><svg viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0 34H520l14-12 14 12h22l10-30 14 52 12-40 10 18h34" fill="none" stroke="#F2B33D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><g fill="#F2B33D"><rect x="690" y="22" width="6" height="24" rx="3"/><rect x="704" y="10" width="6" height="36" rx="3"/><rect x="718" y="26" width="6" height="20" rx="3"/><rect x="732" y="4" width="6" height="42" rx="3"/><rect x="746" y="18" width="6" height="28" rx="3"/><rect x="760" y="28" width="6" height="18" rx="3"/></g><path d="M790 34H1440" fill="none" stroke="#3A3266" stroke-width="2"/></svg></div>
   <div class="wrap">
     <div class="foot">
-      <div style="max-width:420px"><b>Making Health Make Sense</b><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#9FB0C2">Closing the Gap in Healthcare</div><p>A nonprofit founded by Dr. Thaddeus Bell. We help people understand their health before it becomes a crisis.</p></div>
+      <div class="foot-brand">
+        <a class="brand" href="index.html" aria-label="Making Health Make Sense home"><span class="brand-bars" aria-hidden="true"><i></i><i></i></span><span><b>Making Health Make Sense</b><small>Closing the Gap in Healthcare</small></span></a>
+        <p>A nonprofit founded by Dr. Thaddeus Bell. Plainspoken health education for South Carolina, funded by the music of the Lowcountry Jazz Festival.</p>
+      </div>
       <nav aria-label="Footer">
-        <div><span>Learn</span><a href="dr-bell-says.html">Dr. Bell Says</a><a href="knowledge-gap.html">The Knowledge Gap</a><a href="our-work.html">Our Work</a></div>
-        <div><span>Get involved</span><a href="invite.html">Invite Dr. Bell</a><a href="our-work.html">Sponsor a program</a><a href="jazz-festival.html">Lowcountry Jazz Festival</a></div>
+        <div><span>Learn</span><a href="dr-bell-says.html">Dr. Bell Says</a><a href="knowledge-gap.html">The Knowledge Gap</a><a href="index.html#numbers">Know your numbers</a></div>
+        <div><span>Get involved</span><a href="invite.html">Invite Dr. Bell</a><a href="our-work.html#sponsor">Sponsor a program</a><a href="index.html#newsletter">Get weekly tips</a></div>
+        <div><span>The festival</span><a href="jazz-festival.html">The festival story</a><a href="https://www.lowcountryjazzfest.com/" target="_blank" rel="noopener">Tickets ↗</a><a href="about.html">About Dr. Bell</a></div>
       </nav>
     </div>
     <p class="legal">The information on this site is for education and is not a substitute for care from your own doctor. In an emergency, call 911. · © Closing the Gap in Health Care, Inc., a 501(c)(3) nonprofit.</p>
