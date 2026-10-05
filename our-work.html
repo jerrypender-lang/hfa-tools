@@ -107,8 +107,8 @@
 .s-opt::before{content:"";flex:0 0 22px;height:22px;border-radius:50%;border:2px solid var(--ink)}
 .s-opt[aria-checked="true"]{border-color:var(--ink)}
 .s-opt[aria-checked="true"]::before{background:var(--gold);box-shadow:inset 0 0 0 4px #fff}
-.s-card{position:sticky;top:110px;background:var(--ink);color:#fff;border-radius:28px;overflow:hidden}
-.s-card img{width:100%;height:auto;aspect-ratio:16/8;object-fit:cover;object-position:50% 25%;display:block}
+.s-card{position:sticky;top:110px;background:var(--ink);color:#fff;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);min-height:440px}
+.s-card img{width:100%;height:100%;min-height:100%;object-fit:cover;display:block}
 .s-body{padding:32px 34px 36px}
 .s-body small{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
 .s-body h3{margin:10px 0 0;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(28px,2.6vw,38px);line-height:1.05}
@@ -120,6 +120,7 @@
 .s-anim{animation:pop .45s var(--ease)}
 @keyframes pop{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (max-width:900px){.sponsor{padding:90px 0}.s-grid{grid-template-columns:1fr}.s-card{position:static}}
+@media (max-width:620px){.s-card{grid-template-columns:1fr;min-height:0}.s-card img{height:auto;aspect-ratio:4/3}}
 </style>
 </head>
 <body data-handbuilt>
@@ -300,11 +301,11 @@
 
   /* Sponsor picker */
   var S = [
-    { t: 'The Dr. Bell Says series', s: 'Video health tips', img: 'bell-tv-interview.jpg', does: ['Helps film new tips for the topics marked “coming soon”', 'Keeps every tip free to watch and share with family'] },
-    { t: 'A barbershop tour', s: 'Health talks in the chair', img: 'bell-outdoors.jpg', does: ['Brings briefings to more barbershops and beauty shops', 'Meets people in the places they already trust'] },
-    { t: 'A radio PSA campaign', s: 'On air across the state', img: 'bell-portrait-suit.jpg', does: ['Puts Dr. Bell’s tips on local radio', 'Reaches listeners who aren’t online'] },
-    { t: 'An MUSC scholarship', s: 'The next generation of caregivers', img: 'bell-medals.jpg', does: ['Helps a student in one of MUSC’s six colleges', 'Grows the next generation of doctors, nurses and health professionals'] },
-    { t: 'The Health Literacy Toolkit', s: 'For schools, churches & nonprofits', img: 'bell-reading.jpg', does: ['Helps build a toolkit community leaders can use on their own', 'Carries Dr. Bell’s approach into more classrooms and congregations'] }
+    { t: 'The Dr. Bell Says series', s: 'Video health tips', img: 'bell-tv-interview.jpg', pos: '47% 40%', does: ['Helps film new tips for the topics marked “coming soon”', 'Keeps every tip free to watch and share with family'] },
+    { t: 'A barbershop tour', s: 'Health talks in the chair', img: 'bell-outdoors.jpg', pos: '42% 14%', does: ['Brings briefings to more barbershops and beauty shops', 'Meets people in the places they already trust'] },
+    { t: 'A radio PSA campaign', s: 'On air across the state', img: 'bell-portrait-suit.jpg', pos: '50% 16%', does: ['Puts Dr. Bell’s tips on local radio', 'Reaches listeners who aren’t online'] },
+    { t: 'An MUSC scholarship', s: 'The next generation of caregivers', img: 'bell-medals.jpg', pos: '64% 30%', does: ['Helps a student in one of MUSC’s six colleges', 'Grows the next generation of doctors, nurses and health professionals'] },
+    { t: 'The Health Literacy Toolkit', s: 'For schools, churches & nonprofits', img: 'bell-reading.jpg', pos: '45% 22%', does: ['Helps build a toolkit community leaders can use on their own', 'Carries Dr. Bell’s approach into more classrooms and congregations'] }
   ];
   var opts = document.getElementById('s-opts'), card = document.getElementById('s-card');
   S.forEach(function (s, i) {
@@ -317,7 +318,7 @@
   function pick(i) {
     Array.prototype.forEach.call(opts.children, function (b, j) { b.setAttribute('aria-checked', j === i ? 'true' : 'false'); b.tabIndex = j === i ? 0 : -1; });
     var s = S[i];
-    card.innerHTML = '<img src="/img/' + s.img + '" alt="" width="1200" height="600"><div class="s-body"><small>Your sponsorship</small><h3>' + s.t + '</h3><ul>' + s.does.map(function (d) { return '<li>' + d + '</li>'; }).join('') + '</ul><p class="fine">Recognition and sponsorship levels are worked out with each sponsor.</p><div class="ctas"><a class="btn btn-gold" href="invite.html#request">Talk to us about sponsoring</a></div></div>';
+    card.innerHTML = '<img src="/img/' + s.img + '" alt="" width="900" height="1125" style="object-position:' + s.pos + '"><div class="s-body"><small>Your sponsorship</small><h3>' + s.t + '</h3><ul>' + s.does.map(function (d) { return '<li>' + d + '</li>'; }).join('') + '</ul><p class="fine">Recognition and sponsorship levels are worked out with each sponsor.</p><div class="ctas"><a class="btn btn-gold" href="invite.html#request">Talk to us about sponsoring</a></div></div>';
     card.classList.remove('s-anim'); void card.offsetWidth; card.classList.add('s-anim');
   }
   pick(0);
