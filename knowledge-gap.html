@@ -81,7 +81,7 @@
 /* ===== 3. Where's your gap? ===== */
 .check{background:var(--sage);padding:130px 0}
 .check-head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:60px;align-items:end}
-.check h2,.decoder h2,.noise h2,.prep h2,.how h2,.faq h2{margin:20px 0 0;font-size:clamp(40px,5vw,78px);font-stretch:92%}
+.check h2,.decoder h2,.noise h2,.prep h2,.faq h2{margin:20px 0 0;font-size:clamp(40px,5vw,78px);font-stretch:92%}
 .check-head p{margin:0;font-size:20px;color:#2D3B4A}
 .check-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;margin-top:60px;align-items:start}
 .chips{display:flex;flex-wrap:wrap;gap:14px}
@@ -184,37 +184,7 @@
 .vcard button.btn{border:0;cursor:pointer;font-family:inherit}
 @media (max-width:900px){.prep{padding:90px 0}.prep-grid{grid-template-columns:1fr;gap:36px;margin-top:36px}.vcard{padding:26px 20px}}
 
-/* ===== 7. Personal ===== */
-.personal{background:var(--purple);color:#fff;padding:130px 0;overflow:hidden}
-.personal-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:70px;align-items:center}
-.personal figure{margin:0;position:relative}
-.personal figure img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:24px}
-.personal figure::after{content:"";position:absolute;right:-22px;bottom:-22px;width:46%;height:46%;border:3px solid var(--gold);border-radius:24px;z-index:-1}
-.personal figure{z-index:0}
-.personal blockquote{margin:0;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(44px,5.6vw,92px);line-height:.98;letter-spacing:-.03em}
-.personal blockquote em{font-style:italic;color:var(--gold)}
-.personal .sub{margin:24px 0 0;font-size:21px;color:#E4DBF2;max-width:560px}
-.who{list-style:none;margin:44px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.who li{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:18px 20px;font-size:17px;line-height:1.4}
-.who li:nth-child(2n){transform:translateY(22px)}
-.personal .always{margin:60px 0 0;font-size:17px;color:#D3C6E8;max-width:640px;border-left:3px solid var(--gold);padding-left:18px}
-@media (max-width:900px){.personal{padding:90px 0}.personal-grid{grid-template-columns:1fr;gap:40px}.personal figure{max-width:420px}.who{grid-template-columns:1fr}.who li:nth-child(2n){transform:none}}
-
-/* ===== 8. How we close it ===== */
-.how{padding:140px 0 120px;background:#fff}
-.how-list{margin-top:50px;border-bottom:2px solid var(--ink)}
-.how-row{display:grid;grid-template-columns:80px minmax(0,1.1fr) minmax(0,1fr) 60px;gap:24px;align-items:center;padding:34px 0;border-top:2px solid var(--ink);color:var(--ink);text-decoration:none;position:relative;overflow:hidden}
-.how-row::before{content:"";position:absolute;inset:0;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .45s var(--ease);z-index:-1}
-.how-row{z-index:0}
-.how-row:hover::before,.how-row:focus-visible::before{transform:scaleY(1)}
-.how-row b{font-family:'Archivo',sans-serif;font-size:20px;color:var(--teal)}
-.how-row h3{margin:0;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(26px,2.8vw,42px);line-height:1.05;letter-spacing:-.015em}
-.how-row p{margin:0;font-size:18px;color:#2D3B4A}
-.how-row .arr{font-size:34px;text-align:right;transition:transform .35s var(--ease)}
-.how-row:hover .arr{transform:translateX(8px)}
-@media (max-width:900px){.how{padding:90px 0}.how-row{grid-template-columns:44px minmax(0,1fr) 30px;gap:12px 14px;padding:24px 0}.how-row p{grid-column:2/3}.how-row .arr{grid-row:1;grid-column:3;font-size:26px}}
-
-/* ===== 9. FAQ ===== */
+/* ===== 7. FAQ ===== */
 .faq{padding:120px 0;background:var(--sage)}
 .faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:60px}
 .faq details{border-top:2px solid var(--ink);padding:22px 0}
@@ -226,7 +196,7 @@
 .faq details p{margin:14px 0 0;font-size:19px;color:#2D3B4A;max-width:680px}
 @media (max-width:900px){.faq{padding:90px 0}.faq-grid{grid-template-columns:1fr;gap:20px}}
 
-/* ===== 10. Finale: the bars meet ===== */
+/* ===== 8. Finale: the bars meet ===== */
 .finale{background:var(--ink);color:#fff;padding:140px 0 150px;text-align:center;overflow:hidden}
 .meet-bars{display:flex;justify-content:center;gap:14px;height:150px;margin-bottom:46px}
 .meet-bars i{display:block;width:54px;border-radius:10px;background:#fff;transition:transform 1.2s cubic-bezier(.76,0,.24,1)}
@@ -417,39 +387,7 @@
   </div>
 </section>
 
-<!-- 7. Personal -->
-<section class="personal" aria-labelledby="per-title">
-  <div class="wrap personal-grid">
-    <figure data-reveal="left"><img src="/img/bell-reading.jpg" alt="Dr. Thaddeus Bell reading" loading="lazy" width="900" height="1125" data-speed="-0.06"></figure>
-    <div>
-      <blockquote id="per-title" data-reveal>Your health is <em>your</em> health. It’s personal.</blockquote>
-      <p class="sub" data-reveal>Only you live in your body. Only you can describe what you’re feeling. And you deserve to understand it.</p>
-      <ul class="who" aria-label="Who this is for">
-        <li data-reveal>People who want to understand how to live, so they can live longer</li>
-        <li data-reveal style="--d:.08s">People who want to ask better questions and understand the answers</li>
-        <li data-reveal style="--d:.16s">People taking care of their parents, their partners, or themselves</li>
-        <li data-reveal style="--d:.24s">People who are tired of feeling confused about their health</li>
-      </ul>
-      <p class="always" data-reveal>Closing the Gap has always been about helping people who’ve been overlooked and underserved. That hasn’t changed. Now we’re reaching further, so more people can step forward better informed and better prepared.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 8. How we close it -->
-<section class="how" aria-labelledby="how-title">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--teal)" data-reveal>How we close it</span>
-    <h2 id="how-title" class="display" data-reveal>You don’t need to be a medical expert. Just prepared.</h2>
-    <div class="how-list">
-      <a class="how-row" href="dr-bell-says.html" data-reveal><b>01</b><h3>Break it down</h3><p>What screenings are for, what symptoms mean, and what to do next, in plain language.</p><span class="arr" aria-hidden="true">→</span></a>
-      <a class="how-row" href="dr-bell-says.html#news-title" data-reveal><b>02</b><h3>Short videos &amp; radio tips</h3><p>Tips people can watch, share with family, and act on the same day.</p><span class="arr" aria-hidden="true">→</span></a>
-      <a class="how-row" href="invite.html" data-reveal><b>03</b><h3>Show up where people gather</h3><p>Churches, barbershops, senior centers, and civic events across South Carolina.</p><span class="arr" aria-hidden="true">→</span></a>
-      <a class="how-row" href="#prepare" data-reveal><b>04</b><h3>Ask better questions</h3><p>Helping people walk into the doctor’s office prepared and speak up for their own care.</p><span class="arr" aria-hidden="true">→</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- 9. FAQ -->
+<!-- 7. FAQ -->
 <section class="faq" aria-labelledby="faq-title">
   <div class="wrap faq-grid">
     <div><span class="eyebrow" style="color:var(--teal)" data-reveal>Common questions</span><h2 id="faq-title" class="display" data-reveal>Fair questions.</h2></div>
@@ -462,7 +400,7 @@
   </div>
 </section>
 
-<!-- 10. Finale -->
+<!-- 8. Finale -->
 <section class="finale" aria-labelledby="fin-title">
   <div class="wrap">
     <div class="meet-bars" data-reveal aria-hidden="true"><i></i><i></i></div>
