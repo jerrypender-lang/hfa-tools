@@ -44,7 +44,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 
 /* ---------- Header ---------- */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:50;color:#fff;transition:background .35s,color .35s,box-shadow .35s}
-.site-header.scrolled{background:rgba(255,255,255,.96);color:var(--ink);box-shadow:0 1px 0 #E1E7E4;backdrop-filter:blur(8px)}
+.site-header.scrolled{background:rgba(255,255,255,.96);color:var(--ink);box-shadow:0 1px 0 #E1E7E4}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 28px;max-width:1280px;margin:0 auto}
 .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
 .brand-bars{display:flex;gap:5px}.brand-bars i{width:13px;height:36px;border-radius:3px;background:currentColor}.brand-bars i+i{background:var(--gold)}
@@ -135,21 +135,73 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 .numbers-intro{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px}
 .numbers-intro p{max-width:420px;color:#D6EAE6;margin:0;font-size:20px}
 .tabs{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.tab{appearance:none;border:2px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:22px;padding:24px 26px;text-align:left;cursor:pointer;font:inherit;transition:background .3s,border-color .3s,transform .3s var(--ease)}
+.tab{appearance:none;border:2px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:22px;padding:22px 26px;text-align:left;cursor:pointer;font:inherit;transition:background .3s,border-color .3s,transform .3s var(--ease);display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px}
 .tab:hover{border-color:#fff;transform:translateY(-3px)}
 .tab b{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(26px,2.6vw,38px);line-height:1}
 .tab small{display:block;margin-top:8px;font-size:15px;color:#D6EAE6}
+.tab svg{width:46px;height:46px;opacity:.8}
 .tab[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink)}
 .tab[aria-selected="true"] small{color:#3a3a1a}
-.panel{margin-top:18px;background:#fff;color:var(--ink);border-radius:28px;padding:clamp(28px,4vw,52px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
-.panel h3{margin:0 0 10px;font-family:'Archivo',sans-serif;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
-.panel p{margin:0;font-size:19px}
-.panel .ask{font-family:'Archivo',sans-serif;font-weight:700;font-size:23px;line-height:1.25}
+.tab[aria-selected="true"] svg{opacity:1}
+.panel{margin-top:18px;background:#fff;color:var(--ink);border-radius:28px;padding:clamp(22px,3vw,36px);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,3vw,44px);align-items:stretch}
 .panel[hidden]{display:none}
 .panel:not([hidden]){animation:panelIn .5s var(--ease)}
 @keyframes panelIn{from{opacity:0;transform:translateY(12px)}}
+.panel h3{margin:0 0 8px;font-family:'Archivo',sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.panel .copy{display:flex;flex-direction:column;gap:22px;justify-content:center}
+.panel .copy p{margin:0;font-size:18px;line-height:1.55}
+.panel .ask{font-family:'Archivo',sans-serif;font-weight:700;font-size:22px;line-height:1.25;border-left:4px solid var(--gold);padding-left:16px}
+.inst{background:var(--ink);color:#fff;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:16px;min-height:380px;position:relative;overflow:hidden}
+.inst .lbl{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9FB0C2}
+.inst .lbl em{font-style:normal;color:var(--gold)}
+.inst .say{margin:0;min-height:52px;font-size:17px;line-height:1.45;color:#DCE4EC}
+.inst .say b{color:#fff}
+.ibtn{appearance:none;align-self:flex-start;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;background:var(--gold);color:var(--ink);border-radius:999px;min-height:48px;padding:0 22px}
+.ibtn.ghost{background:none;color:#fff;border:2px solid #3C5874}
+/* BP monitor */
+.lcd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:10px;background:#C9D9C2;color:#1C2A22;border-radius:14px;padding:16px 18px;box-shadow:inset 0 3px 10px rgba(0,0,0,.25)}
+.lcd button{appearance:none;border:2px dashed transparent;background:none;cursor:pointer;text-align:left;color:inherit;font:inherit;border-radius:10px;padding:4px 8px}
+.lcd button:hover,.lcd button[aria-pressed="true"]{border-color:#1C2A22}
+.lcd small{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.14em}
+.lcd b{display:block;font-family:'Courier New',ui-monospace,monospace;font-weight:700;font-size:clamp(46px,5vw,70px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.lcd .pulse{align-self:end;text-align:right;font-family:'Courier New',ui-monospace,monospace;font-weight:700;font-size:22px}
+.lcd .pulse i{display:block;font-style:normal;color:#B3261E;font-size:22px;animation:beat 1s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.3)}30%{transform:scale(1)}}
+.cuff{height:10px;border-radius:5px;background:#13304C;overflow:hidden}
+.cuff i{display:block;height:100%;width:var(--cuff,0%);background:linear-gradient(90deg,var(--gold),#FF8A3D);transition:width .12s linear}
+.ecg{height:70px;overflow:hidden;position:relative;border-top:1px solid #1E3248;border-bottom:1px solid #1E3248;background:repeating-linear-gradient(90deg,transparent 0 19px,rgba(255,255,255,.05) 19px 20px)}
+.ecg svg{position:absolute;left:0;top:0;height:100%;width:200%;animation:ecg 3.2s linear infinite}
+@keyframes ecg{to{transform:translateX(-50%)}}
+/* A1C bars */
+.days{display:flex;align-items:flex-end;gap:2px;height:170px;padding:0 2px;position:relative;border-bottom:1px solid #3C5874}
+.days i{flex:1;min-width:0;border-radius:2px 2px 0 0;background:#2BB3A7;height:var(--h);transition:height .9s cubic-bezier(.2,.8,.2,1),background .6s;transition-delay:calc(var(--n) * 6ms)}
+.days.avg i{height:var(--avg);background:var(--gold)}
+.days .line{position:absolute;left:0;right:0;bottom:var(--avg);border-top:2px dashed #fff;opacity:0;transition:opacity .5s .6s;z-index:1}
+.days .line span{position:absolute;right:0;bottom:6px;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:#fff;color:var(--ink);border-radius:4px;padding:3px 7px}
+.days.avg .line{opacity:1}
+.axis{display:flex;justify-content:space-between;font-size:13px;color:#9FB0C2;margin-top:-6px}
+/* Artery */
+.artery{position:relative;height:150px;border-radius:75px;background:#3A0D12;overflow:hidden;box-shadow:inset 0 0 0 10px #E07A7F,inset 0 0 0 14px #B8474D}
+.artery .flow{position:absolute;inset:14px 0;overflow:hidden;border-radius:60px}
+.artery .cell{position:absolute;left:-30px;width:22px;height:14px;border-radius:50%;background:#E5484D;box-shadow:inset -3px -2px 0 rgba(0,0,0,.25);top:var(--y);animation:flow var(--dur,2.6s) linear infinite;animation-delay:var(--dl)}
+@keyframes flow{to{transform:translateX(calc(100vw))}}
+.plaque{position:absolute;left:18%;width:64%;height:calc(var(--p,0) * 0.55px);background:radial-gradient(ellipse at 50% 0,#F6D58B,#E0B04E 70%);border-radius:0 0 50% 50%/0 0 100% 100%;top:14px;transition:height .2s;z-index:1}
+.plaque.b{top:auto;bottom:14px;border-radius:50% 50% 0 0/100% 100% 0 0;left:28%;width:50%;background:radial-gradient(ellipse at 50% 100%,#F6D58B,#E0B04E 70%)}
+.yrs{display:flex;flex-direction:column;gap:6px}
+.yrs label{font-weight:700;font-size:15px;color:#DCE4EC;display:flex;justify-content:space-between}
+.yrs input{width:100%;accent-color:var(--gold)}
+/* My numbers */
+.mynums{margin-top:18px;display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:14px;align-items:end;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:22px;padding:20px 24px}
+.mynums h3{margin:0;font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;line-height:1.15;max-width:170px}
+.mynums label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:#D6EAE6;min-width:0}
+.mynums input{width:100%;min-width:0;min-height:48px;border-radius:12px;border:2px solid transparent;padding:0 14px;font:inherit;font-size:18px;color:var(--ink);background:#fff}
+.mynums input:focus{outline:3px solid var(--gold);outline-offset:1px}
+.mynums button{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;background:var(--gold);color:var(--ink);border-radius:999px;min-height:48px;padding:0 22px;white-space:nowrap}
 .numbers-note{margin-top:22px;font-size:15px;color:#D6EAE6}
-@media (max-width:900px){.tabs{grid-template-columns:1fr}.panel{grid-template-columns:1fr;gap:22px}.numbers{padding:84px 0}}
+@media (max-width:900px){.tabs{grid-template-columns:1fr}.panel{grid-template-columns:1fr;gap:22px}.numbers{padding:84px 0}.inst{min-height:0}.mynums{grid-template-columns:1fr;padding:20px}.mynums h3{max-width:none}}
+@media (max-width:600px){.inst{padding:20px}.lcd{padding:12px;gap:4px}.lcd button{padding:4px}.lcd b{font-size:40px}.lcd .pulse{font-size:16px}.inst .lbl{flex-direction:column;align-items:flex-start}}
+@media (prefers-reduced-motion: reduce){.lcd .pulse i,.ecg svg,.artery .cell{animation:none}.days i{transition:none}}
+@media print{body *{visibility:hidden}#mynums,#mynums *{visibility:visible}#mynums{position:absolute;left:0;top:0;width:100%;color:#000;border:1px solid #000;background:#fff}#mynums button{display:none}#mynums label{color:#000}}
 
 /* ---------- Meet Dr. Bell (offset collage) ---------- */
 .meet{background:var(--sage);padding:140px 0;overflow:hidden}
@@ -334,29 +386,71 @@ footer{background:#07121F;color:#C9D3DE;font-size:16px;padding:70px 0 34px}
         <span class="eyebrow" data-reveal>Know your numbers, save your life</span>
         <h2 id="numbers-title" class="display" data-reveal>Three numbers.<br>One conversation.</h2>
       </div>
-      <p data-reveal>Pick a number to see what it is, why it matters, and the one question to bring to your next checkup.</p>
+      <p data-reveal>Pick a number and try it out: see what it measures, why it matters, and the one question to bring to your next checkup.</p>
     </div>
     <div class="tabs" role="tablist" aria-label="Know your numbers" data-reveal>
-      <button class="tab" role="tab" id="t-bp" aria-selected="true" aria-controls="p-bp" tabindex="0"><b>Blood pressure</b><small>The silent one</small></button>
-      <button class="tab" role="tab" id="t-a1c" aria-selected="false" aria-controls="p-a1c" tabindex="-1"><b>A1C</b><small>Your blood sugar story</small></button>
-      <button class="tab" role="tab" id="t-chol" aria-selected="false" aria-controls="p-chol" tabindex="-1"><b>Cholesterol</b><small>Your heart’s early warning</small></button>
+      <button class="tab" role="tab" id="t-bp" aria-selected="true" aria-controls="p-bp" tabindex="0"><span><b>Blood pressure</b><small>The silent one</small></span><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 26h9l4-10 6 20 5-14 3 4h13"/></svg></button>
+      <button class="tab" role="tab" id="t-a1c" aria-selected="false" aria-controls="p-a1c" tabindex="-1"><span><b>A1C</b><small>Your blood sugar story</small></span><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M8 40V28M16 40V18M24 40V24M32 40V12M40 40V22"/><path d="M6 25h36" stroke-dasharray="3 4"/></svg></button>
+      <button class="tab" role="tab" id="t-chol" aria-selected="false" aria-controls="p-chol" tabindex="-1"><span><b>Cholesterol</b><small>Your heart’s early warning</small></span><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M4 14h40M4 34h40"/><path d="M16 14c2 5 10 5 12 0M20 34c2-4 8-4 10 0"/><circle cx="10" cy="24" r="2.5"/><circle cx="24" cy="24" r="2.5"/><circle cx="38" cy="24" r="2.5"/></svg></button>
     </div>
+
     <div class="panel" role="tabpanel" id="p-bp" aria-labelledby="t-bp">
-      <div><h3>What it is</h3><p>The force of your blood pushing against your artery walls. It’s written as two numbers, one over the other.</p></div>
-      <div><h3>Why it matters</h3><p>High blood pressure often has no symptoms at all. You can feel fine and still be at risk—the only way to know is to check.</p></div>
-      <div><h3>Ask your doctor</h3><p class="ask">“What’s my blood pressure today—and what should it be for me?”</p></div>
+      <div class="inst">
+        <div class="lbl"><span>Home blood pressure monitor</span><em>Example reading</em></div>
+        <div class="lcd">
+          <button type="button" data-bp="sys" aria-pressed="false"><small>SYS · top</small><b id="bp-sys">---</b></button>
+          <button type="button" data-bp="dia" aria-pressed="false"><small>DIA · bottom</small><b id="bp-dia">---</b></button>
+          <div class="pulse"><i aria-hidden="true">♥</i><span id="bp-pul">--</span></div>
+        </div>
+        <div class="cuff" aria-hidden="true"><i id="cuff"></i></div>
+        <div class="ecg" aria-hidden="true"><svg viewBox="0 0 400 70" preserveAspectRatio="none"><path d="M0 40h30l6-6 6 6h10l4-22 6 44 6-30 4 8h28l6-6 6 6h10l4-22 6 44 6-30 4 8h28l6-6 6 6h10l4-22 6 44 6-30 4 8h28l6-6 6 6h10l4-22 6 44 6-30 4 8h18" stroke="#2BB3A7" stroke-width="2.5" fill="none"/></svg></div>
+        <p class="say" id="bp-say" aria-live="polite">Press <b>Take a reading</b>, then tap each number to see what it means.</p>
+        <button class="ibtn" type="button" id="bp-go">Take a reading</button>
+      </div>
+      <div class="copy">
+        <div><h3>What it is</h3><p>The force of your blood pushing against your artery walls. It’s written as two numbers, one over the other.</p></div>
+        <div><h3>Why it matters</h3><p>High blood pressure often has no symptoms at all. You can feel fine and still be at risk. The only way to know is to check.</p></div>
+        <p class="ask">“What’s my blood pressure today, and what should it be for me?”</p>
+      </div>
     </div>
+
     <div class="panel" role="tabpanel" id="p-a1c" aria-labelledby="t-a1c" hidden>
-      <div><h3>What it is</h3><p>A blood test that shows your average blood sugar over the past two to three months.</p></div>
-      <div><h3>Why it matters</h3><p>It’s one of the main ways doctors find and track diabetes and prediabetes—often before you notice anything.</p></div>
-      <div><h3>Ask your doctor</h3><p class="ask">“What’s my A1C, and has it changed since my last test?”</p></div>
+      <div class="inst">
+        <div class="lbl"><span>Your blood sugar, day by day</span><em>About 90 days</em></div>
+        <div class="days" id="days"><div class="line"><span>Your A1C</span></div></div>
+        <div class="axis" aria-hidden="true"><span>3 months ago</span><span>Today</span></div>
+        <p class="say" id="a1c-say" aria-live="polite">Blood sugar goes up and down every day. A finger-stick shows <b>one moment</b>.</p>
+        <button class="ibtn" type="button" id="a1c-go" aria-pressed="false">Average it out</button>
+      </div>
+      <div class="copy">
+        <div><h3>What it is</h3><p>A blood test that shows your average blood sugar over the past two to three months.</p></div>
+        <div><h3>Why it matters</h3><p>It’s one of the main ways doctors find and track diabetes and prediabetes, often before you notice anything.</p></div>
+        <p class="ask">“What’s my A1C, and has it changed since my last test?”</p>
+      </div>
     </div>
+
     <div class="panel" role="tabpanel" id="p-chol" aria-labelledby="t-chol" hidden>
-      <div><h3>What it is</h3><p>Fats in your blood. Some kinds can build up in your arteries over time.</p></div>
-      <div><h3>Why it matters</h3><p>High cholesterol usually has no symptoms, but it raises your risk of heart attack and stroke.</p></div>
-      <div><h3>Ask your doctor</h3><p class="ask">“What are my cholesterol numbers—and what do they mean for my heart?”</p></div>
+      <div class="inst">
+        <div class="lbl"><span>Inside an artery</span><em>Drag the slider</em></div>
+        <div class="artery" id="artery" aria-hidden="true"><div class="plaque"></div><div class="plaque b"></div><div class="flow" id="flow"></div></div>
+        <div class="yrs"><label for="chol-yrs"><span>Years without checking</span><span id="chol-n">0</span></label><input type="range" id="chol-yrs" min="0" max="20" value="0"></div>
+        <p class="say" id="chol-say" aria-live="polite">A clear artery: blood moves freely.</p>
+      </div>
+      <div class="copy">
+        <div><h3>What it is</h3><p>Fats in your blood. Some kinds can build up in your arteries over time.</p></div>
+        <div><h3>Why it matters</h3><p>High cholesterol usually has no symptoms, but it raises your risk of heart attack and stroke. A simple blood test lets you catch it early.</p></div>
+        <p class="ask">“What are my cholesterol numbers, and what do they mean for my heart?”</p>
+      </div>
     </div>
-    <p class="numbers-note">General health education, not medical advice. Only your doctor can tell you what your numbers mean for you.</p>
+
+    <div class="mynums" id="mynums" data-reveal>
+      <h3>Write down your numbers</h3>
+      <label>Blood pressure<input type="text" inputmode="numeric" placeholder="___ / ___" aria-label="My blood pressure"></label>
+      <label>A1C<input type="text" inputmode="decimal" placeholder="___ %" aria-label="My A1C"></label>
+      <label>Cholesterol<input type="text" inputmode="numeric" placeholder="___" aria-label="My cholesterol"></label>
+      <button type="button" id="mynums-print">Print for my next visit</button>
+    </div>
+    <p class="numbers-note">General health education, not medical advice. The visuals above are illustrations, not your results. Only your doctor can tell you what your numbers mean for you. Nothing you type here is saved or sent.</p>
   </div>
 </section>
 
@@ -479,6 +573,66 @@ footer{background:#07121F;color:#C9D3DE;font-size:16px;padding:70px 0 34px}
   </div>
 </footer>
 
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Blood pressure: simulated cuff reading */
+  var sys = document.getElementById('bp-sys'), dia = document.getElementById('bp-dia'), pul = document.getElementById('bp-pul'), cuff = document.getElementById('cuff'), say = document.getElementById('bp-say'), go = document.getElementById('bp-go');
+  var MEAN = { sys: '<b>Top number (systolic):</b> the pressure in your arteries when your heart beats.', dia: '<b>Bottom number (diastolic):</b> the pressure when your heart rests between beats.' };
+  var busy = false;
+  function show(a, b, c) { sys.textContent = a; dia.textContent = b; pul.textContent = c; }
+  go.addEventListener('click', function () {
+    if (busy) return; busy = true; go.textContent = 'Measuring…';
+    if (reduce) { show('120', '80', '72'); cuff.parentNode.style.setProperty('--cuff', '60%'); done(); return; }
+    var t0 = null, UP = 1400, DOWN = 1800;
+    function step(t) {
+      if (!t0) t0 = t; var e = t - t0, v;
+      if (e < UP) { v = Math.round(160 * e / UP); show(String(v), '---', '--'); }
+      else if (e < UP + DOWN) { v = Math.round(160 - (160 - 80) * (e - UP) / DOWN); show(String(v), '---', '--'); }
+      else { show('120', '80', '72'); done(); return; }
+      cuff.style.width = (v / 1.8) + '%';
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+  function done() { busy = false; go.textContent = 'Take another reading'; cuff.style.width = '44%'; say.innerHTML = 'This one reads <b>120 over 80</b>. Tap the top or bottom number to learn what each one means.'; }
+  document.querySelectorAll('[data-bp]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('[data-bp]').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      if (sys.textContent === '---') show('120', '80', '72');
+      say.innerHTML = MEAN[b.getAttribute('data-bp')];
+    });
+  });
+
+  /* A1C: 90 days of ups and downs, averaged */
+  var days = document.getElementById('days'), seed = 7, vals = [];
+  function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+  for (var i = 0; i < 90; i++) { var v = 38 + 26 * Math.sin(i / 3.1) * rnd() + 30 * rnd(); vals.push(Math.max(14, Math.min(96, v))); }
+  var avg = vals.reduce(function (a, b) { return a + b; }, 0) / vals.length;
+  days.style.setProperty('--avg', avg.toFixed(1) + '%');
+  vals.forEach(function (v, n) { var b = document.createElement('i'); b.style.setProperty('--h', v.toFixed(1) + '%'); b.style.setProperty('--n', n); days.insertBefore(b, days.querySelector('.line')); });
+  var ag = document.getElementById('a1c-go'), asay = document.getElementById('a1c-say');
+  ag.addEventListener('click', function () {
+    var on = !days.classList.contains('avg'); days.classList.toggle('avg', on); ag.setAttribute('aria-pressed', on);
+    ag.textContent = on ? 'Show the daily ups and downs' : 'Average it out';
+    asay.innerHTML = on ? 'That’s what <b>A1C</b> captures: your <b>average</b> over about three months, not just today.' : 'Blood sugar goes up and down every day. A finger-stick shows <b>one moment</b>.';
+  });
+
+  /* Cholesterol: plaque builds with the years */
+  var flow = document.getElementById('flow'), art = document.getElementById('artery'), yrs = document.getElementById('chol-yrs'), csay = document.getElementById('chol-say'), cn = document.getElementById('chol-n');
+  for (var c = 0; c < 16; c++) { var cell = document.createElement('span'); cell.className = 'cell'; cell.style.setProperty('--y', (12 + (c * 37) % 80) + 'px'); cell.style.setProperty('--dl', (-c * 0.33).toFixed(2) + 's'); flow.appendChild(cell); }
+  function chol() {
+    var y = +yrs.value; cn.textContent = y === 20 ? '20+' : y;
+    art.style.setProperty('--p', y * 5);
+    flow.style.setProperty('--dur', (2.6 + y * 0.18).toFixed(2) + 's');
+    flow.querySelectorAll('.cell').forEach(function (el) { el.style.animationDuration = (2.6 + y * 0.18).toFixed(2) + 's'; });
+    csay.innerHTML = y === 0 ? 'A clear artery: blood moves freely.' : y < 8 ? 'Plaque can start building quietly. <b>You won’t feel it.</b>' : y < 15 ? 'The path gets narrower and blood has to work harder, often <b>with no warning signs</b>.' : 'This is why checking matters: a simple blood test lets you and your doctor <b>catch it years earlier</b>.';
+  }
+  yrs.addEventListener('input', chol); chol();
+
+  document.getElementById('mynums-print').addEventListener('click', function () { window.print(); });
+})();
+</script>
 <script src="/assets/site.js" defer></script>
 </body>
 </html>
