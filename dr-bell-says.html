@@ -3,114 +3,187 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dr. Bell Says — What's on your mind? · Making Health Make Sense</title>
-<meta name="description" content="Tell Dr. Bell what's on your mind and get a short, plain-language health tip—plus one thing to do today and the question to bring to your doctor.">
-<meta property="og:title" content="Dr. Bell Says — What's on your mind?">
-<meta property="og:description" content="Short, plainspoken health tips from Dr. Thaddeus Bell.">
-<meta property="og:image" content="/img/bell-purple-coat.jpg">
+<title>Dr. Bell Says · Making Health Make Sense</title>
+<meta name="description" content="Plainspoken health tips from Dr. Thaddeus Bell: watch the episode, take home one thing to do today, and bring the right question to your doctor.">
+<meta property="og:title" content="Dr. Bell Says — plainspoken health tips">
+<meta property="og:description" content="One tip, one thing to do today, one question for your doctor.">
+<meta property="og:image" content="/img/bell-portrait.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='6' y='4' width='8' height='24' rx='2' fill='%230B1F33'/%3E%3Crect x='18' y='4' width='8' height='24' rx='2' fill='%23F5B700'/%3E%3C/svg%3E">
 <script>document.documentElement.classList.add('js');setTimeout(function(){document.documentElement.classList.add('reveal-fallback')},3500);</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
 <style>
-/* ---------- Ask: what's on your mind ---------- */
-.ask{background:var(--ink);color:#fff;padding:150px 0 70px;position:relative;overflow:hidden}
-.ask::after{content:"";position:absolute;right:-10vw;top:-12vw;width:44vw;height:44vw;border-radius:50%;border:2px solid rgba(255,255,255,.07)}
-.ask h1{margin:22px 0 0;font-size:clamp(54px,8vw,128px);max-width:1000px}
-.ask h1 span{color:var(--gold)}
-.ask-sub{margin:24px 0 0;max-width:620px;font-size:21px;color:#C9D3DE}
-.topics{margin-top:48px;display:flex;flex-wrap:wrap;gap:12px;position:relative;z-index:1}
-.topic{appearance:none;font:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:12px;min-height:60px;padding:0 24px;border-radius:999px;border:2px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-weight:700;font-size:18px;transition:background .25s,border-color .25s,color .25s,transform .25s var(--ease)}
-.topic:hover{border-color:#fff;transform:translateY(-2px)}
-.topic[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink)}
-.topic .dot{width:10px;height:10px;border-radius:50%;background:#7BE0B0;flex:none}
-.topic .soon{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
-.topic[aria-pressed="true"] .dot{background:var(--ink)}
+:root{--paper:#FBF8F1;--news:#F2ECDF;--red:#E5484D}
+.serif{font-family:'Newsreader',Georgia,serif}
+.hand{font-family:'Caveat',cursive}
 
-/* ---------- Stage ---------- */
-.stage{background:var(--ink);color:#fff;padding:0 0 110px}
-.stage-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:start}
-.stage-grid > .screen{width:100%;align-self:start}
-.clip .cap{display:none}
-.screen{position:relative;border-radius:28px;overflow:hidden;background:#000;aspect-ratio:16/9;box-shadow:0 30px 70px rgba(0,0,0,.4)}
-.screen img,.screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
-.screen .poster{appearance:none;border:0;padding:0;margin:0;cursor:pointer;position:absolute;inset:0;width:100%;height:100%;background:none}
-.screen .poster::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,31,51,.85) 0%,rgba(11,31,51,0) 55%)}
-.screen .play{position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);width:96px;height:96px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease)}
-.screen .poster:hover .play{transform:translate(-50%,-50%) scale(1.08)}
-.screen .cap{position:absolute;z-index:2;left:26px;right:26px;bottom:22px;text-align:left;color:#fff}
-.screen .cap b{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(20px,2vw,28px);line-height:1.15}
-.screen .cap small{display:block;margin-top:6px;font-size:14px;color:#C9D3DE}
-.screen.soon{background:var(--ink-2);display:flex}
-.soon-inner{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-.soon-inner img{position:relative;width:100%;height:100%;object-fit:cover;object-position:center 15%}
-.soon-copy{padding:clamp(24px,3vw,44px);display:flex;flex-direction:column;justify-content:center;gap:14px}
-.soon-copy b{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(24px,2.4vw,34px);line-height:1.1}
-.soon-copy p{margin:0;color:#C9D3DE;font-size:17px}
-.side{display:flex;flex-direction:column;gap:16px}
-.card{border-radius:24px;padding:26px 28px}
-.card h3{margin:0 0 8px;font-family:'Archivo',sans-serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase}
-.card p{margin:0}
-.do{background:var(--gold);color:var(--ink)}
-.do p{font-family:'Archivo',sans-serif;font-weight:700;font-size:22px;line-height:1.25}
-.askdoc{background:#13304C}
-.askdoc h3{color:var(--gold)}
-.askdoc p{font-size:20px;line-height:1.35}
-.share{background:#13304C}
-.share h3{color:#C9D3DE}
-.share-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
-.share-row a,.share-row button{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 18px;border-radius:999px;border:2px solid rgba(255,255,255,.35);background:transparent;color:#fff;font:inherit;font-weight:700;font-size:16px;text-decoration:none;cursor:pointer}
-.share-row a:hover,.share-row button:hover{border-color:#fff}
-.review{margin-top:14px;font-size:14px;color:#9FB0C2}
-@media (max-width:960px){.stage-grid{grid-template-columns:1fr}.soon-inner{grid-template-columns:1fr}.soon-inner img{display:none}.ask{padding:120px 0 50px}}
+/* ===== 1. Studio hero ===== */
+.studio{background:var(--ink);color:#fff;padding:140px 0 0;position:relative;overflow:hidden}
+.studio-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:50px;align-items:end}
+.onair{display:inline-flex;align-items:center;gap:12px;border:2px solid var(--red);color:#fff;border-radius:8px;padding:8px 16px;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:118%;font-size:15px;letter-spacing:.24em;text-transform:uppercase;box-shadow:0 0 0 0 rgba(229,72,77,.5);animation:glow 2.4s ease-in-out infinite}
+.onair i{width:11px;height:11px;border-radius:50%;background:var(--red)}
+@keyframes glow{50%{box-shadow:0 0 34px 2px rgba(229,72,77,.45);background:rgba(229,72,77,.12)}}
+.studio h1{margin:26px 0 0;font-size:clamp(56px,7.6vw,128px);font-stretch:86%;line-height:.92}
+.says{display:block;min-height:2.1em;margin-top:20px;font-family:'Newsreader',Georgia,serif;font-weight:500;font-style:italic;font-size:clamp(30px,3.4vw,52px);line-height:1.08;letter-spacing:-.01em;color:var(--gold)}
+.says .caret{display:inline-block;width:3px;height:.9em;background:var(--gold);margin-left:4px;vertical-align:-.08em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.studio .lede{margin:22px 0 0;font-size:20px;line-height:1.55;color:#C9D3DE;max-width:560px}
+.studio .ctas{display:flex;flex-wrap:wrap;gap:14px;margin:32px 0 80px}
+.host{position:relative;align-self:end}
+.host img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 18%;border-radius:200px 200px 0 0;display:block}
+.host .lower{position:absolute;left:-30px;bottom:40px;background:#fff;color:var(--ink);padding:12px 20px 12px 16px;border-left:8px solid var(--gold);box-shadow:0 20px 40px rgba(0,0,0,.35)}
+.host .lower b{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;line-height:1.1}
+.host .lower span{font-size:14px;color:var(--muted)}
+@media (max-width:900px){.studio{padding:110px 0 0}.studio-grid{grid-template-columns:1fr;gap:10px}.host{width:min(80%,360px);justify-self:center}.studio .ctas{margin-bottom:40px}.host .lower{left:-20px;bottom:24px}}
+@media (prefers-reduced-motion: reduce){.onair,.says .caret{animation:none}}
 
-/* ---------- Collections ---------- */
-.collections{padding:120px 0;background:#fff}
-.col-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px}
-.col-head h2{margin:18px 0 0;font-size:clamp(42px,5vw,76px);font-stretch:92%}
-.col-grid{margin-top:46px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
-.col{appearance:none;font:inherit;text-align:left;cursor:pointer;border:0;border-radius:26px;overflow:hidden;color:#fff;min-height:380px;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;text-decoration:none}
-.col img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
-.col:hover img{transform:scale(1.06)}
-.col::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(11,31,51,.92) 0%,rgba(11,31,51,.15) 60%)}
-.col > *{position:relative;z-index:2}
-.col small{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
-.col b{font-family:'Archivo',sans-serif;font-weight:800;font-size:30px;line-height:1.05;margin-top:8px}
-.col span.n{margin-top:10px;font-size:16px;color:#DCE4EC}
-.col:nth-child(2){margin-top:44px}.col:nth-child(4){margin-top:44px}
-@media (max-width:1000px){.col-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.col:nth-child(n){margin-top:0}}
-@media (max-width:560px){.col-grid{grid-template-columns:1fr}.col{min-height:300px}}
+/* ===== 2. Program guide + set ===== */
+.guide{background:#06111F;color:#fff;padding:110px 0 120px}
+.guide-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px}
+.guide h2{margin:18px 0 0;font-size:clamp(40px,4.8vw,74px);font-stretch:90%}
+.guide-head p{margin:0;max-width:420px;color:#9FB0C2;font-size:18px}
+.set{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:34px;margin-top:50px;align-items:start}
+.listings{border:2px solid #1E3248;border-radius:20px;overflow:hidden;background:#0A1A2D}
+.listings .lh{display:flex;justify-content:space-between;padding:14px 20px;background:#13304C;font-family:'Archivo',sans-serif;font-weight:700;font-stretch:115%;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9FB0C2}
+.ep{appearance:none;display:grid;grid-template-columns:58px minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;text-align:left;font:inherit;color:#fff;background:none;border:0;border-top:1px solid #1E3248;padding:18px 20px;cursor:pointer;transition:background .25s}
+.ep:first-of-type{border-top:0}
+.ep:hover{background:#102740}
+.ep[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
+.ep .no{font-family:'Archivo',sans-serif;font-weight:800;font-size:14px;letter-spacing:.06em;color:#6F8399}
+.ep[aria-pressed="true"] .no{color:var(--ink)}
+.ep b{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;line-height:1.2}
+.ep small{display:block;margin-top:3px;font-size:14px;color:#9FB0C2}
+.ep[aria-pressed="true"] small{color:#3B4A59}
+.ep .st{font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;border-radius:6px;padding:5px 9px;white-space:nowrap}
+.st.live{background:var(--red);color:#fff}
+.st.tape{border:1.5px solid #3C5874;color:#9FB0C2}
+.ep[aria-pressed="true"] .st.tape{border-color:var(--ink);color:var(--ink)}
+/* TV */
+.tv{position:relative;background:#000;border-radius:22px;padding:14px;box-shadow:0 0 0 2px #1E3248,0 40px 80px rgba(0,0,0,.5)}
+.screen{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.screen iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.poster{appearance:none;position:absolute;inset:0;border:0;padding:0;cursor:pointer;background:#000;width:100%}
+.poster img{width:100%;height:100%;object-fit:cover;opacity:.88}
+.poster::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.8))}
+.poster .play{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;z-index:1;transition:transform .3s var(--ease)}
+.poster:hover .play{transform:scale(1.08)}
+.poster .cap{position:absolute;left:22px;right:22px;bottom:18px;z-index:1;text-align:left;color:#fff}
+.poster .cap b{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(18px,1.8vw,24px);line-height:1.15}
+.poster .cap small{display:block;margin-top:4px;font-size:14px;color:#DCE4EC}
+.bug{position:absolute;right:26px;top:26px;z-index:2;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.55);border-radius:6px;padding:6px 10px;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:.14em;color:#fff;pointer-events:none}
+.bug i{width:8px;height:22px;border-radius:2px;background:#fff}.bug i+i{background:var(--gold);margin-right:4px}
+/* stand-by test card */
+.standby{position:absolute;inset:0;display:flex;flex-direction:column}
+.bars{flex:1;display:grid;grid-template-columns:repeat(7,1fr)}
+.bars i:nth-child(1){background:#fff}.bars i:nth-child(2){background:var(--gold)}.bars i:nth-child(3){background:#2BB3A7}.bars i:nth-child(4){background:var(--teal)}.bars i:nth-child(5){background:#8E5BD6}.bars i:nth-child(6){background:var(--purple)}.bars i:nth-child(7){background:var(--ink)}
+.bars2{height:14%;display:grid;grid-template-columns:repeat(7,1fr)}
+.bars2 i:nth-child(odd){background:var(--ink)}.bars2 i:nth-child(even){background:#E9EEF2}
+.sb-card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(78%,440px);background:var(--ink);color:#fff;border:3px solid #fff;border-radius:14px;padding:22px 24px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.sb-card small{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:118%;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.sb-card b{display:block;margin-top:8px;font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(18px,2vw,26px);line-height:1.15}
+.sb-card p{margin:8px 0 0;font-size:15px;color:#C9D3DE;line-height:1.4}
+.sb-card a{display:inline-block;margin-top:12px;color:var(--gold);font-weight:700;font-size:15px}
+.knobs{display:flex;justify-content:space-between;align-items:center;padding:12px 6px 0;color:#6F8399;font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.knobs span i{display:inline-block;width:16px;height:16px;border-radius:50%;background:#1E3248;margin-left:8px;vertical-align:-3px;box-shadow:inset 0 0 0 3px #2D4A68}
+@media (max-width:980px){.set{grid-template-columns:1fr}.tv{order:-1}}
+@media (max-width:600px){.tv .poster .cap{display:none}.poster .play{width:66px;height:66px;margin:-33px 0 0 -33px}.tv .bug{display:none}.guide{padding:80px 0}.ep{grid-template-columns:44px minmax(0,1fr);}.ep .st{grid-column:2;justify-self:start;margin-top:6px}.sb-card{width:88%;padding:14px 14px}.sb-card p{display:none}.bug{right:20px;top:20px}}
 
-/* ---------- In the news ---------- */
-.news-strip{background:var(--sage);padding:120px 0}
-.news-strip h2{margin:18px 0 0;font-size:clamp(40px,4.6vw,70px);font-stretch:92%}
-.news-grid2{margin-top:44px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
-.clip{background:#fff;border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
-.clip .screen{border-radius:0;box-shadow:none}
-.clip .screen .play{width:72px;height:72px}
-.clip-body{padding:22px 24px 26px}
-.clip-body b{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;line-height:1.2}
-.clip-body small{display:block;margin-top:8px;color:var(--muted);font-size:15px}
-@media (max-width:1000px){.news-grid2{grid-template-columns:1fr}}
+/* ===== 3. Prescription ===== */
+.rx-sec{background:var(--sage);padding:120px 0 130px;position:relative}
+.rx-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:60px;align-items:center}
+.rx-sec .eyebrow{color:var(--teal)}
+.rx-sec h2{margin:18px 0 0;font-size:clamp(40px,4.8vw,74px);font-stretch:90%}
+.rx-sec .intro{margin:20px 0 0;font-size:19px;color:#2D3B4A;max-width:460px}
+.pad{position:relative;background:var(--paper);color:#1C2A38;border-radius:6px;padding:40px 44px 34px;box-shadow:0 2px 0 #E6DFCF,0 4px 0 #F4EEE2,0 6px 0 #E6DFCF,0 30px 60px rgba(11,31,51,.18);transform:rotate(-1.2deg);transition:transform .5s var(--ease)}
+.pad:hover{transform:rotate(0)}
+.pad::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;background:repeating-linear-gradient(90deg,var(--teal) 0 18px,#0F6A63 18px 36px);border-radius:6px 6px 0 0}
+.pad-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;border-bottom:2px solid #1C2A38;padding-bottom:16px}
+.pad-top b{display:block;font-family:'Newsreader',Georgia,serif;font-weight:800;font-size:24px;line-height:1.1}
+.pad-top span{font-size:14px;color:#55606B}
+.pad-top .brand-bars i{height:30px;width:11px}
+.pad-meta{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:16px;font-size:15px;color:#55606B}
+.pad-meta div{border-bottom:1px solid #CFC6B2;padding-bottom:6px}
+.pad-meta .hand{font-size:24px;color:#1F3A93;margin-left:8px}
+.rx{display:grid;grid-template-columns:80px minmax(0,1fr);gap:16px;margin-top:22px;align-items:start}
+.rx .sym{font-family:'Newsreader',Georgia,serif;font-weight:800;font-size:72px;line-height:.8;color:var(--teal)}
+.rx small{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#55606B}
+.rx p{margin:6px 0 0;font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:clamp(22px,2.2vw,30px);line-height:1.22;color:#1C2A38}
+.ask-line{margin-top:22px;padding:16px 18px;background:#fff;border:1px dashed #CFC6B2;border-radius:8px}
+.ask-line small{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#55606B}
+.ask-line p{margin:6px 0 0;font-size:19px;line-height:1.4}
+.sig{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:26px}
+.sig div{flex:1;border-top:1px solid #1C2A38;padding-top:4px;font-size:13px;color:#55606B;position:relative;max-width:260px}
+.sig .hand{position:absolute;left:4px;bottom:100%;font-size:34px;line-height:1;color:#1F3A93;transform:rotate(-4deg)}
+.sig em{font-style:normal;font-size:13px;color:#55606B;max-width:240px;text-align:right}
+.pad-fine{margin:18px 0 0;font-size:13px;color:#55606B}
+.pad-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.pad-actions a,.pad-actions button{appearance:none;display:inline-flex;align-items:center;min-height:46px;padding:0 18px;border-radius:999px;border:2px solid var(--ink);background:#fff;color:var(--ink);font:inherit;font-weight:700;font-size:15px;text-decoration:none;cursor:pointer}
+.pad-actions .print{background:var(--ink);color:#fff}
+.pad-actions .lab{align-self:center;font-weight:700;font-size:14px;color:#55606B;margin-right:4px}
+.rx-note{margin-top:24px;font-size:14px;color:var(--muted);max-width:460px}
+.pad.swap{animation:swap .5s var(--ease)}
+@keyframes swap{0%{transform:rotate(-1.2deg) translateY(0)}40%{transform:rotate(-3deg) translateY(10px);opacity:.4}100%{transform:rotate(-1.2deg);opacity:1}}
+@media (max-width:900px){.rx-sec{padding:80px 0 90px}.rx-grid{grid-template-columns:1fr;gap:36px}.pad{padding:34px 22px 26px;transform:none}.rx{grid-template-columns:52px minmax(0,1fr)}.rx .sym{font-size:52px}.pad-meta{grid-template-columns:1fr;gap:10px}.sig{flex-direction:column;align-items:flex-start;margin-top:40px}.sig em{text-align:left}}
+@media (prefers-reduced-motion: reduce){.pad,.pad.swap{transition:none;animation:none}}
+@media print{
+  body *{visibility:hidden}
+  #pad,#pad *{visibility:visible}
+  #pad{position:absolute;left:0;top:0;width:100%;transform:none;box-shadow:none;border:1px solid #000}
+  #pad .pad-actions{display:none}
+}
 
-/* ---------- Read & listen ---------- */
-.rl{padding:120px 0;background:#fff}
-.rl-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:56px}
-.rl h2{margin:18px 0 0;font-size:clamp(38px,4vw,60px);font-stretch:92%}
-.reads{margin:30px 0 0;padding:0;list-style:none;border-top:2px solid var(--ink)}
-.reads li{display:flex;justify-content:space-between;gap:20px;padding:20px 0;border-bottom:1px solid #D5DED9;font-family:'Archivo',sans-serif;font-weight:700;font-size:22px}
-.reads li span{font-family:'Atkinson Hyperlegible',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);white-space:nowrap}
-.radio{background:var(--purple);color:#fff;border-radius:28px;padding:36px;display:flex;flex-direction:column;gap:18px;align-self:start}
-.wave{display:flex;align-items:center;gap:4px;height:64px}
-.wave i{flex:1;background:rgba(255,255,255,.35);border-radius:3px;height:30%;animation:wv 1.4s ease-in-out infinite}
-.wave i:nth-child(3n){animation-delay:.2s}.wave i:nth-child(3n+1){animation-delay:.45s}.wave i:nth-child(4n){animation-delay:.7s}
-@keyframes wv{50%{height:100%;background:var(--gold)}}
-@media (prefers-reduced-motion: reduce){.wave i{animation:none;height:60%}}
-.radio b{font-family:'Archivo',sans-serif;font-weight:800;font-size:30px;line-height:1.1}
-.radio p{margin:0;color:#E4DBF2}
-@media (max-width:900px){.rl-grid{grid-template-columns:1fr}}
-.note{margin-top:40px;font-size:16px;color:var(--muted)}
+/* ===== 4. Filmstrip ===== */
+.film{background:#0A0A0C;color:#fff;padding:110px 0 120px;overflow:hidden}
+.film .eyebrow{color:var(--gold)}
+.film h2{margin:18px 0 0;font-size:clamp(40px,4.8vw,74px);font-stretch:90%}
+.film-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px}
+.film-head p{margin:0;max-width:420px;color:#9FB0C2;font-size:17px}
+.strip{margin-top:50px;background:#1A1A1D;padding:34px 0;position:relative}
+.strip::before,.strip::after{content:"";position:absolute;left:0;right:0;height:14px;background:repeating-linear-gradient(90deg,transparent 0 14px,#0A0A0C 14px 34px);background-size:34px 14px}
+.strip::before{top:10px}.strip::after{bottom:10px}
+.frames{display:flex;gap:22px;padding:0 28px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.frames::-webkit-scrollbar{display:none}
+.fr{flex:0 0 min(460px,82vw);scroll-snap-align:start;background:#0A0A0C;border-radius:6px;padding:10px;transition:transform .3s var(--ease)}
+.fr:hover{transform:translateY(-4px)}
+.fr .screen{border-radius:4px}
+.fr .cap{display:none}
+.fr .meta{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 6px 4px}
+.fr .meta b{font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;line-height:1.2}
+.fr .meta span{flex:0 0 auto;font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--ink);border-radius:4px;padding:4px 8px}
+.film .note{margin-top:22px;font-size:14px;color:#6F8399}
+.film-ctrl{display:flex;gap:10px}
+.film-ctrl button{appearance:none;width:52px;height:52px;border-radius:50%;border:2px solid #3C5874;background:none;color:#fff;font-size:20px;cursor:pointer}
+.film-ctrl button:hover{background:#fff;color:#000}
+@media (max-width:600px){.film{padding:80px 0}}
+
+/* ===== 5. Column + radio ===== */
+.paper{background:var(--news);color:#1C2A38;padding:120px 0}
+.np-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:50px;align-items:start}
+.mast{border-top:6px double #1C2A38;border-bottom:2px solid #1C2A38;padding:16px 0 12px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.mast h2{margin:0;font-family:'Newsreader',Georgia,serif;font-weight:800;font-size:clamp(38px,4.6vw,68px);line-height:1;letter-spacing:-.01em}
+.mast span{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:17px;color:#55606B}
+.heads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 36px;margin-top:6px}
+.hl{padding:22px 0;border-bottom:1px solid #BDB29C}
+.hl small{font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.hl h3{margin:6px 0 0;font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:clamp(22px,2vw,28px);line-height:1.15}
+.hl:first-child{grid-column:1/-1}
+.hl:first-child h3{font-size:clamp(34px,3.6vw,52px);font-weight:800}
+.paper .note{margin-top:18px;font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:16px;color:#55606B}
+.radio{background:#3A2416;color:#F5E9D6;border-radius:26px;padding:28px 26px 30px;box-shadow:inset 0 0 0 6px #4E3220,0 30px 60px rgba(28,20,12,.25)}
+.radio .grill{height:70px;border-radius:12px;background:radial-gradient(circle,#2A190F 1.6px,transparent 2px) 0 0/10px 10px,#5A3A25}
+.dial{position:relative;margin-top:20px;height:56px;border-radius:10px;background:#F2E3C4;color:#3A2416;overflow:hidden}
+.dial .ticks{position:absolute;left:12px;right:12px;top:8px;display:flex;justify-content:space-between;font-family:'Archivo',sans-serif;font-weight:700;font-size:11px}
+.dial .ticks::after{content:"";position:absolute;left:0;right:0;top:20px;height:10px;background:repeating-linear-gradient(90deg,#3A2416 0 1px,transparent 1px 8px)}
+.dial .needle{position:absolute;top:4px;bottom:4px;width:3px;margin-left:-1.5px;background:var(--red);left:var(--x,20%);transition:left .15s}
+.radio input[type=range]{width:100%;margin:14px 0 0;accent-color:var(--gold)}
+.radio .tune{display:block;margin-top:4px;font-size:13px;color:#D9C3A3}
+.radio .now{margin-top:16px;min-height:96px}
+.radio .now b{display:block;font-family:'Newsreader',Georgia,serif;font-weight:800;font-size:24px;line-height:1.15;color:#fff}
+.radio .now p{margin:6px 0 0;font-size:16px;color:#E8D7BE;line-height:1.45}
+.radio .now.static b{color:#B79C78;letter-spacing:.1em}
+.radio .btn{margin-top:14px}
+@media (max-width:900px){.paper{padding:80px 0}.np-grid{grid-template-columns:1fr}.heads{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-handbuilt>
@@ -136,84 +209,107 @@
 
 <main id="main">
 
-<section class="ask" aria-labelledby="ask-title">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--gold)">Dr. Bell Says</span>
-    <h1 id="ask-title" class="display">What’s on <span>your</span> mind?</h1>
-    <p class="ask-sub">Pick what you’re dealing with. Dr. Bell will meet you there—with a short tip, one thing to do today, and the question to bring to your doctor.</p>
-    <div class="topics" role="group" aria-label="Choose a topic" id="topics"></div>
-  </div>
-</section>
-
-<section class="stage" aria-live="polite" aria-label="Your tip">
-  <div class="wrap stage-grid">
-    <div id="screen" class="screen"></div>
-    <div class="side">
-      <div class="card do"><h3>Do this today</h3><p id="do-text"></p></div>
-      <div class="card askdoc"><h3>Ask your doctor</h3><p id="ask-text"></p></div>
-      <div class="card share">
-        <h3>Send this to someone you love</h3>
-        <div class="share-row">
-          <a id="sh-sms" href="#">Text</a>
-          <a id="sh-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
-          <a id="sh-mail" href="#">Email</a>
-          <button type="button" id="sh-copy">Copy link</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="wrap"><p class="review">General health education, not medical advice. If something feels wrong, call your doctor. In an emergency, call 911.</p></div>
-</section>
-
-<section class="collections" aria-labelledby="col-title">
-  <div class="wrap">
-    <div class="col-head">
-      <div>
-        <span class="eyebrow" style="color:var(--teal)" data-reveal>Collections</span>
-        <h2 id="col-title" class="display" data-reveal>Tips for real life.</h2>
-      </div>
-      <p style="max-width:440px;margin:0;font-size:19px;color:#2D3B4A" data-reveal>Grouped the way life actually happens—not by medical category.</p>
-    </div>
-    <div class="col-grid">
-      <button type="button" class="col lift" data-topic="prostate" data-reveal><img src="/img/bell-medals.jpg" alt="" loading="lazy"><small>Men’s health</small><b>Getting checked</b><span class="n">1 tip · watch now</span></button>
-      <button type="button" class="col lift" data-topic="checkup" data-reveal style="--d:.1s"><img src="/img/bell-portrait.jpg" alt="" loading="lazy"><small>Before your visit</small><b>Your next checkup</b><span class="n">Coming soon</span></button>
-      <a class="col lift" href="index.html#numbers" data-reveal style="--d:.2s"><img src="/img/bell-reading.jpg" alt="" loading="lazy"><small>The numbers</small><b>Know your numbers</b><span class="n">Blood pressure · A1C · Cholesterol</span></a>
-      <button type="button" class="col lift" data-topic="caregiver" data-reveal style="--d:.3s"><img src="/img/bell-outdoors.jpg" alt="" loading="lazy"><small>Family</small><b>Caring for Mom or Dad</b><span class="n">Coming soon</span></button>
-    </div>
-  </div>
-</section>
-
-<section class="news-strip" aria-labelledby="news-title">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--teal)" data-reveal>Dr. Bell in the news</span>
-    <h2 id="news-title" class="display" data-reveal>A trusted voice, on air.</h2>
-    <div class="news-grid2" id="clips"></div>
-    <p class="note">Segments are shown in YouTube’s player and remain the property of the stations and organizations that produced them.</p>
-  </div>
-</section>
-
-<section class="rl" aria-labelledby="rl-title">
-  <div class="wrap rl-grid">
+<!-- 1. Studio -->
+<section class="studio" aria-labelledby="dbs-title">
+  <div class="wrap studio-grid">
     <div>
-      <span class="eyebrow" style="color:var(--teal)" data-reveal>Read</span>
-      <h2 id="rl-title" class="display" data-reveal>From Dr. Bell’s column.</h2>
-      <ul class="reads" data-reveal>
-        <li>Walking For Life <span>Staying active</span></li>
-        <li>Wives Notice When Men Don’t <span>Men’s health</span></li>
-        <li>Come On Man, You Still Smoking <span>Smoking</span></li>
-        <li>Feeling Bad May Deserve ER Attention <span>Getting care</span></li>
-        <li>Growing Old Can Cause Depression <span>Aging well</span></li>
-        <li>Survival in the Rural Community <span>Rural health</span></li>
-      </ul>
-      <p class="note">Full articles are moving over from the old site.</p>
+      <span class="onair" data-reveal><i aria-hidden="true"></i>On air</span>
+      <h1 id="dbs-title" class="display" data-reveal>Dr. Bell says…</h1>
+      <span class="says" aria-hidden="true"><span id="typed"></span><span class="caret"></span></span>
+      <p class="lede" data-reveal>Plainspoken health tips from a family doctor South Carolina has trusted for more than 40 years. Watch the episode, take home one thing to do today, and bring the right question to your doctor.</p>
+      <div class="ctas" data-reveal><a class="btn btn-gold" href="#guide">See what’s on</a><a class="btn btn-ghost" href="#news-title">As seen on TV</a></div>
     </div>
-    <div class="radio" data-reveal>
-      <span class="eyebrow" style="color:var(--gold)">Listen</span>
-      <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      <b>Dr. Bell on the radio</b>
-      <p>Decades of on-air health tips and PSAs across South Carolina. The archive is being digitized—sign up to hear new ones first.</p>
-      <a class="btn btn-gold" href="index.html#newsletter" style="align-self:flex-start">Get new tips by email</a>
+    <div class="host" data-reveal="zoom">
+      <img src="/img/bell-portrait.jpg" alt="Dr. Thaddeus Bell in his white coat" width="1200" height="1593">
+      <div class="lower"><b>Dr. Thaddeus J. Bell</b><span>Family physician · Charleston, SC</span></div>
     </div>
+  </div>
+</section>
+
+<!-- 2. Program guide -->
+<section class="guide" id="guide" aria-labelledby="guide-title">
+  <div class="wrap">
+    <div class="guide-head">
+      <div><span class="eyebrow" style="color:var(--gold)" data-reveal>The program guide</span><h2 id="guide-title" class="display" data-reveal>What’s on your mind?</h2></div>
+      <p data-reveal>Pick the line that sounds like you. Some episodes are still being taped; their prescription is ready now.</p>
+    </div>
+    <div class="set">
+      <div class="listings" data-reveal>
+        <div class="lh"><span>Episode</span><span>Status</span></div>
+        <div id="eps" role="group" aria-label="Episodes"></div>
+      </div>
+      <div class="tv" data-reveal="right">
+        <div class="screen" id="screen" aria-live="polite"></div>
+        <div class="knobs" aria-hidden="true"><span>Channel DBS</span><span>Vol<i></i><i></i></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Prescription -->
+<section class="rx-sec" id="rx" aria-labelledby="rx-title">
+  <div class="wrap rx-grid">
+    <div>
+      <span class="eyebrow" data-reveal>Your take-home</span>
+      <h2 id="rx-title" class="display" data-reveal>Doctor’s orders.</h2>
+      <p class="intro" data-reveal>Every episode comes with a prescription: one thing to do today and one question for your own doctor. Print it, stick it on the fridge, or send it to someone who needs it.</p>
+      <p class="rx-note" data-reveal>General health education, not medical advice. If something feels wrong, call your doctor. In an emergency, call 911.</p>
+    </div>
+    <div class="pad" id="pad" data-reveal="right">
+      <div class="pad-top">
+        <div><b>Dr. Bell Says</b><span>Closing the Gap in Healthcare · Charleston, SC</span></div>
+        <span class="brand-bars" aria-hidden="true" style="color:var(--ink)"><i></i><i></i></span>
+      </div>
+      <div class="pad-meta"><div>For:<span class="hand">you</span></div><div>Date:<span class="hand" id="rx-date"></span></div></div>
+      <div class="rx"><span class="sym" aria-hidden="true">℞</span><div><small>Do this today</small><p id="do-text"></p></div></div>
+      <div class="ask-line"><small>Ask your doctor</small><p id="ask-text"></p></div>
+      <div class="sig"><div><span class="hand" aria-hidden="true">Dr. Bell says so.</span>Dr. Thaddeus J. Bell</div><em id="rx-ep"></em></div>
+      <p class="pad-fine">A health tip, not a medical prescription. Talk with your own doctor about your care.</p>
+      <div class="pad-actions">
+        <button class="print" type="button" id="print">Print this</button>
+        <span class="lab">Pass it on:</span>
+        <a id="sh-sms" href="#">Text</a>
+        <a id="sh-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a id="sh-mail" href="#">Email</a>
+        <button type="button" id="sh-copy">Copy link</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. As seen on -->
+<section class="film" aria-labelledby="news-title">
+  <div class="wrap film-head">
+    <div><span class="eyebrow" data-reveal>As seen on</span><h2 id="news-title" class="display" data-reveal>A trusted voice, on air.</h2></div>
+    <div class="film-ctrl" data-reveal><button type="button" data-dir="-1" aria-label="Previous clip">←</button><button type="button" data-dir="1" aria-label="Next clip">→</button></div>
+  </div>
+  <div class="strip" data-reveal><div class="frames" id="frames"></div></div>
+  <div class="wrap"><p class="note">Segments play in YouTube’s player and remain the property of the stations and organizations that produced them.</p></div>
+</section>
+
+<!-- 5. Column + radio -->
+<section class="paper" aria-labelledby="col-title">
+  <div class="wrap np-grid">
+    <div data-reveal>
+      <div class="mast"><h2 id="col-title">The Doctor’s Column</h2><span>by Thaddeus J. Bell, M.D.</span></div>
+      <div class="heads">
+        <article class="hl"><small>Men’s health</small><h3>Wives Notice When Men Don’t</h3></article>
+        <article class="hl"><small>Staying active</small><h3>Walking For Life</h3></article>
+        <article class="hl"><small>Smoking</small><h3>Come On Man, You Still Smoking</h3></article>
+        <article class="hl"><small>Getting care</small><h3>Feeling Bad May Deserve ER Attention</h3></article>
+        <article class="hl"><small>Aging well</small><h3>Growing Old Can Cause Depression</h3></article>
+        <article class="hl"><small>Rural health</small><h3>Survival in the Rural Community</h3></article>
+      </div>
+      <p class="note">The full columns are being moved over from the old website.</p>
+    </div>
+    <aside class="radio" data-reveal="right" aria-labelledby="radio-title">
+      <div class="grill" aria-hidden="true"></div>
+      <div class="dial" aria-hidden="true"><div class="ticks"><span>54</span><span>70</span><span>90</span><span>110</span><span>130</span><span>160</span></div><div class="needle" id="needle"></div></div>
+      <label class="tune" for="tuner">Turn the dial to find Dr. Bell</label>
+      <input type="range" id="tuner" min="54" max="160" value="62" aria-describedby="radio-now">
+      <div class="now static" id="radio-now"><b id="radio-title">· · · static · · ·</b><p>Keep turning…</p></div>
+      <a class="btn btn-gold" href="index.html#newsletter" id="radio-cta" hidden>Get new tips by email</a>
+    </aside>
   </div>
 </section>
 
@@ -225,7 +321,7 @@
       <div style="max-width:420px"><b>Making Health Make Sense</b><div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#9FB0C2">Closing the Gap in Healthcare</div><p>A nonprofit founded by Dr. Thaddeus Bell. We help people understand their health before it becomes a crisis.</p></div>
       <nav aria-label="Footer">
         <div><span>Learn</span><a href="dr-bell-says.html">Dr. Bell Says</a><a href="knowledge-gap.html">The Knowledge Gap</a><a href="our-work.html">Our Work</a></div>
-        <div><span>Get involved</span><a href="invite.html">Invite Dr. Bell</a><a href="our-work.html">Sponsor a program</a><a href="jazz-festival.html">Lowcountry Jazz Festival</a></div>
+        <div><span>Get involved</span><a href="invite.html">Invite Dr. Bell</a><a href="our-work.html#sponsor">Sponsor a program</a><a href="jazz-festival.html">Lowcountry Jazz Festival</a></div>
       </nav>
     </div>
     <p class="legal">The information on this site is for education and is not a substitute for care from your own doctor. In an emergency, call 911. · © Closing the Gap in Health Care, Inc., a 501(c)(3) nonprofit.</p>
@@ -234,109 +330,131 @@
 
 <script>
 (function () {
-  /* Tips. "video" = YouTube ID of a published segment; tips without one show a coming-soon card. */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Episodes. "video" = YouTube ID of a published segment; the rest are still being taped. */
   var TIPS = [
-    { id: 'prostate', label: 'I’m a man over 40', video: 'aAGulpEukyI',
-      title: 'Common signs of prostate cancer and how often you should get checked',
-      credit: 'WCBD News 2',
-      todo: 'Put prostate cancer screening on the list for your next checkup—even if you feel fine.',
+    { id: 'prostate', label: 'I’m a man over 40', video: 'aAGulpEukyI', len: '3:27',
+      title: 'Common signs of prostate cancer and how often you should get checked', credit: 'WCBD News 2',
+      todo: 'Put prostate cancer screening on the list for your next checkup, even if you feel fine.',
       ask: '“Based on my age and family history, when should I start getting screened for prostate cancer?”' },
-    { id: 'bp', label: 'My blood pressure is high',
-      title: 'The silent signs of high blood pressure',
-      todo: 'Check your blood pressure this week—at a pharmacy kiosk, at home, or at your doctor’s office—and write the numbers down.',
-      ask: '“What’s my blood pressure today—and what should it be for me?”' },
-    { id: 'checkup', label: 'I have a doctor’s visit coming up',
-      title: 'What to ask your doctor at your next checkup',
+    { id: 'bp', label: 'My blood pressure is high', title: 'The silent signs of high blood pressure',
+      todo: 'Check your blood pressure this week, at a pharmacy kiosk, at home or at your doctor’s office, and write the numbers down.',
+      ask: '“What’s my blood pressure today, and what should it be for me?”' },
+    { id: 'checkup', label: 'I have a doctor’s visit coming up', title: 'What to ask your doctor at your next checkup',
       todo: 'Before you go, write down your three biggest questions and bring the list with you.',
       ask: '“Can you explain that one more time in plain language?”' },
-    { id: 'labs', label: 'My labs came back “normal”',
-      title: 'Why your “normal” labs might not be enough',
+    { id: 'labs', label: 'My labs came back “normal”', title: 'Why your “normal” labs might not be enough',
       todo: 'Ask for a copy of your results so you can see your actual numbers, not just “normal.”',
-      ask: '“Where do my numbers fall—and is anything trending in the wrong direction?”' },
-    { id: 'google', label: 'I found something on Google',
-      title: 'When to stop Googling and pick up the phone',
+      ask: '“Where do my numbers fall, and is anything trending in the wrong direction?”' },
+    { id: 'google', label: 'I found something on Google', title: 'When to stop Googling and pick up the phone',
       todo: 'If a symptom worries you enough to search for it, call your doctor’s office and describe it to a real person.',
       ask: '“Is this something I should come in for, or something I can watch?”' },
-    { id: 'caregiver', label: 'I’m caring for a parent',
-      title: 'Caring for Mom or Dad',
+    { id: 'caregiver', label: 'I’m caring for a parent', title: 'Caring for Mom or Dad',
       todo: 'Keep one written list of every medication your parent takes, and bring it to every appointment.',
       ask: '“What should I be watching for at home, and when should I call you?”' }
   ];
   var CLIPS = [
     { video: 'jwAgpxJRmxo', title: 'Everyday Hero: Dr. Thaddeus Bell', credit: 'WCBD News 2' },
     { video: 'V0JvLNGXIs0', title: 'Everyday Hero: Dr. Thaddeus J. Bell', credit: 'WCBD News 2' },
-    { video: 'XhA8KEYKKY8', title: 'Dr. Thaddeus Bell: Charleston, SC', credit: 'American Cancer Society Cancer Action Network' }
+    { video: 'XhA8KEYKKY8', title: 'Dr. Thaddeus Bell: Charleston, SC', credit: 'ACS Cancer Action Network' },
+    { video: 'aAGulpEukyI', title: 'Common signs of prostate cancer and how often to get checked', credit: 'WCBD News 2' }
   ];
 
   function el(tag, attrs, html) { var e = document.createElement(tag); for (var k in (attrs || {})) e.setAttribute(k, attrs[k]); if (html != null) e.innerHTML = html; return e; }
-  var PLAY = '<svg aria-hidden="true" viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  var PLAY = '<svg aria-hidden="true" viewBox="0 0 24 24" width="38" height="38" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  var BUG = '<span class="bug" aria-hidden="true"><i></i><i></i>DBS</span>';
 
-  /* Lightweight YouTube: show the thumbnail, load the real player only on click */
+  /* Hero: typewriter of real tips */
+  var lines = ['check your blood pressure this week.', 'write down your three biggest questions.', 'ask for a copy of your actual numbers.', 'don’t wait on a symptom that worries you.', 'get screened, even if you feel fine.'];
+  var typed = document.getElementById('typed');
+  if (reduce) typed.textContent = lines[0];
+  else (function loop(li, ci, del) {
+    var s = lines[li]; typed.textContent = s.slice(0, ci);
+    if (!del && ci < s.length) return setTimeout(function () { loop(li, ci + 1, false); }, 42);
+    if (!del) return setTimeout(function () { loop(li, ci, true); }, 2200);
+    if (ci > 0) return setTimeout(function () { loop(li, ci - 1, true); }, 18);
+    setTimeout(function () { loop((li + 1) % lines.length, 0, false); }, 300);
+  })(0, 0, false);
+
+  /* Lite YouTube */
   function liteVideo(box, id, title, credit) {
-    box.className = 'screen'; box.innerHTML = '';
+    box.innerHTML = '';
     var b = el('button', { type: 'button', class: 'poster', 'aria-label': 'Play: ' + title });
-    var img = el('img', { src: 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg', alt: '', loading: 'lazy' });
-    b.appendChild(img);
+    b.appendChild(el('img', { src: 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg', alt: '', loading: 'lazy' }));
     b.appendChild(el('span', { class: 'play' }, PLAY));
-    b.appendChild(el('span', { class: 'cap' }, '<b></b><small></small>'));
-    b.querySelector('.cap b').textContent = title;
-    b.querySelector('.cap small').textContent = 'Watch on this page · ' + credit;
+    var cap = el('span', { class: 'cap' }, '<b></b><small></small>'); cap.querySelector('b').textContent = title; cap.querySelector('small').textContent = 'Plays on this page · ' + credit; b.appendChild(cap);
     b.addEventListener('click', function () {
       var f = el('iframe', { src: 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&cc_load_policy=1', title: title, allow: 'autoplay; encrypted-media; picture-in-picture', allowfullscreen: '' });
       box.innerHTML = ''; box.appendChild(f); f.focus();
     });
     box.appendChild(b);
   }
-  function comingSoon(box, tip) {
-    box.className = 'screen soon'; box.innerHTML = '';
-    var inner = el('div', { class: 'soon-inner' });
-    inner.appendChild(el('img', { src: '/img/bell-purple-coat.jpg', alt: '' }));
-    var c = el('div', { class: 'soon-copy' }, '<span class="eyebrow" style="color:var(--gold)">Coming soon</span><b></b><p>Dr. Bell is recording this tip. Read his advice to the right now—and sign up to get the video first.</p><a class="btn btn-gold" href="index.html#newsletter" style="align-self:flex-start">Notify me</a>');
-    c.querySelector('b').textContent = tip.title;
-    inner.appendChild(c); box.appendChild(inner);
+  function standBy(box, t) {
+    box.innerHTML = '<div class="standby" aria-hidden="true"><div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="bars2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>' + BUG;
+    var c = el('div', { class: 'sb-card' }, '<small>Please stand by</small><b></b><p>Dr. Bell is taping this episode. His prescription for it is ready below.</p><a href="#rx">Read the prescription ↓</a>');
+    c.querySelector('b').textContent = t.title; box.appendChild(c);
   }
 
-  var topicsBox = document.getElementById('topics'), screen = document.getElementById('screen');
-  TIPS.forEach(function (t) {
-    var b = el('button', { type: 'button', class: 'topic', 'data-id': t.id, 'aria-pressed': 'false' });
-    b.innerHTML = '<span class="dot" aria-hidden="true"></span><span></span>' + (t.video ? '' : '<span class="soon">soon</span>');
-    if (!t.video) b.querySelector('.dot').style.background = 'rgba(255,255,255,.35)';
-    b.children[1].textContent = t.label;
+  /* Program guide */
+  var eps = document.getElementById('eps'), screen = document.getElementById('screen');
+  TIPS.forEach(function (t, i) {
+    var b = el('button', { type: 'button', class: 'ep', 'data-id': t.id, 'aria-pressed': 'false' });
+    b.innerHTML = '<span class="no">EP ' + (i < 9 ? '0' : '') + (i + 1) + '</span><span><b></b><small></small></span>' + (t.video ? '<span class="st live">▶ ' + t.len + '</span>' : '<span class="st tape">Taping soon</span>');
+    b.querySelector('b').textContent = t.label; b.querySelector('small').textContent = t.title;
     b.addEventListener('click', function () { select(t.id, true); });
-    topicsBox.appendChild(b);
+    eps.appendChild(b);
   });
 
-  function select(id, scroll) {
+  var pad = document.getElementById('pad');
+  document.getElementById('rx-date').textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  function select(id, user) {
     var t = TIPS.filter(function (x) { return x.id === id; })[0] || TIPS[0];
-    topicsBox.querySelectorAll('.topic').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-id') === t.id ? 'true' : 'false'); });
-    if (t.video) liteVideo(screen, t.video, t.title, t.credit); else comingSoon(screen, t);
+    eps.querySelectorAll('.ep').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-id') === t.id ? 'true' : 'false'); });
+    if (t.video) { liteVideo(screen, t.video, t.title, t.credit); screen.insertAdjacentHTML('beforeend', BUG); } else standBy(screen, t);
     document.getElementById('do-text').textContent = t.todo;
     document.getElementById('ask-text').textContent = t.ask;
+    document.getElementById('rx-ep').textContent = 'From the episode: ' + t.title;
+    if (user && !reduce) { pad.classList.remove('swap'); void pad.offsetWidth; pad.classList.add('swap'); }
     var url = location.origin + location.pathname + '#' + t.id;
-    var msg = 'A health tip from Dr. Bell I thought you should see: ' + t.title + ' ' + url;
+    var msg = 'Dr. Bell says: ' + t.todo + ' More: ' + url;
     document.getElementById('sh-sms').href = 'sms:?&body=' + encodeURIComponent(msg);
     document.getElementById('sh-wa').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
     document.getElementById('sh-mail').href = 'mailto:?subject=' + encodeURIComponent('A health tip from Dr. Bell') + '&body=' + encodeURIComponent(msg);
-    if (history.replaceState) history.replaceState(null, '', '#' + t.id);
-    if (scroll) { var r = screen.getBoundingClientRect(); if (r.top < 0 || r.top > window.innerHeight * 0.6) screen.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' }); }
+    if (user && history.replaceState) history.replaceState(null, '', '#' + t.id);
+    if (user) { var r = screen.getBoundingClientRect(); if (r.bottom < 80 || r.top > window.innerHeight * 0.7) screen.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }
   }
+  document.getElementById('print').addEventListener('click', function () { window.print(); });
   document.getElementById('sh-copy').addEventListener('click', function (e) {
     var btn = e.currentTarget;
-    try { navigator.clipboard.writeText(location.href).then(function () { btn.textContent = 'Link copied'; }); } catch (err) { btn.textContent = location.href; }
+    try { navigator.clipboard.writeText(location.href).then(function () { btn.textContent = 'Link copied'; setTimeout(function () { btn.textContent = 'Copy link'; }, 2000); }); } catch (err) { btn.textContent = location.href; }
   });
-  document.querySelectorAll('[data-topic]').forEach(function (c) { c.addEventListener('click', function () { select(c.getAttribute('data-topic'), true); }); });
 
-  var clipsBox = document.getElementById('clips');
-  CLIPS.forEach(function (c, i) {
-    var card = el('div', { class: 'clip lift', 'data-reveal': '' }); card.style.setProperty('--d', (i * 0.1) + 's');
-    var box = el('div'); card.appendChild(box); liteVideo(box, c.video, c.title, c.credit);
-    var body = el('div', { class: 'clip-body' }, '<b></b><small></small>');
-    body.querySelector('b').textContent = c.title; body.querySelector('small').textContent = c.credit;
-    card.appendChild(body); clipsBox.appendChild(card);
+  /* Filmstrip */
+  var frames = document.getElementById('frames');
+  CLIPS.forEach(function (c) {
+    var f = el('div', { class: 'fr' }); var box = el('div', { class: 'screen' }); f.appendChild(box); liteVideo(box, c.video, c.title, c.credit);
+    var m = el('div', { class: 'meta' }, '<b></b><span></span>'); m.querySelector('b').textContent = c.title; m.querySelector('span').textContent = c.credit; f.appendChild(m);
+    frames.appendChild(f);
   });
+  document.querySelectorAll('.film-ctrl button').forEach(function (b) {
+    b.addEventListener('click', function () { var w = frames.querySelector('.fr').getBoundingClientRect().width + 22; frames.scrollBy({ left: w * +b.getAttribute('data-dir'), behavior: reduce ? 'auto' : 'smooth' }); });
+  });
+
+  /* Radio dial: find Dr. Bell at 88 */
+  var tuner = document.getElementById('tuner'), needle = document.getElementById('needle'), now = document.getElementById('radio-now'), cta = document.getElementById('radio-cta');
+  function tune() {
+    var v = +tuner.value, pct = (v - 54) / (160 - 54) * 100;
+    needle.style.setProperty('--x', 'calc(12px + (100% - 24px) * ' + (pct / 100).toFixed(3) + ')');
+    var near = Math.abs(v - 88) <= 4;
+    now.classList.toggle('static', !near); cta.hidden = !near;
+    now.innerHTML = near ? '<b id="radio-title">You found Dr. Bell on the radio.</b><p>Decades of on-air health tips and PSAs across South Carolina. The archive is being digitized. Sign up to hear new ones first.</p>' : '<b id="radio-title">· · · static · · ·</b><p>' + (v < 88 ? 'Turn it up a little…' : 'Back it down a little…') + '</p>';
+  }
+  tuner.addEventListener('input', tune); tune();
 
   var start = (location.hash || '').replace('#', '');
   select(TIPS.some(function (t) { return t.id === start; }) ? start : 'prostate', false);
+  if (TIPS.some(function (t) { return t.id === start; })) setTimeout(function () { document.getElementById('guide').scrollIntoView(); }, 50);
 })();
 </script>
 <script src="/assets/site.js" defer></script>
