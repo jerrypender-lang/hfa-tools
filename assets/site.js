@@ -114,7 +114,7 @@
   });
 
   /* Forms are preview-only for now */
-  document.querySelectorAll('form').forEach(function (f) {
+  document.querySelectorAll('form:not([data-own])').forEach(function (f) {
     f.addEventListener('submit', function (e) {
       e.preventDefault();
       var b = f.querySelector('button[type=submit]');
