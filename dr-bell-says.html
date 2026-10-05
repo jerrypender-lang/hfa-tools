@@ -184,6 +184,28 @@
 .radio .now.static b{color:#B79C78;letter-spacing:.1em}
 .radio .btn{margin-top:14px}
 @media (max-width:900px){.paper{padding:80px 0}.np-grid{grid-template-columns:1fr}.heads{grid-template-columns:1fr}}
+
+/* ===== Dr. Bell's YouTube channel ===== */
+.chan{background:var(--cream);padding:110px 0}
+.chan .eyebrow{color:var(--teal)}
+.chan-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px}
+.chan-id{display:flex;align-items:center;gap:22px}
+.chan-av{flex:0 0 auto;width:96px;height:96px;border-radius:50%;overflow:hidden;border:4px solid #fff;box-shadow:0 0 0 3px #E5484D}
+.chan-av img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.chan h2{margin:14px 0 0;font-size:clamp(36px,4.2vw,64px);font-stretch:90%}
+.chan-id p{margin:8px 0 0;font-size:18px;color:var(--muted)}
+.yt-btn{background:#E5484D;color:#fff;gap:10px}
+.yt-btn:hover{background:#C8343A}
+.chan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:44px}
+.cv{background:#fff;border:1px solid #E8DDC6;border-radius:20px;overflow:hidden}
+.cv .screen{border-radius:0}
+.cv .cap{display:none}
+.cv .meta{padding:16px 18px 18px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.cv .meta b{font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;line-height:1.2;color:var(--ink)}
+.cv .meta span{flex:0 0 auto;font-size:13px;font-weight:700;color:var(--muted)}
+.chan-more{margin:26px 0 0}
+.chan-more a{font-weight:700;color:var(--ink)}
+@media (max-width:900px){.chan{padding:80px 0}.chan-grid{grid-template-columns:1fr}.chan-av{width:72px;height:72px}}
 </style>
 </head>
 <body data-handbuilt>
@@ -218,7 +240,7 @@
       <h1 id="dbs-title" class="display" data-reveal>Dr. Bell says…</h1>
       <span class="says" aria-hidden="true"><span id="typed"></span><span class="caret"></span></span>
       <p class="lede" data-reveal>Plainspoken health tips from a family doctor South Carolina has trusted for more than 40 years. Watch the episode, take home one thing to do today, and bring the right question to your doctor.</p>
-      <div class="ctas" data-reveal><a class="btn btn-gold" href="#guide">See what’s on</a><a class="btn btn-ghost" href="#news-title">As seen on TV</a></div>
+      <div class="ctas" data-reveal><a class="btn btn-gold" href="#guide">See what’s on</a><a class="btn btn-ghost" href="#channel"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1-5.8 3.1z"/></svg> His YouTube channel</a></div>
     </div>
     <div class="host" data-reveal="zoom">
       <img src="/img/bell-portrait.jpg" alt="Dr. Thaddeus Bell in his white coat" width="1200" height="1593">
@@ -278,6 +300,21 @@
   </div>
 </section>
 
+<!-- Dr. Bell's channel -->
+<section class="chan" id="channel" aria-labelledby="chan-title">
+  <div class="wrap">
+    <div class="chan-head">
+      <div class="chan-id">
+        <span class="chan-av" aria-hidden="true"><img src="/img/bell-portrait.jpg" alt="" width="1200" height="1593"></span>
+        <div><span class="eyebrow" data-reveal>Dr. Bell’s own channel</span><h2 id="chan-title" class="display" data-reveal>Watch more on YouTube.</h2><p data-reveal>Short tips straight from Dr. Bell, on the Closing The Gap In Health Care channel.</p></div>
+      </div>
+      <a class="btn yt-btn" href="https://www.youtube.com/@closingthegapinhealthcare1589?sub_confirmation=1" target="_blank" rel="noopener" data-reveal><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1-5.8 3.1z"/></svg> Subscribe on YouTube</a>
+    </div>
+    <div class="chan-grid" id="chan-grid"></div>
+    <p class="chan-more" data-reveal><a href="https://www.youtube.com/@closingthegapinhealthcare1589/videos" target="_blank" rel="noopener">See every video on the channel ↗</a></p>
+  </div>
+</section>
+
 <!-- 4. As seen on -->
 <section class="film" aria-labelledby="news-title">
   <div class="wrap film-head">
@@ -325,7 +362,7 @@
         <p>A nonprofit founded by Dr. Thaddeus Bell. Plainspoken health education for South Carolina, funded by the music of the Lowcountry Jazz Festival.</p>
       </div>
       <nav aria-label="Footer">
-        <div><span>Learn</span><a href="dr-bell-says.html">Dr. Bell Says</a><a href="knowledge-gap.html">The Knowledge Gap</a><a href="index.html#numbers">Know your numbers</a></div>
+        <div><span>Learn</span><a href="dr-bell-says.html">Dr. Bell Says</a><a href="knowledge-gap.html">The Knowledge Gap</a><a href="index.html#numbers">Know your numbers</a><a href="https://www.youtube.com/@closingthegapinhealthcare1589" target="_blank" rel="noopener">YouTube channel ↗</a></div>
         <div><span>Get involved</span><a href="invite.html">Invite Dr. Bell</a><a href="our-work.html#sponsor">Sponsor a program</a><a href="index.html#newsletter">Get weekly tips</a></div>
         <div><span>The festival</span><a href="jazz-festival.html">The festival story</a><a href="https://www.lowcountryjazzfest.com/" target="_blank" rel="noopener">Tickets ↗</a><a href="about.html">About Dr. Bell</a></div>
       </nav>
@@ -434,6 +471,20 @@
   document.getElementById('sh-copy').addEventListener('click', function (e) {
     var btn = e.currentTarget;
     try { navigator.clipboard.writeText(location.href).then(function () { btn.textContent = 'Link copied'; setTimeout(function () { btn.textContent = 'Copy link'; }, 2000); }); } catch (err) { btn.textContent = location.href; }
+  });
+
+  /* Dr. Bell's own channel */
+  var OWN = [
+    { video: 'ntRVEfppeVc', title: 'Heart Disease', len: '0:28' },
+    { video: 'S_oVmvlgDqM', title: 'Salt Substitute', len: '0:31' },
+    { video: 'h37g3dgS6DU', title: 'The Best Way', len: 'Short tip' }
+  ];
+  var cg = document.getElementById('chan-grid');
+  OWN.forEach(function (c, i) {
+    var f = el('div', { class: 'cv lift', 'data-reveal': '' }); f.style.setProperty('--d', (i * 0.08) + 's');
+    var box = el('div', { class: 'screen' }); f.appendChild(box); liteVideo(box, c.video, c.title, 'Closing The Gap In Health Care');
+    var m = el('div', { class: 'meta' }, '<b></b><span></span>'); m.querySelector('b').textContent = c.title; m.querySelector('span').textContent = c.len; f.appendChild(m);
+    cg.appendChild(f);
   });
 
   /* Filmstrip */
