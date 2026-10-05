@@ -88,7 +88,7 @@
 /* ===== 4. Life path ===== */
 .path{padding:150px 0;background:var(--sage)}
 .path .eyebrow{color:var(--teal)}
-.path h2,.honors h2,.words h2,.news h2{margin:20px 0 0;font-size:clamp(42px,5.2vw,82px);font-stretch:90%}
+.path h2,.honors h2,.news h2{margin:20px 0 0;font-size:clamp(42px,5.2vw,82px);font-stretch:90%}
 .path-list{position:relative;list-style:none;margin:80px 0 0;padding:0;--pp:0}
 .path-list::before,.path-list::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;border-radius:2px;background:#C5D2CB}
 .path-list::after{background:var(--teal);transform-origin:top;transform:scaleY(var(--pp))}
@@ -128,19 +128,6 @@
 .medal p{margin:0;font-size:15px;color:var(--muted);line-height:1.4}
 @media (max-width:1020px){.medals{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:600px){.honors{padding:90px 0}.medals{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 16px;margin-top:40px}.medal .disc b{font-size:14px}}
-
-/* ===== 6. In his words ===== */
-.words{background:var(--ink);color:#fff;padding:140px 0}
-.words .eyebrow{color:var(--gold)}
-.letter{margin-top:50px;max-width:980px}
-.letter p{margin:0 0 26px;font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(24px,2.6vw,38px);line-height:1.25;letter-spacing:-.01em;color:#DCE4EC}
-.letter p:first-child{font-weight:800;font-size:clamp(32px,3.8vw,58px);line-height:1.05;color:#fff}
-.letter p em{font-style:normal;color:var(--gold)}
-.sign{display:flex;align-items:center;gap:18px;margin-top:40px}
-.sign img{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:3px solid var(--gold)}
-.sign b{display:block;font-family:'Archivo',sans-serif;font-size:20px}
-.sign span{color:#9FB0C2;font-size:16px}
-@media (max-width:760px){.words{padding:90px 0}}
 
 /* ===== 7. News ===== */
 .news{background:#06111F;color:#fff;padding:120px 0}
@@ -280,20 +267,6 @@
       <div class="medal" data-reveal style="--d:.24s"><div class="disc"><b>Health Disparity Award</b></div><h3>Health Disparity Award</h3><p>U.S. Department of Health and Human Services, for outstanding and innovative community service</p></div>
       <div class="medal" data-reveal style="--d:.32s"><div class="disc"><b>3× National Health Info Awards</b></div><h3>National Health Information Awards</h3><p>Three-time winner</p></div>
     </div>
-  </div>
-</section>
-
-<!-- 6. In his words -->
-<section class="words" aria-labelledby="w-title">
-  <div class="wrap">
-    <span class="eyebrow" id="w-title">In his words</span>
-    <div class="letter">
-      <p data-reveal>“You can’t fix what you don’t understand. That’s what I’ve seen for decades, not in theory, but in real life.</p>
-      <p data-reveal>We often discuss access to care, and it remains a crucial issue. But just as often, people delay care because they don’t recognize the signs.</p>
-      <p data-reveal>It’s about understanding yourself: your numbers, your symptoms, your options. <em>That’s where I come in.</em></p>
-      <p data-reveal>Because the more you know, the better you live. And everybody deserves to live well.”</p>
-    </div>
-    <div class="sign" data-reveal><img src="/img/bell-portrait.jpg" alt="" width="1200" height="1593" loading="lazy"><span><b>Dr. Thaddeus J. Bell</b>Founder, Closing the Gap in Healthcare</span></div>
   </div>
 </section>
 
