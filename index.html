@@ -38,7 +38,9 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 .c-bars span:first-child{background:#fff}
 .c-bars span:last-child{background:var(--gold);animation-delay:.18s}
 @keyframes grow{to{height:96px}}
-.c-word{color:#fff;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:115%;font-size:clamp(20px,3vw,30px);letter-spacing:.02em;overflow:hidden;padding:0 4px .18em;line-height:1.2}
+.c-logo{width:min(70vw,460px);height:auto;clip-path:inset(0 100% 0 0);animation:draw 1.1s cubic-bezier(.6,0,.2,1) .15s forwards}
+@keyframes draw{to{clip-path:inset(0 0 0 0)}}
+.c-word{color:#D3CCE3;letter-spacing:.16em!important;text-transform:uppercase;font-size:clamp(13px,1.4vw,16px)!important;font-family:'Archivo',sans-serif;font-weight:800;font-stretch:115%;font-size:clamp(20px,3vw,30px);letter-spacing:.02em;overflow:hidden;padding:0 4px .18em;line-height:1.2}
 .c-word span{display:inline-block;transform:translateY(110%);animation:up .8s var(--ease) .55s forwards}
 @keyframes up{to{transform:none}}
 
@@ -348,15 +350,16 @@ footer{background:#15112B;color:#D3CCE3;font-size:16px;padding:70px 0 34px}
 <a class="skip" href="#main">Skip to content</a>
 
 <div id="curtain" aria-hidden="true">
-  <div class="c-bars"><span></span><span></span></div>
-  <div class="c-word"><span>Making Health Make Sense</span></div>
+  <img class="c-logo" src="/img/mhms-logo-reverse.png" alt="" width="731" height="322">
+  <div class="c-word"><span>Closing the Gap in Healthcare</span></div>
 </div>
 
 <header class="site-header" data-header>
   <div class="nav">
-    <a class="brand" href="index.html" aria-label="Making Health Make Sense home">
-      <span class="brand-bars" aria-hidden="true"><i></i><i></i></span>
-      <span><b>Making Health Make Sense</b><small>Closing the Gap in Healthcare</small></span>
+    <a class="brand" href="index.html" aria-label="Making Health Make Sense, Closing the Gap in Healthcare: home">
+      <img class="lg lg-dark" src="/img/mhms-logo-reverse.png" alt="" width="731" height="322">
+      <img class="lg lg-light" src="/img/mhms-logo.png" alt="" width="731" height="322">
+      <span class="brand-sub">Closing the Gap<br>in Healthcare</span>
     </a>
     <button class="menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-menu">Menu</button>
     <nav class="links" id="site-menu" aria-label="Main">
@@ -624,7 +627,7 @@ footer{background:#15112B;color:#D3CCE3;font-size:16px;padding:70px 0 34px}
   <div class="wrap">
     <div class="foot">
       <div class="foot-brand">
-        <a class="brand" href="index.html" aria-label="Making Health Make Sense home"><span class="brand-bars" aria-hidden="true"><i></i><i></i></span><span><b>Making Health Make Sense</b><small>Closing the Gap in Healthcare</small></span></a>
+        <a class="brand foot-logo" href="index.html" aria-label="Making Health Make Sense home"><img src="/img/mhms-logo-reverse.png" alt="" width="731" height="322"><span class="brand-sub">Closing the Gap<br>in Healthcare</span></a>
         <p>A nonprofit founded by Dr. Thaddeus Bell. Plainspoken health education for South Carolina, funded by the music of the Lowcountry Jazz Festival.</p>
       </div>
       <nav aria-label="Footer">

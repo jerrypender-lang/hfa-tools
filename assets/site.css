@@ -92,3 +92,17 @@ body[data-handbuilt] footer{background:var(--night-deep);color:#D3CCE3;font-size
 .legal{margin-top:48px;padding-top:24px;border-top:1px solid #3A3266;font-size:14px;color:#8B83AB}
 
 .links a[aria-current="page"]{background-size:100% 3px}
+
+/* ---------- Logo ---------- */
+.site-header .brand{gap:16px;align-items:center}
+.site-header .brand .lg{height:56px;width:auto;display:block}
+.site-header .brand .lg-light{display:none}
+.site-header.scrolled .brand .lg-dark{display:none}
+.site-header.scrolled .brand .lg-light{display:block}
+body.menu-open .site-header .brand .lg-dark{display:block}
+body.menu-open .site-header .brand .lg-light{display:none}
+.brand-sub{display:block;padding-left:16px;border-left:2px solid currentColor;font-family:'Archivo',sans-serif;font-weight:700;font-stretch:108%;font-size:12px;line-height:1.25;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.foot-logo{display:flex;align-items:center;gap:18px;text-decoration:none;color:#fff}
+.foot-logo img{height:88px;width:auto;display:block}
+@media (max-width:1240px){.site-header .brand-sub{display:none}}
+@media (max-width:1020px){.site-header .brand .lg{height:40px}}
