@@ -282,8 +282,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 .lp-rec{position:absolute;top:3%;left:3%;width:94%;aspect-ratio:1;z-index:1;transition:transform 1.4s cubic-bezier(.2,.8,.2,1) .2s}
 .lp.in .lp-rec,.reveal-fallback .lp-rec,html:not(.js) .lp-rec{transform:translateX(42%)}
 .lp:hover .lp-rec{transform:translateX(50%)}
-.lp-disc{animation-play-state:paused!important}
-.lp:hover .lp-disc{animation-play-state:running!important}
+.lp-disc{animation:none!important}
 .lp-disc{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle,transparent 0 31%,rgba(255,255,255,.06) 31.5%,transparent 32%),repeating-radial-gradient(circle,#0d0d0f 0 2px,#19191c 2px 4px);box-shadow:0 30px 70px rgba(0,0,0,.6),inset 0 0 0 6px #050505;animation:lpspin 7s linear infinite;position:relative}
 .lp-disc::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 12%,rgba(255,255,255,.13) 16%,transparent 22% 58%,rgba(255,255,255,.09) 63%,transparent 70%)}
 .lp-disc img{position:absolute;left:50%;top:50%;width:36%;height:36%;transform:translate(-50%,-50%);border-radius:50%;background:#fff}
