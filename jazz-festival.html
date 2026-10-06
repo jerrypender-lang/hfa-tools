@@ -43,6 +43,8 @@
 .disc img{position:absolute;left:50%;top:50%;width:40%;height:40%;transform:translate(-50%,-50%);border-radius:50%;background:#fff}
 .disc i{position:absolute;left:50%;top:50%;width:3%;height:3%;transform:translate(-50%,-50%);border-radius:50%;background:var(--night)}
 @keyframes spin{to{transform:rotate(360deg)}}
+.disc{animation-play-state:paused}
+.album:hover .disc{animation-play-state:running}
 .ticker{position:relative;margin-top:70px;border-top:1px solid #3A3266;border-bottom:1px solid #3A3266;overflow:hidden;background:#15112B}
 .ticker div{display:flex;width:max-content;animation:drift 40s linear infinite}
 .ticker span{padding:20px 0;font-family:'Archivo',sans-serif;font-weight:700;font-stretch:112%;font-size:15px;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;color:#E7E1F1}
@@ -477,7 +479,7 @@
   var ticking = false;
   function frame() {
     updateNP(); scrollTL();
-    if (!reduce) { extra += (window.scrollY - lastY) * 0.25; lastY = window.scrollY; scrub.style.transform = 'rotate(' + extra.toFixed(1) + 'deg)'; }
+    /* record spins only on hover now */
     ticking = false;
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });

@@ -94,6 +94,8 @@
 .f-list li{display:flex;gap:14px;align-items:baseline;font-size:18px;color:#E7E1F1}
 .f-list li::before{content:"✦";color:var(--gold)}
 @media (max-width:900px){.feature{padding:90px 0}.f-grid{grid-template-columns:1fr;gap:40px}.f-art{justify-self:center;width:min(100%,420px)}}
+.f-art .rec{animation-play-state:paused}
+.f-art:hover .rec{animation-play-state:running}
 @media (prefers-reduced-motion: reduce){.f-art .rec{animation:none}}
 
 /* ===== 4. Sponsor picker ===== */
